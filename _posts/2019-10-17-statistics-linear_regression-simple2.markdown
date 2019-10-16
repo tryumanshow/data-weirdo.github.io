@@ -26,11 +26,10 @@ $$β_0$$과 $$β_1$$에 대하여 추정해보았습니다. 이와 마찬가지�
 
 이 때, $$β_0$$과 $$β_1$$을 추정했기 때문에 결국 오차제곱합의 자유도는 전체 관찰값 개수에서 모수의 개수를 뺀 `n-2`가 됩니다.
 
----
 
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%7B%5Csigma%5E2%7D%20%3D%20%5Cfrac%7BSS_%7BRes%7D%7D%7Bn-2%7D%20%3D%20MS_%7BRes%7D)  
-$$MS_{Res}$$는 `Residual Mean Square`라 불리고, 이 값에 root를 씌운 값인 $$MS_{Res}$$ `standard error of regression`이라고도 불립니다. 
-$$MS_{Res$$ 값은 $$σ^2$$의 `불편추정량`됩니다. 
+$$MS_{Res}$$는 `Residual Mean Square`라 불리고, 이 값에 root를 씌운 값인 $$\sqrt{MS_{Res}}$$ `standard error of regression`이라고도 불립니다. 
+$$MS_{Res}$$ 값은 $$σ^2$$의 `불편추정량`됩니다. 
 
 ---
 
