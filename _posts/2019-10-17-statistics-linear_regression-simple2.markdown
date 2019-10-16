@@ -19,7 +19,7 @@ comments: true
 사고의 과정은 다음과 같습니다. 
 1. σ^2에 대한 추정은 오차 제곱합(Error sum of squares), 또는 잔차 제곱합(Residual sum of squares)으로 부터 얻어집니다.
 
-![이하 SSE](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7De_i%5E2%20%3D%20%5Csum_%7Bi%3D1%7D%5En%28y_i-%5Cwidehat%7By_i%7D%29%5E2)
+!['이하 SSE'](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7De_i%5E2%20%3D%20%5Csum_%7Bi%3D1%7D%5En%28y_i-%5Cwidehat%7By_i%7D%29%5E2, '이하 SSE')
 ![](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5En%28y_i-%28%5Cwidehat%7B%5Cbeta_0%7D%20&plus;%20%5Cwidehat%7B%5Cbeta_1%7Dx_i%29%29%5E2)
 ![](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5Eny_i%5E2%20-%20n%5Cbar%7By%7D%5E2%20-%20%5Cwidehat%7B%5Cbeta_1%7DS_%7Bxy%7D_)
 ![](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5CSS_%7BT%7D%20-%20%5Cwidehat%7B%5Cbeta_1%7DS_%7Bxy%7D)
@@ -28,7 +28,7 @@ comments: true
 
 ---
 
-![이하 MSE](https://latex.codecogs.com/gif.latex?MS_%7BRes%7D)  
+![이하 MSE](https://latex.codecogs.com/gif.latex?%5Cwidehat%7B%5Csigma%5E2%7D%20%3D%20%5Cfrac%7BSS_%7BRes%7D%7D%7Bn-2%7D%20%3D%20MS_%7BRes%7D, '이하 MSE')  
 MSE는 `Residual Mean Square`라 불리고, 이 값에 root를 씌운 값은 `standard error of regression`이라고도 불립니다. 
 이 값은 σ^2의 `불편추정량`됩니다. 
 
