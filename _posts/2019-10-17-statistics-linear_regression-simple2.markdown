@@ -13,7 +13,7 @@ comments: true
 앞서 [Simple Linear Regression-1](https://data-weirdo.github.io/statistics/2019/10/15/statistics-linear_regression-simple/)에서는
 $$β_0$$과 $$β_1$$에 대하여 추정해보았습니다. 이와 마찬가지로 $$σ^2$$ 값에 대해서도 추정해보도록 하겠습니다. 
 
-우선, 결론적으로 말하자면 아래의 수식이 $$σ^2$$ 에 대한 추정치가 됩니다.  
+우선, 결론적으로 말하자면 아래의 수식이 $$σ^2$$ 에 대한 추정 됩니다.  
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%5Csigma%5E2%20%3D%20%5Cfrac%7BSS_%7BRes%7D%7D%7Bn-2%7D%20%3D%20MS_%7BRes%7D)  
    
 사고의 과정은 다음과 같습니다.  
