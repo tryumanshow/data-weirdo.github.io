@@ -77,7 +77,7 @@ $$β_1$$는 x가 한 단위 증가할 때 y의 확률분포의 평균이 얼마�
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%5Cbeta_1%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%28x_i-%5Cbar%7Bx%7D%29%28y_i-%5Cbar%7By%7D%29%7D%7B%5Csum_%7Bi%3D1%7D%5En%28x_i-%5Cbar%7Bx%7D%29%5E2%7D)
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%5Cbeta_0%20%3D%20%5Cbar%7By%7D%20-%20%5Cwidehat%5Cbeta_1%5Cbar%7Bx%7D)이 됩니다.
 
-β1 hat은 편의상 다음과 같이 표기되기도 합니다.  
+ $$\hat{β_1}$$은 편의상 다음과 같이 표기되기도 합니다.  
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%5Cbeta_1%20%3D%20%5Cfrac%7BS_%7Bxy%7D%7D%7BS_%7Bxx%7D%7D)
 
 이제, 관찰값과 추정된 직선(fitted line) 간의 차이가 바로 잔차(residual) (≠ error)가 되며, 
@@ -118,7 +118,7 @@ $$β_1$$는 x가 한 단위 증가할 때 y의 확률분포의 평균이 얼마�
 ![](https://latex.codecogs.com/gif.latex?E%28%5Cvarepsilon%29%3D0%2C%20Var%28%5Cvarepsilon%29%20%3D%20%5Csigma%5E2%2C%20uncorrelated%3A%20errors)
 라는 조건 하에서 두 추정량은 `Gauss-Markov Theorem`에 따라 상당히 좋은 추정량이 됩니다. $$\hat{β_0}$$은 $$β_0$$에 대한 불편추정량이 되며, 
 $$\hat{β_0}$$이 아닌 다른 어떤 불편추정량을 가져오더라도 $$\hat{β_0}$$의 분산보다 작은 추정량을 찾을 수는 없습니다. 마찬가지로 
-$$\hat{β_1}$$ 또한 $$β_1$$에 대한 불편추정량이 되며, $$\hat{β_0}$$이 아닌 다른 어떤 불편추정량을 가져오더라도 $$\hat{β_0}$$의 분산보다 작은 추정량을 찾을 수는 없습니다.
+$$\hat{β_1}$$ 또한 $$β_1$$에 대한 불편추정량이 되며, $$\hat{β_1}$$이 아닌 다른 어떤 불편추정량을 가져오더라도 $$\hat{β_1}$$의 분산보다 작은 추정량을 찾을 수는 없습니다.
 따라서 두 최소 제곱 추정량은 `Best Linear Unbiased Estimators` 또는 `BLUE`라고 일컬어질 수 있습니다. 최소제곱추정량이 다른 어떤 
 불편추정량과 비교했을 때도 불편추정량이면서 최소분산을 가지게 됨을 설명하는 Gauss Markov Theorem은 차후에 설명하게 될 다중회귀에 또한 적용될 수 있습니다. 
 
