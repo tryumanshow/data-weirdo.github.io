@@ -16,8 +16,9 @@ $$β_0$$과 $$β_1$$에 대하여 추정해보았습니다. 이와 마찬가지�
 우선, 결론적으로 말하자면 아래의 수식이 $$σ^2$$ 에 대한 추정치가 됩니다.  
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%5Csigma%5E2%20%3D%20%5Cfrac%7BSS_%7BRes%7D%7D%7Bn-2%7D%20%3D%20MS_%7BRes%7D)  
    
-사고의 과정은 다음과 같습니다. 
-1. $$σ^2$$에 대한 추정은 `오차 제곱합(Error sum of squares)`, 또는 `잔차 제곱합(Residual sum of squares)`으로 부터 얻어집니다.
+사고의 과정은 다음과 같습니다.  
+
+$$σ^2$$에 대한 추정은 `오차 제곱합(Error sum of squares)`, 또는 `잔차 제곱합(Residual sum of squares)`으로 부터 얻어집니다.
 
 ![](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7De_i%5E2%20%3D%20%5Csum_%7Bi%3D1%7D%5En%28y_i-%5Cwidehat%7By_i%7D%29%5E2)
 ![](https://latex.codecogs.com/gif.latex?SS_%7BRes%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5En%28y_i-%28%5Cwidehat%7B%5Cbeta_0%7D%20&plus;%20%5Cwidehat%7B%5Cbeta_1%7Dx_i%29%29%5E2)
@@ -28,7 +29,7 @@ $$β_0$$과 $$β_1$$에 대하여 추정해보았습니다. 이와 마찬가지�
 
 
 ![](https://latex.codecogs.com/gif.latex?%5Cwidehat%7B%5Csigma%5E2%7D%20%3D%20%5Cfrac%7BSS_%7BRes%7D%7D%7Bn-2%7D%20%3D%20MS_%7BRes%7D)  
-$$MS_{Res}$$는 `Residual Mean Square`라 불리고, 이 값에 root를 씌운 값인 $$\sqrt{MS_{Res}}$$ `standard error of regression`이라고도 불립니다. 
+$$SS_{Res}$$를 자신의 자유도(`n-2`)로 나눈 값인 $$MS_{Res}$$는 `Residual Mean Square`라 불리고, 이 값에 root를 씌운 값인 $$\sqrt{MS_{Res}}$$ `standard error of regression`이라고도 불립니다. 
 $$MS_{Res}$$ 값은 $$σ^2$$의 `불편추정량`됩니다. 
 
 ---
