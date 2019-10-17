@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-DOUGLAS C. MONTGOMERY 저 Introduction to Linear Regression Analysis의 Intro에 해당하는 부분을 일부 요약하였습니다.  
+- DOUGLAS C. MONTGOMERY 저 Introduction to Linear Regression Analysis의 Intro에 해당하는 부분을 일부 요약하였습니다.  
 
 ---
 한 개의 regressor variable만을 포함한 단순회귀모델의 방정식은 이러합니다.
