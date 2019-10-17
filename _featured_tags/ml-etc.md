@@ -1,7 +1,7 @@
 ---
 layout: tag-blog
-title: Etc
-slug: etc
+title: Detection
+slug: detection
 category: ml
 menu: false
 order: 4
