@@ -59,9 +59,9 @@ HTML 코드가 전혀 필요하지 않고 순수하게 Javascript 코드만 작�
 이 기느에 대해서 더 알고 싶다면 [이곳](https://opentutorials.org/course/580)을 참고하면 됩니다.
 한 번 작성했던 코드를 또 쓰고 싶다면 키보드의 화살표 ↑키를 누르면 되고 몇 번이고 거슬러 올라가는 것이 가능합니다.  
 
+--- 
 ```
-cf.
-	```
+cf
 <!DOCTYPE html>  
 <html>  
     <head>
