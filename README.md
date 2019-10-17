@@ -39,4 +39,4 @@
 
 ---
 
-Fork from 박민 님 [Min Park](https://github.com/isme2n)
+Forked from 박민 님 [Min Park](https://github.com/isme2n)
