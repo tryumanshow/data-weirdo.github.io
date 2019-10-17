@@ -76,7 +76,7 @@ cf
 ```  
 
 위의 alert 대신 console.log를 쓰면 경고창 대신 Hello world라는 문구만 출력하게 됩니다. 
-```  
+
 
 ps.
 `통합개발도구(Integrated Development Environment, IDE)`는 코드를 작성함에 있어서 필요한 여러가지 기능들을 
@@ -84,3 +84,6 @@ ps.
 좋은 도구란 해당 도구가 제공하는 모든 기능들을 파악하기 위한 충분한 노력과 시간을 들일 수 있을 때 비로소 
 그 도구는 좋은 도구가 된다. (유료이거나 Heavy한 에디터를 사용하는데 그 에디터가 제공하는 기능들을 잘 알지 못한다면,
 그 도구는 좋은 도구라 할 수 없다.)
+
+#### Reference
+[생활코딩-실행방법과 실습환경](https://opentutorials.org/course/743/4646)
