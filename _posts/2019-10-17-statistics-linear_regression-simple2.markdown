@@ -6,7 +6,7 @@ categories: statistics
 tags: linear_regression
 comments: true
 ---
-오차의 분산($$σ^2$$)을 추정하는 방법에 대한 글입니다.
+- 오차의 분산($$σ^2$$)을 추정하는 방법에 대한 글입니다.
 
 ---
 
