@@ -127,6 +127,6 @@ $$\hat{β_1}$$ 또한 $$β_1$$에 대한 불편추정량이 되며, $$\hat{β_1}
 ![](https://latex.codecogs.com/gif.latex?2.%20%5Csum_%7Bi%3D1%7D%5En%20y_i%20%3D%20%5Csum_%7Bi%3D1%7D%5En%20%5Cwidehat_%7By_i%7D)
 ![](https://latex.codecogs.com/gif.latex?3.%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dx_ie_i%20%3D%200)
 ![](https://latex.codecogs.com/gif.latex?4.%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%5Cwidehat%7By_i%7De_i%20%3D%200)
-<center> 5. 최소제곱 회귀직선은 항상 centroid를 지난다 ($$\bar{x}$$, $$\bar{y}$$) </center>
+5. 최소제곱 회귀직선은 항상 centroid를 지난다. ($$\bar{x}$$, $$\bar{y}$$)
 
 
