@@ -36,9 +36,10 @@ comments: true
 단,
 y: 데이터  
 $$\theta$$: 타겟 모수  
-P(y|$$\theta$$): 우도 함수 (Likelihood function)
-P($$\theta$$): 사전확률분포
+P(y|$$\theta$$): 우도 함수 (Likelihood function)  
+P($$\theta$$): 사전확률분포  
 P($$\theta$$|y): 사후확률분포
+
 ---
 
 이 수식을 요약하자면, 베이지안 추론 (Bayesian Inference)는 곧 우도 함수와 사전확률분포에 전적으로 의존합니다. 
@@ -49,6 +50,6 @@ P($$\theta$$|y): 사후확률분포
 주어진 데이터들에 대해 미래의 관찰값이 갖게 될 확률에 대해 부가적으로 설명해보도록 하겠습니다.
 
 # Reference
-[베이즈 통계학](https://ko.wikipedia.org/wiki/%EB%B2%A0%EC%9D%B4%EC%A6%88_%ED%86%B5%EA%B3%84%ED%95%99)
-[Duke 대학교 통계학 강의 교안 - Notes 9. The Likelihood Principle](http://www2.stat.duke.edu/~st118/sta732/PrincHO.pdf)
+[베이즈 통계학](https://ko.wikipedia.org/wiki/%EB%B2%A0%EC%9D%B4%EC%A6%88_%ED%86%B5%EA%B3%84%ED%95%99)  
+[Duke 대학교 통계학 강의 교안 - Notes 9. The Likelihood Principle](http://www2.stat.duke.edu/~st118/sta732/PrincHO.pdf)  
 [What exactly does it mean to and why must one update prior?](https://stats.stackexchange.com/questions/166321/what-exactly-does-it-mean-to-and-why-must-one-update-prior)
