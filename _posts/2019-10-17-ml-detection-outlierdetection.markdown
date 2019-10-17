@@ -16,8 +16,8 @@ Outlier가 무엇이고, 종류로는 어떤 것들이 있고, outlier를 탐지
 
 # Outlier란 무엇일까?
 
-이상치(Outlier)란 주어진 데이터 상의 다른 관찰값들로부터 떨어져있는 극단적인 값을 의미한다. 
-`Outliers are extreme values that deviate from other observations on data.`
+이상치(Outlier)란 주어진 데이터 상의 다른 관찰값들로부터 떨어져있는 극단적인 값을 의미합니다.
+(`Outliers are extreme values that deviate from other observations on data.`)
 전반적인 샘플의 패턴과 다른 모습을 보이는 관찰값이라고 할 수 있겠습니다.
 
 ![](https://miro.medium.com/max/480/0*R9u16eEcsZHpjH4O.)
@@ -39,17 +39,17 @@ Outlier가 무엇이고, 종류로는 어떤 것들이 있고, outlier를 탐지
 한편, 아웃라이어는 다음과 같이 구분될 수도 있습니다.  
 ```
 구분2
-1. Point outliers(점 이상치)  
-2. Contextual outliers(상황적 이상치)  
-3. Collective outliers(집단적 이상치)  
+1. Point outliers  
+2. Contextual outliers 
+3. Collective outliers 
 ```
 
-* Point outliers  
+* Point outliers (점 이상치) 
 : Point outlier는 분포에서 나머지 점들과 떨어져있는 데이터 포인트 하나하나를 일컫습니다.  
-* Contextual outliers
+* Contextual outliers (상황적 이상치)
 : 데이터 내의 노이즈를 의미합니다. 음성 인식 시 배경에서 나타나는 잡음, 텍스트 분석 시 나타나는 구두점을
 예로 들 수 있습니다. 
-* Collective outliers
+* Collective outliers (집단적 이상치)
 : 데이터 내에서 관측치 하나하나는 이상치가 아닐지라도, 일부 모인 데이터가 이상한 양상을 띈다면 이것이 곧
 collective outlier라 할 수 있습니다. 아래의 그림에서, 분명 데이터 내의 점 하나하나들은 그리 이상해
 보이지 않지만, 중간의 점들이 모이니 새로운 경향성을 띠고 있습니다. 
