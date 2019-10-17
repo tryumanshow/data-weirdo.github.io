@@ -1,11 +1,11 @@
-	---
+---
 	
-	layout: post
-	title:  "Javascript-실행방법과 실습환경"
-	subtitle:   "javascript-implement"
-	categories: cs
-	tags: javascript
-	comments: true
+layout: post
+title:  "Javascript-실행방법과 실습환경"
+subtitle:   "javascript-implement"
+categories: cs
+tags: javascript
+comments: true
 	
 ---
 
