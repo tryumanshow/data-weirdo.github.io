@@ -29,17 +29,17 @@ comments: true
 현재 우리가 갖고 있는 데이터와, 사전에 갖고있던 확률분포 (사전확률분포)를 동시에 고려하여 현재의 상황에 대한 분포를 얻어내면
 그것이 곧 사후확률분포라고 할 수 있습니다. 이를 수식으로 표기하면 다음과 같습니다. 
 
-!()[https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%3D%20%5Cfrac%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7D%7B%5Cint_%5Ctheta%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7Dd%5Ctheta%7D]
-!()[https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29]  
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%3D%20%5Cfrac%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7D%7B%5Cint_%5Ctheta%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7Dd%5Ctheta%7D)
+![][https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29)
 
-```
+---
 단,
 y: 데이터  
 $$\theta$$: 타겟 모수  
 P(y|$$\theta$$): 우도 함수 (Likelihood function)
 P($$\theta$$): 사전확률분포
 P($$\theta$$|y): 사후확률분포
-```
+---
 
 이 수식을 요약하자면, 베이지안 추론 (Bayesian Inference)는 곧 우도 함수와 사전확률분포에 전적으로 의존합니다. 
 베이지안에서는 기존의 빈도주의자들은 고려하지 않았던 '과거의 정보'에 대해서까지 고려를 하고, 
