@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[Preprocessing] 범주형 변수 다루기"
+title:  "범주형 변수 다루기"
 subtitle:   "범주형 변수 다루기"
 categories: ml
 tags: preprocessing
