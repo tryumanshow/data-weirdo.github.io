@@ -1,17 +1,16 @@
 ---
-	
+
 layout: post
 title:  "Javascript-실행방법과 실습환경"
 subtitle:   "javascript-implement"
 categories: cs
 tags: javascript
 comments: true
-	
+
 ---
 
 Javascript를 실행하는 방법과 실습 환경에 대해 정리해보았습니다. 
 
----
 
 # 자바스크립트의 실행 방법  
 
