@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "Outlier Detection-Z-Score"
@@ -6,6 +5,7 @@ subtitle:   "outlier_detection-z-score"
 categories: ml
 tags: detection
 comments: true
+
 ---
 
 이상치 탐지의 방법으로 Z-Score에 대해 공부해보겠습니다.
