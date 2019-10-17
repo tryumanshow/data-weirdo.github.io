@@ -30,10 +30,10 @@ comments: true
 그것이 곧 사후확률분포라고 할 수 있습니다. 이를 수식으로 표기하면 다음과 같습니다. 
 
 ![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%3D%20%5Cfrac%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7D%7B%5Cint_%5Ctheta%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7Dd%5Ctheta%7D)
-![][https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29)
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29)
 
 ---
-단,
+
 y: 데이터  
 $$\theta$$: 타겟 모수  
 P(y|$$\theta$$): 우도 함수 (Likelihood function)  
