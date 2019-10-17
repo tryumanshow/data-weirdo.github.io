@@ -9,7 +9,7 @@ comments: true
 
 ---
 
-Javascript 내에서의 숫자 및 연산, 그리고 문자에 대해 살펴보았습니다. 
+Javascript 내에서의 숫자 및 연산, 그리고 문자에 대해 살펴보겠습니다. 
 
 ## 시작하기 전에
 
@@ -17,21 +17,21 @@ Javascript 내에서의 숫자 및 연산, 그리고 문자에 대해 살펴보�
 여담1. 데이터는 정보이고, 정보는 그 마다의 타입이 있는데, 숫자, 문자도 하나의 타입입니다.  
 여담2. 에디터를 사용하면, 에디터는 자주 사용하는 작업들을 알고 있어서 html만 입력하고 tab 키를 누르면
 자동으로 기본적인 form이 만들어진다고 말씀하셨습니다. 하지만, 이는 Sublime Text에 대한 말씀이셨고,
-vscode에서는 HTML Snippets이란느 플러그인을 다운 받으면 동일한 기능을 실행할 수 있었습니다. 
+vscode에서는 HTML Snippets이라는 플러그인을 다운 받으면 동일한 기능을 실행할 수 있었습니다. 
 ```
----
-<!DOCTYPE html>
+```
+<!DOCTYPE html>  
 <html>  
-    <head>
-        <title></title>
-    </head>
-    <body>
-        <script type ="text/javascript">
-            alert(1);
-            </script>
-    </body>
-</html>
-
+    <head>  
+        <title></title>  
+    </head>  
+    <body>  
+        <script type ="text/javascript">  
+            alert(1);  
+            </script>  
+    </body>  
+</html>  
+```
 ---
 
 alert(1)을 제외하고는 HTML 부분이고, 따라서 javascript 파트인 alert(1)에만 신경 쓰도록 합니다.  
@@ -42,7 +42,7 @@ alert(1)을 제외하고는 HTML 부분이고, 따라서 javascript 파트인 al
 
 정수를 입력하고 싶다면 alert()의 () 사이에 그냥 정수를 (ex. alert(1);) 
 실수를 입력하고 싶다면 실수를 입력하면 됩니다. (ex. alert(1.1);)
-더하기는 '+' (ex. alert(1+1)), 곱하기는 '*'(asterisk) (ex. alert(2*4)), 나누기는 '/'를 사용하면 됩니다.
+더하기는 '+' (ex. alert(1+1)), 곱하기는 '$$*$$'(asterisk) (ex. alert(2*4)), 나누기는 '/'를 사용하면 됩니다.
 통계학을 공부하며 R로 시작해, 파이썬을 거치고 Javascript를 공부하고 있기 때문에 이 form에 대해서는 익숙합니다.
 
 # 숫자 연산
@@ -63,3 +63,8 @@ Math.random(); // 0과 1.0 사이의 랜덤한 숫자를 출력
 ```  
 이를 활용하여, 100보다 작은 난수를 생성하고 싶다면, 100*Math.random()을 사용하면 되고,
 0과 100 사이의 정수를 출력하고 싶다면, Math.round(100*Math.random())과 같은 형식으로 접근하면 됩니다. 
+
+
+
+#### Reference
+![생활코딩-숫자와문자](https://opentutorials.org/course/743/4647)
