@@ -18,21 +18,20 @@ Javascript를 실행하는 방법과 실습 환경에 대해 정리해보았습�
 첫번째는 브라우저, 두번째는 자바스크립트 코드를 작성할 수 있는 에디터 입니다.
 에디터의 경우 윈도우에서는 메모장, 맥북에서는 텍스트 에디트, 리눅스에서는 우분투를 사용하면 됩니다.
 
-우선 자바스크립트를 실행할 때 사용해볼 코드를 소개하겠습니다. 
+우선 자바스크립트를 실행할 때 사용해 볼 코드를 소개하겠습니다. 
 
 ```
-	<!DOCTYPE html>
-	<html>
+<!DOCTYPE html>  
+<html>  
     <head>
-	    <meta charset="utf-8"/>
-	  </head>
-	  <body>
-	    <script>
-	      alert('Hello world');
-	    </script>
-	  </body>
-	</html>
-
+    	<meta charset="utf-8"/>  
+    </head>  
+    <body>  
+	<script>  
+		alert('Hello world');  
+	</script>  
+    </body>  
+</html>  
 ```  
 
 여기서 자바스크립트에 해당하는 부분은 alert('Hello world');
@@ -62,17 +61,19 @@ HTML 코드가 전혀 필요하지 않고 순수하게 Javascript 코드만 작�
 
 ```
 cf.
-	<!DOCTYPE html>
-	<html>
+	```
+<!DOCTYPE html>  
+<html>  
     <head>
-	    <meta charset="utf-8"/>
-	  </head>
-	  <body>
-	    <script>
-	      console.log('Hello world');
-	    </script>
-	  </body>
-	</html>
+    	<meta charset="utf-8"/>  
+    </head>  
+    <body>  
+	<script>  
+		console.log('Hello world');  
+	</script>  
+    </body>  
+</html>  
+```  
 
 위의 alert 대신 console.log를 쓰면 경고창 대신 Hello world라는 문구만 출력하게 됩니다. 
 ```  
