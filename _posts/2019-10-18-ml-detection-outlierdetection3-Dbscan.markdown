@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-지난 포스팅에 이어 이번에는 Dbscan(Density Based Spatial Clustering of Applications with Noise)
+- 지난 포스팅에 이어 이번에는 Dbscan(Density Based Spatial Clustering of Applications with Noise)
 을 사용한 Outlier Detection에 대하여 정리해보았습니다.
 
 ---
