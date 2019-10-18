@@ -46,19 +46,17 @@ Dbscan 군집화 알고리즘에서, 각각의 점들은 이 셋 중의 하나�
 
 ![](https://miro.medium.com/max/400/0*3A8VdnNSC2d32Q_I.)  
 
-어떤 점 p가 $$\varepsilon$$ 만큼의 거리 내에 최소 MinPts 만큼의 점을 갖고 있다면 점 p는 `Core point`입니다.  
-이 점 p로부터 구 모양의 클러스터를 만들었을 때 이 클러스터 내의 모든 점들은 p로부터 `directly reachable`한 점이 됩니다.  
-어떤 점 q가 있고, $$p_1$$, $$p_2$$, $$p_3$$, ... $$p_n$$라는 점들이 있는데, 이 때 $$p_1$$가 p이고 $$p_n$$가 q라고 하겠습니다.
-각각의 $$p_{i+1}$$는 $$p_{i}$$와 `directly reachable`할 때, q는 p와 `reachable`한 관계에 있습니다. 단, 이 때 $$p_1$$부터  
-$$p_{n-1}$$까지의 점은 모두 각자가 `Core point`이어야 합니다.  
-어떤 점으로부터도 `reachable`하지 않다면 그 점은 outlier 혹은 noise point가 됩니다.  
+어떤 점 p가 $$\varepsilon$$ 만큼의 거리 내에 최소 MinPts 만큼의 점을 갖고 있다면 점 p는 `Core point`입니다. 이 점 p로부터 구 모양의 클러스터를 만들었을 때 이 클러스터 내의 모든 점들은 p로부터 `directly reachable`한 점이 됩니다. 어떤 점 q가 있고, $$p_1$$, $$p_2$$, $$p_3$$, ... $$p_n$$라는 점들이 있는데, 이 때 $$p_1$$가 p이고 $$p_n$$가 q라고 하겠습니다. 각각의 $$p_{i+1}$$는 $$p_{i}$$와 `directly reachable`할 때, q는 p와 `reachable`한 관계에 있습니다. 단, 이 때 $$p_1$$부터 $$p_{n-1}$$까지의 점은 모두 각자가 `Core point`이어야 합니다. 어떤 점으로부터도 `reachable`하지 않다면 그 점은 outlier 혹은 noise point가 됩니다.  
   
 이 때, 어떤 o라는 점이 P와 Q라는 점 모두로 부터 `reachable`하다면, 결국 P와 Q가 공유하게 되는 o라는 점이 존재한다면
 P와 Q는 `density connected` 한 점들이 됩니다.  (p, q와 동일한 점으로 오해될 소지가 있는 것 같아 일부러 대문자로 적었습니다.)  
 
+Core point가 다른 Core point의 군집 내에 속해 있다면, 두 군집은 서로 연결되어 있는 것으로 간주하고 각각의 클러스터들을 합쳐 하나의 
+클러스터를 구성합니다.
+
 클러스터는 다음과 같은 성격을 지닙니다.  
 - 같은 클러스터 내의 모든 점들은 `density-connected 되어 있다.`
-- 어떤 한 점이 클러스터 내의 임의의 한 점으로 부터 `density-reachable`하다면 그 어떤 점 또한 클러스터에 속한다.
+- 어떤 한 점이 클러스터 내의 임의의 한 점으로 부터 `density-reachable`하다면 그 어떤 점 또한 클러스터에 속한다.  
 
 ## 파라미터에 대한 설명과 그에 대한 조정
 
@@ -88,7 +86,7 @@ Feature space를 스케일링 해주고 난 뒤에는 클러스터링을 실행�
 1. Dbscan의 시간복잡도는 O(nlogn)으로 medium 사이즈의 데이터 셋에서 효과적이라 합니다.  
 2. 사이키런을 사용해서 dbscan을 fitting 하고 나면 클러스터가 나뉘고 각 샘플은 각자의 클러스터에 할당됩니다.
 Outlier들은 -1 클러스터에 할당되고, 차후 이들을 제거한 뒤에 분석을 진행할 수 있습니다.  
-
+3. Dbscan은 K-Means와는 다르게 미리 군집의 수를 결정해주지 않아도 되며, 밀도에 따라 군집화하기 때문에 괴상한, 기하학적인 모양이 나올 수 있다.
 
 다음은 housing price 데이터셋에 Dbscan을 사용해서 이상치들을 골라낸 그림이라고 합니다. 
 ![](https://miro.medium.com/max/1400/0*A1Wupu3hKsJMvUdH.)  
