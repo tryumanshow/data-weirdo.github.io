@@ -34,7 +34,7 @@ P($$\mu$$|$$y_1$$, ..., $$y_n$$)의 분포를 구하기 위해 사전확률분�
 빈도주의적인 접근이 잘 통하지 않는 경우는 한마디로 `Likelihood Principle`을 위반할 때 입니다. 
 [Likelihood Principle](https://en.wikipedia.org/wiki/Likelihood_principle)이란 
 어떤 unknown 파라미터에 대해 추정할 때, 특정 분포를 따르는 확률변수로부터 관찰값들이 뽑혔다면, 모델 파라미터와 관련된 모든
-증거 및 정보들이 어떤 관찰값들이냐에 상관없이 Likelihood function에 담겨있다는 것입니다. 특정 관찰값을 $$X^{*}$$라고 한다면 
+증거 및 정보들이 어떤 관찰값들이냐에 상관없이 Likelihood function에 담겨있다는 것입니다. 특정 관찰값을 $$x^{*}$$라고 한다면 
 수식으로 이렇게 표현해볼 수 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?L_%7BX%5E*%7D%28%5Ctheta%29%20%5Cpropto%20P%28X%5E*%7C%5Ctheta%29%2C%20%5Ctheta%20%5Cin%20%5CTheta)  
 
@@ -47,11 +47,11 @@ LP는 다음 두 가지를 요구합니다.
 비해 베이지안이 썩 괜찮은 영역 같다는 생각이 드는군요.
 
 # 주어진 데이터들에 대해 미래의 관측값이 갖게 될 확률  
-새로이 주어질 관찰값을 다음과 같이 표시하겠습니다. $$\tilde{y}$$. 그리고 우리가 찾아야 할 확률 분포는 이것입니다. P($$\tilde{y}|y)  
+새로이 주어질 관찰값을 다음과 같이 표시하겠습니다. $$\tilde{y}$$. 그리고 우리가 찾아야 할 확률 분포는 이것입니다. P($$\tilde{y}$$|y)  
 이를 다음과 같이 나타내볼 수 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cfrac%7BP%28%5Cwidetilde%7By%7D%2C%20y%29%7D%7BP%28y%29%7D%20%3D%20%5Cfrac%7B%5Cint%7BP%28%5Cwidetilde%7By%7D%20%2C%20y%2C%20%5Ctheta%29%7Dd%5Ctheta%7D%7BP%28y%29%7D%20%3D%20%5Cfrac%7B%5Cint%7BP%28%5Cwidetilde%7By%7D%7C%20y%2C%20%5Ctheta%29%7DP%28y%2C%20%5Ctheta%29d%5Ctheta%7D%7BP%28y%29%7D%20%3D%20%5Cint%7BP%28%5Cwidetilde%7By%7D%7Cy%2C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)
 
-만약 $$\tilde{y}와 y가 given $$\theta$$에 대해 `conditionally independent하다고 가정한다면 다음과 같이 더 간단하게 나타낼 수도 있습니다.  
+만약 $$\tilde{y}$$와 y가 given $$\theta$$에 대해 `conditionally independent하다고 가정한다면 다음과 같이 더 간단하게 나타낼 수도 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cint%7BP%28%5Cwidetilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)  
 다음 식은 추후의 많은 증명들에서 자주 사용되게 됩니다.  
 
