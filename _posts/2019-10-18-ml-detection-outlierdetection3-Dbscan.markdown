@@ -55,7 +55,7 @@ Core point가 다른 Core point의 군집 내에 속해 있다면, 두 군집은
 클러스터를 구성합니다.
 
 클러스터는 다음과 같은 성격을 지닙니다.  
-- 같은 클러스터 내의 모든 점들은 `density-connected 되어 있다.`
+- 같은 클러스터 내의 모든 점들은 `density-connected` 되어 있다.
 - 어떤 한 점이 클러스터 내의 임의의 한 점으로 부터 `density-reachable`하다면 그 어떤 점 또한 클러스터에 속한다.  
 
 ## 파라미터에 대한 설명과 그에 대한 조정
@@ -88,7 +88,7 @@ Feature space를 스케일링 해주고 난 뒤에는 클러스터링을 실행�
 Outlier들은 -1 클러스터에 할당되고, 차후 이들을 제거한 뒤에 분석을 진행할 수 있습니다.  
 3. Dbscan은 K-Means와는 다르게 미리 군집의 수를 결정해주지 않아도 되며, 밀도에 따라 군집화하기 때문에 괴상한, 기하학적인 모양이 나올 수 있다.
 
-다음은 housing price 데이터셋에 Dbscan을 사용해서 이상치들을 골라낸 그림이라고 합니다. 
+다음은 housing price 데이터셋에 Dbscan을 사용해서 이상치들을 골라낸 그림이라고 합니다.  
 ![](https://miro.medium.com/max/1400/0*A1Wupu3hKsJMvUdH.)  
 
 다음에는 Isolation Forest에 대하여 공부해보겠습니다. 
