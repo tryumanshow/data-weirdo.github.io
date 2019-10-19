@@ -1,14 +1,14 @@
 ---
 layout: post
 title:  "Bayesian-사전분포 소개 및 이항분포 케이스"
-subtitle:   "bayesian-사전분포_소개_및_이항분포_케이스"
+subtitle:   "bayesian-prior_distn_intro&Binomial_sample"
 categories: statistics
 tags: bayesian
 comments: true
 
 ---
 
-사전분포를 설정하는 몇 가지 방법과, 이항분포를 따르는 샘플에 대한 적용에 관한 글입니다.
+- 사전분포를 설정하는 몇 가지 방법과, 이항분포를 따르는 샘플에 대한 적용에 관한 글입니다.
 
 ---  
 
