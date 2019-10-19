@@ -61,7 +61,7 @@ Proportional한 형태로 나타낼 것이 아니라 실제로 베이즈 정리�
 이 역시 실제로 베이즈 정리에 따라 계산을 해보면 $$P(\theta|y)$$는 $$Beta(y+\alpha, n-y+\beta)$$ 분포를 따릅니다. 사전확률분포도, 사후확률분포도 
 모두 베타분 따르고 있으니 이 때의 $$P(\theta)$$는 켤레사전분포입니다.  
 
-이항분포 샘플과 Conjugate Prior인 $$Beta(\alpha, \beta)$$ 사전분포에 대하여 평균을 다음과 같이 나타낼 수 있습니다.  
+이항분포 샘플과 Conjugate Prior인 $$Beta(\alpha, \beta)$$ 사전분포에 대하여 사후확률분포의 평균을 다음과 같이 나타낼 수 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?E%28%5Ctheta%7Cy%29%20%3D%20%5Cfrac%7By&plus;%5Calpha%7D%7Bn&plus;%5Calpha&plus;%5Cbeta%7D)
 이 식은 다음과 같이 분리해볼 수 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?%3D%20%5Cfrac%7Bn%7D%7Bn&plus;%5Calpha&plus;%5Cbeta%7D%5Cfrac%7By%7D%7Bn%7D%20&plus;%20%5Cfrac%7B%5Calpha&plus;%5Cbeta%7D%7Bn&plus;%5Calpha&plus;%5Cbeta%7D%5Cfrac%7B%5Calpha%7D%7B%5Calpha&plus;%5Cbeta%7D)  
