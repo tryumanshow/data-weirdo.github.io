@@ -61,5 +61,5 @@ cf. effect size를 판단하는 기준으로 [Hedge's G](https://www.statisticsh
 
 
 #### Reference  
-[Cohen’s D: Definition, Examples, Formulas](https://www.statisticshowto.datasciencecentral.com/cohens-d/)
+[Cohen’s D: Definition, Examples, Formulas](https://www.statisticshowto.datasciencecentral.com/cohens-d/)  
 [Hedges’ g: Definition, Formula](https://www.statisticshowto.datasciencecentral.com/hedges-g/)
