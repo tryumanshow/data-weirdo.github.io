@@ -1,4 +1,5 @@
 ---
+
 layout: post
 title:  "Bayesian-사전분포 소개 및 이항분포 케이스"
 subtitle:   "bayesian-prior_and_binom"
