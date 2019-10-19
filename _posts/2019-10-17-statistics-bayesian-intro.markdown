@@ -30,7 +30,10 @@ comments: true
 그것이 곧 사후확률분포라고 할 수 있습니다. 이를 수식으로 표기하면 다음과 같습니다. 
 
 ![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%3D%20%5Cfrac%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7D%7B%5Cint_%5Ctheta%7BP%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29%7Dd%5Ctheta%7D)
-![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29)
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy%29%20%5Cpropto%20P%28y_%5Ctheta%7C%5Ctheta%29P%28%5Ctheta%29)  
+
+(왜 사후확률을 두 번째 수식과 같이 표현하기도 할까요? 그것은, 첫번째 수식의 분모에 있는 P(y)가 단지 `정규화상수 (normalizing factor)`이기 때문입니다. 정규화상수로 나누어줌으로써 사후확률의 pdf 아래 면적값의 합이 1이 됩니다. 어떤 분포의 모든 학률의 합은 1이라는 사실을 상기하시면 될 것 같습니다. 하지만 우리가 관심있는 것은 단지 사후확률분포와 그 사후확률분포에서의 확률을 가장 크게 만드는 점이 어느 곳인가에 대한 것이기 때문에 
+정규화상수로 나누어주는가 아닌가는 별 상관이 없습니다. 그래서 사람들은 베이즈 이론의 형태를 두 번째 수식과 같이 쓰기도 합니다.)  
 
 ---
 
