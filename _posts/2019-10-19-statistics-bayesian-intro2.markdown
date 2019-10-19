@@ -51,7 +51,7 @@ LP는 다음 두 가지를 요구합니다.
 이를 다음과 같이 나타내볼 수 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cfrac%7BP%28%5Cwidetilde%7By%7D%2C%20y%29%7D%7BP%28y%29%7D%20%3D%20%5Cfrac%7B%5Cint%7BP%28%5Cwidetilde%7By%7D%20%2C%20y%2C%20%5Ctheta%29%7Dd%5Ctheta%7D%7BP%28y%29%7D%20%3D%20%5Cfrac%7B%5Cint%7BP%28%5Cwidetilde%7By%7D%7C%20y%2C%20%5Ctheta%29%7DP%28y%2C%20%5Ctheta%29d%5Ctheta%7D%7BP%28y%29%7D%20%3D%20%5Cint%7BP%28%5Cwidetilde%7By%7D%7Cy%2C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)
 
-만약 $$\tilde{y}$$와 y가 given $$\theta$$에 대해 `conditionally independent하다고 가정한다면 다음과 같이 더 간단하게 나타낼 수도 있습니다.  
+만약 $$\tilde{y}$$와 y가 given $$\theta$$에 대해 `conditionally independent`하다고 가정한다면 다음과 같이 더 간단하게 나타낼 수도 있습니다.  
 ![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cint%7BP%28%5Cwidetilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)  
 다음 식은 추후의 많은 증명들에서 자주 사용되게 됩니다.  
 
