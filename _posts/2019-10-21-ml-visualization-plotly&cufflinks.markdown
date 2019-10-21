@@ -9,7 +9,7 @@ comments: true
 
 ---  
 
-- Plotly와 Cufflinks에 대해 간단한 소개글 입니다.
+- Plotly와 Cufflinks에 대한 간단한 소개글 입니다.
 
 ---  
 
@@ -28,7 +28,7 @@ Plotly를 통해 실현할 수 있는 그림들에 대한 한 클립을 보고 �
 import plotly.offline as py  
 py.init_notebook_mode(connected=False)  
 ```  
-Plotly 라이브러리를 만든 회사의 이름은 Plotly이며 이 회사는 많은 프로덕트들에 대해 향상된 기능들을 제공함으로써 돈을 법니다.  
+Plotly 라이브러리를 만든 회사의 이름은 Plotly이며 이 회사는 많은 프로덕트들에 대해 향상된 기능들을 제공함으로써 돈을 법니다. 
 `connected = False`로 설정해줌으로써 Plotly 사용을 위해 계정을 생성할 필요없이 오프라인에서 사용할 수 있게 됩니다.  
 
 ### 간단한 api 설명  
