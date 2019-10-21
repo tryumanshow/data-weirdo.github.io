@@ -94,7 +94,7 @@ Math.random(); // 0과 1.0 사이의 랜덤한 숫자를 출력
 만약 어떤 이유에 의해서 작은 따옴표 둘 사이에 작은 따옴표를 넣고 싶다면 어떻게 해야 할까요? 
 다음과 같은 방식으로 오류를 피할 수 있습니다. 
 `alert('Woo\'s coding everybody')` 이 때는 의도했던 대로 Woo's coding everybody가 출력됩니다. 
-\(역슬래시) 바로 다음의 문자 하나는 그냥 문자 그 자체로서 해석되고 해당 예에서 \뒤에 '를 위치 시킴으로써
+역슬래시 바로 다음의 문자 하나는 그냥 문자 그 자체로서 해석되고 해당 예에서 \뒤에 '를 위치 시킴으로써
 '가 원래 갖고 있었던 임무로부터 탈출했기 때문에 이를 `escape`라고 부릅니다.  
 
 (cf. \n: 줄바꿈)
@@ -111,7 +111,7 @@ alter(typeof 1) => number 출력
 예를 들어, `alert('coding' + ' everybody')`; 와 같이 입력하면 coding everybody를 출력할 것입니다.  
 위 코드는 다음과 같이 표현해볼 수도 있습니다. `alert('coding' + ' ' + 'everybody')`
 
-추가적으로 `'coding everybody'.length`를 입력하면 'coding everybody'의 길이인 16이 출력됩니다.  
+추가적으로 `alert('coding everybody'.length)`를 입력하면 'coding everybody'의 길이인 16이 출력됩니다.  
 
 
 
