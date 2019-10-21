@@ -50,7 +50,7 @@ Plotly 라이브러리를 만든 회사의 이름은 Plotly이며 이 회사는 
 
 # Cufflinks
 
-한편, cufflinks는 Interactive data visualization이 가능하도록 Plotly와 판다스  연결해주는 역할을 하는 모듈입니다.  
+한편, cufflinks는 Interactive data visualization이 가능하도록 Plotly와 판다스 데이터프레임을 연결해주는 역할을 하는 모듈입니다.  
 역시 모듈을 임포트하고 오프라인에서 사용하겠다는 설정을 해줍니다.  
 
 ### 설치  
