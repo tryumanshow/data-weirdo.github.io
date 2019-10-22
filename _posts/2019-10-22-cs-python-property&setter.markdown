@@ -9,7 +9,7 @@ comments: true
 
 ---
 
-- Python에서의 @property와 @setter에 대해서 공부해보았습니다.  
+- Python에서의 @property와 @setter 데코레이터에 대해서 공부해보았습니다.  
 
 ---  
 
@@ -34,9 +34,10 @@ class Person:
 ryu = Person()  
 ryu.set_area('대구')  
 print(ryu.get_age())  
-```  
-
+```    
 이 코드를 `@property`와 `@setter`를 사용하여 다음과 같이 만들 수 있습니다.  
+
+```
 class Person:  
     def __init__(self):  
         self.__area = '알 수 없음'  
@@ -52,6 +53,7 @@ class Person:
 ryu = Person()  
 ryu.area = '대구'  
 print(ryu.area)  
+
 ```  
 
 주목할 점은 getter, setter 메서드의 이름이 area로 통일되었다는 것입니다. getter에 @property를, setter에 @setter 데코레이터를 붙였고, 
