@@ -34,7 +34,9 @@ class Person:
 ryu = Person()  
 ryu.set_area('대구')  
 print(ryu.get_age())  
-```    
+
+```  
+
 이 코드를 `@property`와 `@setter`를 사용하여 다음과 같이 만들 수 있습니다.  
 
 ```
