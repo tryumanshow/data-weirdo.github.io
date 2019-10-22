@@ -140,10 +140,10 @@ g(n)을 f(n)의 하한이라고 합니다. 어떤 함수 f(n)이 Ω(g(n))임을 
 ![](https://ko.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/big-big-omega-notation)  
 
 #### Θ(Theta) 표기법  
-모든 n>$$n_0$$에 대해서 $$c_1$$$$\cdot$$$g(n) $$\geq$$ f(n) $$\geq$$ $$c_2$$$$\cdot$$g(n)이 성립하는 양의 상수 $$c_1, c_2, n_0$$이 존재하면, 
+모든 n>$$n_0$$에 대해서 $$c_1$$$$\cdot$$g(n) $$\geq$$ f(n) $$\geq$$ $$c_2$$$$\cdot$$g(n)이 성립하는 양의 상수 $$c_1, c_2, n_0$$이 존재하면, 
 f(n) = Θ(g(n))입니다. Θ 표기법은 특정 알고리즘의 시간 복잡도의 O표기와 Ω표기가 동일한 경우에 사용하며, 모든 경우를 분석 할 때에는 
 O표기법보다 Θ 표기법을 많이 사용합니다.  
-- Example. f(n) = $$2n^2 + 3n + 5 $$ → f(n) = $$Θ(n^2)$$ 이 때, $$Θ(n^2)$$의 의미는 무한히 큰 입력 크기 n에 대해 
+- Example. f(n) = $$2n^2 + 3n + 5 $$ → f(n) = Θ($$n^2$$) 이 때, Θ($$n^2$$)의 의미는 무한히 큰 입력 크기 n에 대해 
 $$2n^2 + 3n + 5 $$와 $$n^2$$의 증가율이 유사함을 의미합니다. 
 
 #### Reference  
