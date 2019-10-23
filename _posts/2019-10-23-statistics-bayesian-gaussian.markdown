@@ -23,7 +23,7 @@ comments: true
 $$y_1, y_2, ... , y_n | \theta $$ ~iid $$N(\theta, \sigma^2)$$  
 $$\theta$$ ~ N($$\mu_o$$, $$\tau_0^2$$)  
 
-$$P(\theta|y_1, y_2, ..., y_n)$$ $$\propto$$ $$e^{-\frac{\sum_{i=1}^{n}{y_i-\theta}^2}{2\sigma^2}}$$$$e^{-\frac{(\theta-\mu_0)^2}{2\tau_0^2}}$$  
+![](https://latex.codecogs.com/gif.latex?P%28%24%24%5Ctheta%7Cy_1%2C%20y_2%2C%20...%2C%20y_n%24%24%29%20%24%24%5Cpropto%24%24%20%24%24e%5E%7B-%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%28y_i-%5Ctheta%29%5E2%7D%7B2%5Csigma%5E2%7D%7De%5E%7B-%5Cfrac%7B%28%5Ctheta-%5Cmu_0%29%5E2%7D%7B2%5Ctau_0%5E2%7D%7D)  
 
 
 $$\theta|y_0, y_1, ..., y_n$$ ~ N($$\frac{\frac{n\bar{y}}{\sigma^2} + \frac{\mu_0}{\tau_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\tau_0^2}}$$,$$\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\tau_0^2}}$$)  
