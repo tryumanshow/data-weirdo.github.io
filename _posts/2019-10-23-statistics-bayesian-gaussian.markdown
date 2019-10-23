@@ -23,7 +23,7 @@ comments: true
 $$y_1, y_2, ... , y_n | \theta $$ ~iid $$N(\theta, \sigma^2)$$  
 $$\theta$$ ~ N($$\mu_o$$, $$\tau_0^2$$)  
 
-P($$\theta|y_1, y_2, ..., y_n$$) $$\propto$$ $$e^{-\frac{\sum_{i=1}^{n}(y_i-\theta)^2}{2\sigma^2}}$$$$e^{-\frac{(\theta-\mu_0)^2}{2\tau_0^2}}$$  
+$$P(\theta|y_1, y_2, ..., y_n)$$ $$\propto$$ $$e^{-\frac{\sum_{i=1}^{n}{y_i-\theta}^2}{2\sigma^2}}$$$$e^{-\frac{(\theta-\mu_0)^2}{2\tau_0^2}}$$  
 
 
 $$\theta|y_0, y_1, ..., y_n$$ ~ N($$\frac{\frac{n\bar{y}}{\sigma^2} + \frac{\mu_0}{\tau_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\tau_0^2}}$$,$$\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\tau_0^2}}$$)  
