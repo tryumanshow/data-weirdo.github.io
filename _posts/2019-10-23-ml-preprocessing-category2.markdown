@@ -27,12 +27,12 @@ Kaggle에서 돌아다니는 [타이타닉 데이터]9https://www.kaggle.com/c/t
 data = pd.read_csv('data\train.csv', usecols=['Survived, 'Pclass'])  
 data.head(5)  
 ```  
-[그림1]()  
+[그림1](http://drive.google.com/uc?export=view&id=1RqsMfBM_H9XsYjInaep8-IAtbL4PntR-)  
 ```  
 data['Pclass_mean']=data['Pclass'].map(data.groupby('Pclass')['Survived'].mean())  
 data.head(10)  
 ```  
-[그림2]()  
+[그림2](http://drive.google.com/uc?export=view&id=1hgqyB72yIVmG64Gp4C34PQvuDKhvqH2-)  
 index 0의 0.242363은 Pclass가 3인 애들의 평균을 의미하는 것인데 실제 다음과 같이 평균을 구해보면 그 값이 
 동일함을 확인할 수 있습니다.   
 ```  
@@ -43,7 +43,7 @@ len(data.loc[(data.Survived==1) & (data.Pclass==3) ]) / sum(data['Pclass']==3)
 ```  
 data.pivot_table(columns=df.Survived, index=df.index, values='Pclass_mean').iplot(kind='histogram', bins=100, xrange=(0,1))  
 ```
-[그림3]()
+[그림3](http://drive.google.com/uc?export=view&id=1xNPGCLaL2QDyMoVd_IoX41aWMn3HQ6pf)
 
 그런데 다음과 같은 접근은 비록 범주형 변수와 출력값의 관계를 포함해준 것이기는 하지만, 다음과 같은 장·단이 존재합니다.  
 ```  
@@ -86,12 +86,12 @@ def smoothing(n_rows, target_mean):
 data['Pclass_mean_smoothing'] = data.apply(lambda x:smoothing(x['Pclass_n_rows'], x['Pclass_mean']), axis=1)  
 data[['Pclass_mean', 'Pclass_mean_smoothing']]  
 ```  
-![그림4]()  
+![그림4](http://drive.google.com/uc?export=view&id=1mZP9AFCJmMCo6yc4mN1LeKMV2LjhjUH7)  
 결론적으로 이전에 비해 값들이 평균 쪽으로 더 기울게 됩니다.  
 ```  
 data.pivot_table(columns=df.Survived, index=df.index, values='Pclass_mean').iplot(kind='histogram', bins=100, xrange=(0,1))  
 ```  
-![그림5]()  
+![그림5](http://drive.google.com/uc?export=view&id=1-swVWINblDgFzcUqMU8Jyh9QlYhKQRMG)  
 
 ---  
 
@@ -124,13 +124,13 @@ global_mean = data['Survived'].mean()
 data_new['Pclass'] = data_new['Pclass'].fillna(global_mean); data_new  
 ```  
 실제로 data_new의 Pclass_mean 값들이 다양해졌음을 알 수 있다.  
-![그림6]()  
+![그림6](http://drive.google.com/uc?export=view&id=1Wvi3HeGrQsApca-YmRUB8H2_EWKy4ASd)  
 
 그래프를 그려보면 다음과 같다.  
 ```  
 data_new.pivot_table(columns=data_new.Survived, index=data_new.index, values='Pclass_mean').iplot(kind='histogram', bins=100, xrange=(0,1))  
 ```  
-![그림7]()
+![그림7](http://drive.google.com/uc?export=view&id=17bivGrB4eKf7N5rGcan1uydmaeAerf8a)
 
 
 
