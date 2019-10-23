@@ -16,23 +16,23 @@ comments: true
 스스로가 느끼기에도 이 둘은 한계를 가지고 있었고, 다른 방법이 없을까를 고민하다가 mean encoding이라는 범주형 변수 처리방법이 있다는 것을 
 알게 되어 공부해보았습니다. mean encoding 뿐만 아니라 scikit-learn은 범주형 변수를 처리할 수 있는 많은 방법들에 대한 API를 제공하고 있었습니다.  
 
-Label Encoder와 One-hot encoder는 분명 해당 범주형 feature와 출력값 간의 관계는 고려하지 않는 방법이었습니다.  
-이와 대비되게, Mean encoding은 범주형 변수와 출력값 간의 관계를 지어주려는 노력입니다.  
+Label Encoder와 One-hot encoder는 분명 해당 범주형 feature와 출력값 간의 관계는 고려하지 않는 방법이었습니다. 
+이와 대비되게, Mean encoding은 범주형 변수와 출력값 간의 관계를 지어주려는 노력입니다. 
 변수들을 숫자로 표현하면서도, 그 숫자들이 숫자로서의 의미를 가지게 되는 것입니다.  
 
-Kaggle에서 돌아다니는 [타이타닉 데이터]9https://www.kaggle.com/c/titanic/data?)를 이용하였습니다.  
+Kaggle에서 돌아다니는 [타이타닉 데이터](https://www.kaggle.com/c/titanic/data?)를 이용하였습니다. 
 여기에서 Pclass는 카테고리가 3개인 범주형 변수입니다. 이 변수를 `mean encoding` 해보겠습니다.  
 
 ```  
 data = pd.read_csv('data\train.csv', usecols=['Survived, 'Pclass'])  
 data.head(5)  
 ```  
-[그림1](http://drive.google.com/uc?export=view&id=1RqsMfBM_H9XsYjInaep8-IAtbL4PntR-)  
+![그림1](http://drive.google.com/uc?export=view&id=1RqsMfBM_H9XsYjInaep8-IAtbL4PntR-)  
 ```  
 data['Pclass_mean']=data['Pclass'].map(data.groupby('Pclass')['Survived'].mean())  
 data.head(10)  
 ```  
-[그림2](http://drive.google.com/uc?export=view&id=1hgqyB72yIVmG64Gp4C34PQvuDKhvqH2-)  
+![그림2](http://drive.google.com/uc?export=view&id=1hgqyB72yIVmG64Gp4C34PQvuDKhvqH2-)  
 index 0의 0.242363은 Pclass가 3인 애들의 평균을 의미하는 것인데 실제 다음과 같이 평균을 구해보면 그 값이 
 동일함을 확인할 수 있습니다.   
 ```  
@@ -43,7 +43,7 @@ len(data.loc[(data.Survived==1) & (data.Pclass==3) ]) / sum(data['Pclass']==3)
 ```  
 data.pivot_table(columns=df.Survived, index=df.index, values='Pclass_mean').iplot(kind='histogram', bins=100, xrange=(0,1))  
 ```
-[그림3](http://drive.google.com/uc?export=view&id=1xNPGCLaL2QDyMoVd_IoX41aWMn3HQ6pf)
+![그림3](http://drive.google.com/uc?export=view&id=1xNPGCLaL2QDyMoVd_IoX41aWMn3HQ6pf)
 
 그런데 다음과 같은 접근은 비록 범주형 변수와 출력값의 관계를 포함해준 것이기는 하지만, 다음과 같은 장·단이 존재합니다.  
 ```  
@@ -60,7 +60,7 @@ Training set에만 오버피팅 되는 결과가 생긴다.
 3. Training set에서 특정 범주의 데이터가 적을 경우, 과연 이 값이 실제 테스트 셋의 경향성을 대표할 수 있을까?  
 ```  
 
-요컨대, Label encoder와 one-hot encoder가 지니는 문제를 일부 해결했지만 여전히 오버피팅 문제가 남아있습니다.  
+요컨대, Label encoder와 one-hot encoder가 지니는 문제를 일부 해결했지만 여전히 오버피팅 문제가 남아있습니다. 
 이 문제를 해결하려는 노력 또한 존재합니다. (`Smoothing`,  `CV loop`, `Expanding mean` 등)  
 
 ---  
@@ -126,7 +126,7 @@ data_new['Pclass'] = data_new['Pclass'].fillna(global_mean); data_new
 실제로 data_new의 Pclass_mean 값들이 다양해졌음을 알 수 있다.  
 ![그림6](http://drive.google.com/uc?export=view&id=1Wvi3HeGrQsApca-YmRUB8H2_EWKy4ASd)  
 
-그래프를 그려보면 다음과 같다.  
+그래프를 그려보면 다음과 같습니다.  
 ```  
 data_new.pivot_table(columns=data_new.Survived, index=data_new.index, values='Pclass_mean').iplot(kind='histogram', bins=100, xrange=(0,1))  
 ```  
