@@ -9,7 +9,7 @@ comments: true
 
 ---
 
-- Python에서의 @property와 @setter 데코레이터에 대해서 공부해보았습니다.  
+- Python에서의 @property와 @setter 데코레이터에 대한 글입니다.   
 
 ---  
 
