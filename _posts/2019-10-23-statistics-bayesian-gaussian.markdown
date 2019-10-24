@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- 정규분포 및 포아송분포를 따르는 샘플에 대한 분포 추정에 입니다. 
+- 정규분포 및 포아송분포를 따르는 샘플에 대한 분포 추정에 대한 글입니다. 
 
 ---  
 
@@ -105,12 +105,23 @@ $$y_1, y_2, ..., y_n$$ 이 Poisson($$\theta$$) 분포를 따른다고 해보겠�
 
 이 때 사전확률분포를 Gamma 분포로 잡아준다면, 사후확률분포 또한 Gamma 분포가 되어 Conjugate 분포가 됩니다.  
 
-사전확률분포는 다음과 같이 나타낼 수 있습니다. 
-![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%29%20%3D%20%5Cfrac%7B%5Ctheta%5E%7Ba-1%7Db%5Ea%7D%7B%5CGamma%20%28a%29%7De%5E%7B-b%5Ctheta%7D%20%5Csim%20Gamma%28a%2C%20b%29)    
-
+사전확률분포는 다음과 같이 나타낼 수 있습니다.  
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%29%20%3D%20%5Cfrac%7B%5Ctheta%5E%7Ba-1%7Db%5Ea%7D%7B%5CGamma%20%28a%29%7De%5E%7B-b%5Ctheta%7D%20%5Csim%20Gamma%28a%2C%20b%29)  
 이제 사후확률분포를 계산하면, 다음과 같이 proportional한 형태로 나타낼 수 있고,  
 ![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy_1%2C%20...%2C%20y_n%29%20%5Cpropto%20e%5E%7B-%28n&plus;b%29%5Ctheta%7D%5Ctheta%5E%7B%5Csum_%7Bi%3D1%7D%5En%7By_i&plus;a-1%7D%7D)  
 따라서 사후확률분포는 Gamma($$\sum_{i=1}^{n}{y_i}$$ + a, n+b) 분포를 따르게 됩니다.  
 마찬가지로 포아송분포를 따르는 데이터로부터 얻어낸, 감마분포를 따르는 사후확률분포는 샘플의 평균과 사전확률 평균의 가중평균이 됩니다.  
 
-이상 정규분포 및 포아송분포를 따르는 샘플에 대한 사후분포추정이었습니다. 
+이제 이를 바탕으로 미래의 한 관찰값에 대해 알고 싶다고 하겠습니다. 
+해당 관찰값의 분포는 다음과 같은 pdf로 표기될 것입니다.    
+P($$\tilde{y}$$|$$y_1, y_2, ..., y_n$$) 
+앞서 [Intro2](https://data-weirdo.github.io/statistics/2019/10/19/statistics-bayesian-intro2/)의 마지막부분에, 
+이전의 데이터들에 대해 미래의 관측값은 다음과 같이 나타내어질 수 있다고 했습니다.  
+![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cint%7!BP%28%5Cwidetilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)  
+따라서, 
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctilde%7By%7D%7Cy_1%2C...%2Cy_n%29%20%5Cpropto%20%5Cint_0%5E%7B%5Cinfty%20%7DP%28%5Ctilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy_1%2C%20...%2C%20y_n%29d%5Ctheta)  
+![](https://latex.codecogs.com/gif.latex?%3D%5Cfrac%7B%5CGamma%20%7B%28%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dy_i&plus;%5Ctilde%7By%7D&plus;a%29%7D%7D%7B%5CGamma%7B%28%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dy_i%20&plus;%20a%29%5Ctilde%7By%7D%21%7D%7D%28%5Cfrac%7Bn&plus;b%7D%7Bn&plus;b&plus;1%7D%29%5E%7B%5Csum_%7Bi%3D1%7D%5Eny_i&plus;a%7D%28%5Cfrac%7B1%7D%7Bn&plus;b&plus;1%7D%29%5E%7B%5Ctilde%7By%7D%7D%2C%20%5Ctilde%7By%7D%3D0%2C%201%2C%202%2C%20...)  
+사후확률분포는 즉 음이항분포를 따르게 됩니다. (~ NB($$\sum{y_i}$$+a, $$\frac{n+b}{n+b+1}$$)
+
+
+이상 정규분포 및 포아송분포를 따르는 샘플에 대한 사후분포추정이었습니다. (수식 적기 너무 힘드네요...)
