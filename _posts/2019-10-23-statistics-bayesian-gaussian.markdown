@@ -1,16 +1,18 @@
 ---
 layout: post
-title:  "Bayesian-정규분포 샘플"
-subtitle:   "bayesian-gaussian"
+title:  "Bayesian-정규분포 및 포아송 샘플"
+subtitle:   "bayesian-gaussian&poisson"
 categories: statistics
 tags: bayesian
 comments: true
 
 ---
 
-- 정규분포를 따르는 샘플에 대한 베이지안 통계 분석입니다. 
+- 정규분포 및 포아송분포를 따르는 샘플에 대한 분포 입니다. 
 
 ---  
+
+# 정규분포  
 
 정규분포를 따르는 샘플에 대해 베이지안 사후확률을 추정하려 합니다. 크게 세 가지 경우로 나눠 볼 수 있겠습니다. 
 ```  
@@ -89,4 +91,26 @@ and as an analytically tractable conjugate prior, if an informative prior is req
 ![](https://latex.codecogs.com/gif.latex?%5Ctheta%7Cr%2Cy%20%5Csim%20N%28%5Cfrac%7Bn%5Cbar%7By%7D&plus;%5Clambda%5Cmu%7D%7Bn&plus;%5Clambda%7D%2C%20%5Cfrac%7B1%7D%7Br%28n&plus;%5Clambda%29%7D%29)  
 ![](https://latex.codecogs.com/gif.latex?r%7Cy%20%5Csim%20Gamma%28%5Cfrac%7Bn&plus;a%7D%7B2%7D%2C%20%5Cfrac%7B%5B%5Csum_i%28y_i-%5Cbar%7By%7D%29%5E2%20&plus;%20%5Cfrac%7Bn%5Clambda%7D%7Bn&plus;%5Clambda%7D%28%5Cbar%7By%7D-%5Cmu%29%5E2&plus;b%5D%7D%7B2%7D%29)  
 
-굉장히 복잡하지만 정규분포를 따르는 샘플에 대해 사후확률분포를 추정해보았습니다. 
+굉장히 복잡하지만 정규분포를 따르는 샘플에 대해 사후확률분포를 추정해보았습니다.  
+
+---  
+
+# 포아송분포  
+
+이번엔 포아송분포를 따르는 샘플에 대한 베이지안 추정을 해보겠습니다.  
+$$y_1, y_2, ..., y_n$$ 이 Poisson($$\theta$$) 분포를 따른다고 해보겠습니다. (단, $$\theta$$ > 0)  
+
+그렇다면 샘플의 분포는 다음과 같이 나타낼 수 있습니다.  
+![](https://latex.codecogs.com/gif.latex?P%28y_1%2C%20...%2C%20y_n%20%7C%20%5Ctheta%29%20%3D%20%5Cfrac%7Be%5E%7B-n%5Ctheta%7D%5Ctheta%5E%7B%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7By_i%7D%7D%7D%7B%5Cprod_i%5En%20y_i%21%7D)  
+
+이 때 사전확률분포를 Gamma 분포로 잡아준다면, 사후확률분포 또한 Gamma 분포가 되어 Conjugate 분포가 됩니다.  
+
+사전확률분포는 다음과 같이 나타낼 수 있습니다. 
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%29%20%3D%20%5Cfrac%7B%5Ctheta%5E%7Ba-1%7Db%5Ea%7D%7B%5CGamma%20%28a%29%7De%5E%7B-b%5Ctheta%7D%20%5Csim%20Gamma%28a%2C%20b%29)    
+
+이제 사후확률분포를 계산하면, 다음과 같이 proportional한 형태로 나타낼 수 있고,  
+![](https://latex.codecogs.com/gif.latex?P%28%5Ctheta%7Cy_1%2C%20...%2C%20y_n%29%20%5Cpropto%20e%5E%7B-%28n&plus;b%29%5Ctheta%7D%5Ctheta%5E%7B%5Csum_%7Bi%3D1%7D%5En%7By_i&plus;a-1%7D%7D)  
+따라서 사후확률분포는 Gamma($$\sum_{i=1}^{n}{y_i}$$ + a, n+b) 분포를 따르게 됩니다.  
+마찬가지로 포아송분포를 따르는 데이터로부터 얻어낸, 감마분포를 따르는 사후확률분포는 샘플의 평균과 사전확률 평균의 가중평균이 됩니다.  
+
+이상 정규분포 및 포아송분포를 따르는 샘플에 대한 사후분포추정이었습니다. 
