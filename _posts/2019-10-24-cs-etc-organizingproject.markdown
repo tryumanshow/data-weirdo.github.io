@@ -3,8 +3,8 @@
 layout: post
 title:  "Et cetra-프로젝트 조직화하기"
 subtitle:   "et cetra-프로젝트 조직화하기"
-categories: etc
-tags: detection
+categories: cs
+tags: etc
 comments: true
 
 ---
