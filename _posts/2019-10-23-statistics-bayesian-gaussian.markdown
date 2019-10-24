@@ -117,7 +117,7 @@ $$y_1, y_2, ..., y_n$$ 이 Poisson($$\theta$$) 분포를 따른다고 해보겠�
 P($$\tilde{y}$$|$$y_1, y_2, ..., y_n$$) 
 앞서 [Intro2](https://data-weirdo.github.io/statistics/2019/10/19/statistics-bayesian-intro2/)의 마지막부분에, 
 이전의 데이터들에 대해 미래의 관측값은 다음과 같이 나타내어질 수 있다고 했습니다.  
-![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cint%7!BP%28%5Cwidetilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)  
+![](https://latex.codecogs.com/gif.latex?P%28%5Cwidetilde%7By%7D%7Cy%29%20%3D%20%5Cint%7BP%28%5Cwidetilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy%29%7Dd%5Ctheta)  
 따라서, 
 ![](https://latex.codecogs.com/gif.latex?P%28%5Ctilde%7By%7D%7Cy_1%2C...%2Cy_n%29%20%5Cpropto%20%5Cint_0%5E%7B%5Cinfty%20%7DP%28%5Ctilde%7By%7D%7C%5Ctheta%29P%28%5Ctheta%7Cy_1%2C%20...%2C%20y_n%29d%5Ctheta)  
 ![](https://latex.codecogs.com/gif.latex?%3D%5Cfrac%7B%5CGamma%20%7B%28%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dy_i&plus;%5Ctilde%7By%7D&plus;a%29%7D%7D%7B%5CGamma%7B%28%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dy_i%20&plus;%20a%29%5Ctilde%7By%7D%21%7D%7D%28%5Cfrac%7Bn&plus;b%7D%7Bn&plus;b&plus;1%7D%29%5E%7B%5Csum_%7Bi%3D1%7D%5Eny_i&plus;a%7D%28%5Cfrac%7B1%7D%7Bn&plus;b&plus;1%7D%29%5E%7B%5Ctilde%7By%7D%7D%2C%20%5Ctilde%7By%7D%3D0%2C%201%2C%202%2C%20...)  
