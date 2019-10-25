@@ -45,11 +45,13 @@ comments: true
 
   - feature가 n개라면 n 차원의 공간 내에서 n 개의 점들을 normalize 시켜주는 방식  
   - 예를 들어 3개의 피쳐 x,y,z가 있으면 해당 공간에 대응되는 점 (x1, y1, z1)을 다음과 같이 만들어줍니다.  
-    ![](https://latex.codecogs.com/gif.latex?%28x_1%2C%20y_1%2C%20z_1%29) → ![](https://latex.codecogs.com/gif.latex?%28x_1%27%2C%20y_1%27%2C%20z_1%27%29)  
-    , ![](https://latex.codecogs.com/gif.latex?x_1%27%3D%5Cfrac%7Bx_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D%2Cy_1%27%3D%5Cfrac%7By_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D%2Cz_1%27%3D%5Cfrac%7Bz_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D)  
+    ![](https://latex.codecogs.com/gif.latex?%28x_1%2C%20y_1%2C%20z_1%29) ↓ ![](https://latex.codecogs.com/gif.latex?%28x_1%27%2C%20y_1%27%2C%20z_1%27%29)  
+    ![](https://latex.codecogs.com/gif.latex?x_1%27%3D%5Cfrac%7Bx_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D%2Cy_1%27%3D%5Cfrac%7By_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D%2Cz_1%27%3D%5Cfrac%7Bz_1%7D%7B%5Csqrt%7Bx_1&plus;y_1&plus;z_1%7D%7D)  
   - 각 포인트들은 n차원의 카르테시안 좌표계 속에서 모두 1-unit 안에 들어오게 됩니다.   
     (3차원이라면 원점으로부터 반지름 1인 구 내에 모든 점들이 위치)  
     ![](https://miro.medium.com/max/471/1*tu0QKOibSvubLiOcfhykXw.png)  
   
+#### References  
+[Feature Scaling with Python’s scikit-learn](https://medium.com/towards-artificial-intelligence/feature-scaling-with-pythons-scikit-learn-10ab42119ae0)
   
     
