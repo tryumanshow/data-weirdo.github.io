@@ -148,4 +148,4 @@ $$2n^2 + 3n + 5 $$와 $$n^2$$의 증가율이 유사함을 의미합니다.
 
 #### Reference  
 [Big-O (빅 오) 표기법](https://ko.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/big-o-notation)
-[https://m.blog.naver.com/demonic3540/221234387783](https://m.blog.naver.com/demonic3540/221234387783)
+[[자료구조] 빅 오 표기법](https://m.blog.naver.com/demonic3540/221234387783)
