@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "단순선형회귀 #2"
+title:  "단순선형회귀 #2 - 오차의 분산 추정"
 subtitle:   "linear regression-simple linear regression-2"
 categories: statistics
 tags: linear_regression
