@@ -28,6 +28,7 @@ comments: true
   - 이 표는 곧 Feature Engineering의 중요성을 역설  
   
 - Technique List  
+
   ```  
   1. Imputation  
   2. Handling Outliers  
@@ -90,7 +91,7 @@ comments: true
         ```  
 
 ## 2. Handling Outliers  
-  - Outlier를 탐지하는 가장 종흔 방법은 시각화일 것  
+  - Outlier를 탐지하는 가장 좋은 방법은 시각화일 것  
   - 모든 통계학적인 방법론들은 실수를 만들기 쉬움  
   
   - 탐지 방법?  
@@ -98,7 +99,8 @@ comments: true
     
     ### 방법 2. Percentile 사용하기  
       - 상위 몇 %, 하위 몇 %가 outlier일 것이라고 가정할 수 있다.  
-      - %에 대한 선택은  자신의 데이터가 어떠한 형태의 분포를 따르냐에 달림  
+      - %에 대한 선택은 자신의 데이터가 어떠한 형태의 분포를 따르냐에 달림  
+      
       ```  
       #Dropping the outlier rows with Percentiles
       upper_lim = data['column'].quantile(.95)
@@ -108,7 +110,7 @@ comments: true
       ```  
       
   - outlier에 대한 고민  
-    : 버릴 것인가? 놔둘 것인가? → 놔둬라
+    - 버릴 것인가? 놔둘 것인가? → 놔두자
    
     ```  
     # Capping the outlier rows with Percentiles  
@@ -179,6 +181,7 @@ comments: true
    - 피쳐 엔지니어링에서 가장 많이 사용되는 Transformation 방법 중 하나  
    
    - 장점?  
+   
     ```  
     - skewd data를 정규분포에 근사  
     - 데이터들 간의 강도 차이를 보정  
@@ -215,6 +218,7 @@ comments: true
   - 수치형 Feature  
     - avg, sum 등을 사용  
     - ex. total count나 ratio 컬럼을 얻고 싶을 때  
+    
       ```  
       #sum_cols: List of columns to sum  
       #mean_cols: List of columns to average  
@@ -230,12 +234,14 @@ comments: true
     - 복잡  
     - Way1  
       - 가장 빈도가 높은 라벨값 선택  
+      
         ```  
         data.groupby('id').agg(lambda x: x.value_counts().index[0])  
         ```  
     - Way2  
       - 피봇 테이블 만들기  
         ![](https://miro.medium.com/max/1070/1*VWBbZRkTrHJQrQfWlPQWUg.png)  
+        
         ```  
         # Pivot table Pandas Example
         data.pivot_table(index='column_to_group', columns='column_to_encode', values='aggregation_column', aggfunc=np.sum, fill_value = 0)
@@ -244,6 +250,7 @@ comments: true
       
 ## 7.  Feature Split  
   - 컬럼들로부터 이용가능한 부분들만 뽑아내기  
+  
     ```  
     # Example  
     data.name  
@@ -275,7 +282,8 @@ comments: true
     - ex. Year, month, day,  etc  
   - 방법2. 컬럼의 날짜와 오늘의 날짜의 차이를 추출한다. (연도별, 월별, 일수 별)
   - 방법3. 해당 날짜의 특별한 피쳐를 추출한다.  
-    - ex. weekday or not, weekend or not, holiday or not, etc
+    - ex. weekday or not, weekend or not, holiday or not, etc  
+    
   ```  
   from datetime import date
 
