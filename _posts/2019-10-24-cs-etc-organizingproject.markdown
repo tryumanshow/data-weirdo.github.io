@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Et cetra-프로젝트 조직화하기"
+title:  "프로젝트 조직화하기와 cookiecutter"
 subtitle:   "et cetra-프로젝트 조직화하기"
 categories: cs
 tags: etc

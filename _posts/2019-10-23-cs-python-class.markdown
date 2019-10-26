@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Python-클래스"
+title:  "파이썬 클래스와 네임스페이스"
 subtitle:   "python-class"
 categories: cs
 tags: python

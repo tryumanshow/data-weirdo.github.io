@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Linear Regression-Intro"
+title:  "선형회귀분석에 대한 간단한 소개"
 subtitle:   "Linear Regression-Intro"
 categories: statistics
 tags: linear_regression

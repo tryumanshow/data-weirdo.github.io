@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Linear Regression-Simple Linear Regression-1"
+title:  "단순선형회귀 #1"
 subtitle:   "Linear Regression- Simple Linear Regression-1"
 categories: statistics
 tags: linear_regression
@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- 단순선형회귀모델에 대한 간단한 설명, 단순선형회귀에서의 파라미터에 대한 최소 제곱 추정, 그리고 추정된 파라미터들의 성질 이 세 가지에 대해서 살펴보습니다. 
+- 단순선형회귀모델에 대한 간단한 설명, 단순선형회귀에서의 파라미터에 대한 최소 제곱 추정, 그리고 추정된 파라미터들의 성질. 이 세 가지에 대해서 살펴보습니다. 
 
 ---
 

@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Data Structure-Intro"
+title:  "자료구조에 대한 소개"
 subtitle:   "data_structure-intro"
 categories: cs
 tags: data_structure
 comments: true
 ---
 
-- 자료 구조란 무엇인지, 자료구조는 왜 학습하는지, 그리고 추상자료형(ADT)가 무엇인지에 대한 내용입니다.
+- 자료 구조란 무엇인지, 자료구조는 왜 학습하는지, 그리고 추상자료형(ADT)가 무엇인지에 대해 정리한 글입니다.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Et cetera-Evaluation metric"
+title:  "분류문제의 평가 지표 소개"
 subtitle:   "et cetera-evaluation_metric"
 categories: ml
 tags: etc

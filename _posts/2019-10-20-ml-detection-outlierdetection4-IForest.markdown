@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Outlier Detection-Isolation Forest"
+title:  "이상치 탐지 방법론 소개 #3(Isolation Forest)"
 subtitle:   "outlier_detection-isolation_forest"
 categories: ml
 tags: detection
@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- Outlier Detection의 한 방법인 Isolation Forest에 대해 정리해보았습니다.
+- Z-Score, Dbscan에 이은 Isolation Forest를 통한 이상치 탐지에 대한 글입니다.
 
 ---
 
@@ -45,7 +45,7 @@ c(n): 이진 트리의 'unsuccessful length search'
 0.5만큼 shift하고 revers까지 했기 때문에 -0.5와 0.5 사이의 값이 도출되며, 값이 작을수록 더 이상치에 
 가깝다고 합니다.  
 
-이상 Isolation Forest에 대한 내용이었습니다. 
+이상 Isolation Forest에 대한 내용이었습니다.  
 
 
 #### References  

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Bayesian-Intro2"
+title:  "베이지안에 대한 간단한 소개 #2"
 subtitle:   "Bayesian-intro2"
 categories: statistics
 tags: bayesian
@@ -8,8 +8,8 @@ comments: true
 
 ---
 
-- 지난 Intro에 이어 estimation에 대한 빈도주의와 베이지안의 차이, 빈도주의적인 접근이 잘 작동하지 않는 경우, 
-그리고 주어진 데이터들에 대해 미래의 관찰값이 갖게 될 확률에 대해 추가적으로 정리해보았습니다. 
+- 지난 소개 #1에 이어 estimation에 대한 빈도주의와 베이지안의 차이, 빈도주의적인 접근이 잘 작동하지 않는 경우, 
+그리고 주어진 데이터들에 대해 미래의 관찰값이 갖게 될 확률에 대해 추가적으로 정리한 글입니다. 
 
 ---
 

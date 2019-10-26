@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Visualization-Plotly&Cufflinks"
+title:  "Plotly&Cufflinks에 대한 간단한 소개"
 subtitle:   "visualization-plotly&cufflinks"
 categories: ml
 tags: visualization

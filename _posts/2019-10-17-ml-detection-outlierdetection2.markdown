@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Outlier Detection-Z-Score"
+title:  "이상치 탐지 방법론 소개 #1(Z-Score)"
 subtitle:   "outlier_detection-z-score"
 categories: ml
 tags: detection

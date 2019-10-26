@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Preprocessing- 스케일링"
+title:  "기본적인 데이터 스케일링 방법 4가지"
 subtitle:   "Preprocessing-스케일링"
 categories: ml
 tags: preprocessing

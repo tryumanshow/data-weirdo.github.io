@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Linear Regression-Simple Linear Regression-2"
+title:  "단순선형회귀 #2"
 subtitle:   "linear regression-simple linear regression-2"
 categories: statistics
 tags: linear_regression

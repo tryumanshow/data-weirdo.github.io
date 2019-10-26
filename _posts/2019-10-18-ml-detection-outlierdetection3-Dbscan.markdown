@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Outlier Detection-Dbscan"
+title:  "이상치 탐지 방법론 소개 #2(Dbscan)"
 subtitle:   "outlier_detection-dbscan"
 categories: ml
 tags: detection
@@ -8,8 +8,8 @@ comments: true
 
 ---
 
-- 지난 포스팅에 이어 이번에는 Dbscan(Density Based Spatial Clustering of Applications with Noise)
-을 사용한 Outlier Detection에 대하여 정리해보았습니다.
+- Z-Score에 이어 Dbscan(Density Based Spatial Clustering of Applications with Noise)
+을 사용한 Outlier Detection에 대한 글입니다.
 
 ---
 

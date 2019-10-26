@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Preprocessing-범주형 변수 다루기 2"
+title:  "범주형 변수(Categorical Variable) 인코딩하기 #2"
 subtitle:   "preprocessing-categorical2"
 categories: ml
 tags: preprocessing

@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Statistics-Cohen's D"
+title:  "Cohen's D란?"
 subtitle:   "statistics-cohen's_d"
 categories: statistics
 tags: etc
@@ -9,8 +9,7 @@ comments: true
 
 ---  
 
-- Cohen's D에 대해 정리한 글입니다. Cohen's D는 무엇인지, 해당 지표의 형태와, 해당 지표에 대해 어떻게 해석해야 되는지에 대해 조사해 
-보았습니다. 
+- Cohen's D에 대해 정리한 글입니다. Cohen's D는 무엇인지, 해당 지표의 형태와, 해당 지표에 대해 어떻게 해석해야 되는지에 대해 조사해보았습니다.  
 
 ---  
 

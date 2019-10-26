@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Preprocessing-범주형 변수 다루기"
+title:  "범주형 변수(Categorical Variable) 인코딩하기 #1"
 subtitle:   "preprocessing-범주형 변수 다루기"
 categories: ml
 tags: preprocessing
 comments: true
 ---
 
-- 범주형 데이터들을 어떻게 전처리 해야하는지, 변수의 종류에 따라 전처리 방법이 어떻게 다른지가 궁금하여 간단하게 정리해 보았습니다.
+- 범주형 데이터들을 전처리하는 방법과, 변수의 종류에 따른 전처리 방법이 차이에 대해 간단하게 정리해 보았습니다.
 
 ## 범주형 자료
 

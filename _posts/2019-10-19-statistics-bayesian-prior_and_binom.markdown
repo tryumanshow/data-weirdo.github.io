@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Bayesian-사전 분포의 종류와 이항분포 샘플"
+title:  "사전분포(Prior Distribution)의 종류와 이항분포를 따르는 샘플"
 subtitle:   "bayesian-prior_and_binom"
 categories: statistics
 tags: bayesian
@@ -9,7 +9,7 @@ comments: true
 ---
 
 
-- 사전분포를 설정하는 몇 가지 방법과, 이항분포를 따르는 샘플에 대한 적용에 관한 글입니다.
+- 사전분포를 설정하는 몇 가지 방법과, 이항분포를 따르는 샘플에 대한 베이지안 분석에 관한 글입니다.
 
 ---  
 

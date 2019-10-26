@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Data Structure-시간 복잡도"
+title:  "시간복잡도란?"
 subtitle:   "data_structure-time_complexity"
 categories: cs
 tags: data_structure
@@ -9,7 +9,7 @@ comments: true
 
 ---  
 
-- 알고리즘의 시간복잡도 전반에 관해 정리해보았습니다.  
+- 알고리즘의 시간복잡도 전반에 관해 정리한 글입니다.  
 
 ---  
 ## Intro  

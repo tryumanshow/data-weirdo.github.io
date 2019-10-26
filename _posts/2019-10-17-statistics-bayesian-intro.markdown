@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Bayesian-Intro"
+title:  "베이지안에 대한 간단한 소개 #1"
 subtitle:   "bayesian-intro"
 categories: statistics
 tags: bayesian

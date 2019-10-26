@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Bayesian-정규분포 및 포아송 샘플"
+title:  "정규분포 및 포아송 분포를 따르는 샘플에 대한 베이지안 접근"
 subtitle:   "bayesian-gaussian&poisson"
 categories: statistics
 tags: bayesian
@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- 정규분포 및 포아송분포를 따르는 샘플에 대한 분포 추정에 대한 글입니다. 
+- 정규분포 및 포아송분포를 따르는 샘플에 대한 사후분포 추정에 대한 글입니다. 
 
 ---  
 

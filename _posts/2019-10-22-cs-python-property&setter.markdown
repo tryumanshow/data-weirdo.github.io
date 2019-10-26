@@ -1,7 +1,7 @@
 ---  
 
 layout: post
-title:  "Python-Property와 Setter 메소드"
+title:  "파이썬 Property와 Setter 메소드"
 subtitle:   "python-property&setter method"
 categories: cs
 tags: python

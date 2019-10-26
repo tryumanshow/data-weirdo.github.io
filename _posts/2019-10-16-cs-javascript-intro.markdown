@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title:  "Javascript-Intro"
+title:  "자바스크립트에 대한 소개"
 subtitle:   "javascript-intro"
 categories: cs
 tags: javascript
@@ -9,7 +9,8 @@ comments: true
 
 ---
 
-- Javascript란 무엇인지, 이 프로그래밍 언어는 왜 각광받고 있는지에 대해 정리해 보았습니다.  
+- Javascript란 무엇인지, 이 프로그래밍 언어는 왜 각광받고 있는지에 대해 정리해 보았습니다. 기본적인 자바스크립트의 문법은 
+개인 github 페이지에 정리하고 있는 중입니다. 
 
 ---
 

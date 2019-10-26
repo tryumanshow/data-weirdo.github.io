@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Outlier Detection-Intro"
+title:  "Outlier Detection에 대한 소개"
 subtitle:   "outlier_detection-intro"
 categories: ml
 tags: detection
@@ -47,8 +47,8 @@ Outlier가 무엇이고, 종류로는 어떤 것들이 있고, outlier를 탐지
 * Point outliers (점 이상치) 
 : Point outlier는 분포에서 나머지 점들과 떨어져있는 데이터 포인트 하나하나를 일컫습니다.  
 * Contextual outliers (상황적 이상치)
-: 데이터 내의 노이즈를 의미합니다. 음성 인식 시 배경에서 나타나는 잡음, 텍스트 분석 시 나타나는 구두점을
-예로 들 수 있습니다. 
+: 상황에 맞지 않는 데이터를 의미합니다. 한 여름의 25도는 정상일 수 있으나 겨울에 25도를 기록하고 있다면 이는 분명 
+상황에 맞지 않는 데이터입니다.
 * Collective outliers (집단적 이상치)
 : 데이터 내에서 관측치 하나하나는 이상치가 아닐지라도, 일부 모인 데이터가 이상한 양상을 띈다면 이것이 곧
 collective outlier라 할 수 있습니다. 아래의 그림에서, 분명 데이터 내의 점 하나하나들은 그리 이상해
