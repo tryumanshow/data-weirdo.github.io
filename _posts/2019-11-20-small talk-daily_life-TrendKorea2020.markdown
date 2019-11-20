@@ -3,7 +3,7 @@
 layout: post
 title:  "트렌드코리아 2020 밋업"
 subtitle:   "daily_life-trend2020"
-categories: small talk
+categories: small_talk
 tags: daily_life
 comments: true
 
