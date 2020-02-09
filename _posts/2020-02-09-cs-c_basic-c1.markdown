@@ -94,10 +94,10 @@ comments: true
     ```  
     
     > 결과:  
-      ```  
-      x = 50
-      y = 1234567892.00 ?????
-      ```  
+    ```  
+    x = 50
+    y = 1234567892.00 ?????
+    ```  
       
     - float: 실수는 표현할 수 있는 범위가 굉장히 좁음 (4 byte까지만 자리를 차지)  
       - 따라서, 아무리 길게 소수점을 작성해도 float이 커버할 수 없는 뒷 부분은 다 잘려나간다.  
@@ -171,22 +171,23 @@ comments: true
 # 3.자료형  
 - C: 전체 자료형의 종류에는 크게 세 가지  
   - `Primitive`, `Derived`, `User Defiend`  
+    
     ```  
     - Data Type  
       ├ Primitive  
         - chart 
         - int
-        - float
-        - double
-        - void
-      ├ Derived 
+        - float  
+        - double  
+        - void  
+      ├ Derived  
         - Array
         - Pointer
         - Function
       └ User Defined
-        - enum
-        - Structure
-        - Union
+        - enum  
+        - Structure   
+        - Union  
     ```  
     
   - 하지만 흔히 말하는 자료형은 Prmitive만을 말하는 경우가 多  
@@ -214,6 +215,7 @@ comments: true
       return 0;
     }
     ```  
+    
     - `define MONTHS 12`:  
       - C언어: 상수에 대한 정의를 해준다. (ex. 원주율, 사각형을 구하는 공식 등 이미 정해진 법칙을 상수로 정의해 줌)    
   ---  
