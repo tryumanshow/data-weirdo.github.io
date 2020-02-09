@@ -1,0 +1,256 @@
+---
+layout: post
+title:  "C언어 기초1 - Hello World, 변수와 상수, 자료형"
+subtitle:   "C언어-1"
+categories: cs
+tags: c_basic
+comments: true
+---
+
+- 자료구조 및 알고리즘에 대한 근본적인 이해를 위해, C 언어의 기초 공부를 시작합니다. C언어에 대한 간단한 소개, 변수와 상수, 그리고 자료형에 대한 글입니다.   
+
+---  
+
+# 1. Hello World  
+- C언어  
+  - 현재 사용되는 대부분의 프로그래밍 언어의 기반  
+  - 아주 빠른 속도를 자랑하는 언어  
+  
+- Will use `Dev C++`  
+  - c언어 및 c++의 컴파일 기능과 개발 환경을 제공하는 대표적 IDE  
+  - Tools 탭에서 컴파일러 설정을 바꾸어 줄 수 있다.  
+  
+  ```  
+  #include <stdio.h> 
+
+  int main(void)
+  {
+    printf("Hello World!"); # pri 
+    return 0;
+  }
+  ```  
+  - `include <stdio.h>`: 라이브러리를 추가하는 부분  
+    - standard input output.header file  
+    - 이를 불러왔기 때문에 아래에서 입력, 출력, 및 printf 함수의 사용이 가능했던 것  
+  - `printf`: 사용자에게 어떤 메시지를 출력해주는 가장 기본적인 함수  
+  - `return`: 하나의 함수가 종료될 때 무언가를 반환.  
+    - return `0`? : main 함수의 반환형이 `int`이기 때문 (프로그램을 종료하면서 0이라는 값을 반환)  
+  - `void`: 매개변수  
+    - 특정 함수를 실행할 때 그 함수가 처리할 값들을 받아오는 것  
+    - (사실 main 함수는 거의 `int main(void)`... `return 0`라는 형태를 사용)  
+  - `main`: 컴파일러가 main 함수부터 코드가 실행하도록 약속이 되어 있음.  
+  
+---    
+  
+# 2. 변수와 상수  
+- 변수  
+  - 프로그램이 실행되는 동안에 언제든지 저장된 값이 변경될 수 있는 공간  
+    (cf. 상수: 한 번 값이 정해지면 변경할 필요가 없는 데이터)  
+  
+  - RAM이라는 메모리 내에, 변수나 상수가 들어갈 위치를 잡아줌.  
+    - 다만 변수는 그 내용이 마음대로 바뀔 수 있을 뿐  
+  
+  ```  
+  - Todo List   
+  1. sizeof()함수 사용  
+  2. 자료형 int, float, double 사용  
+  3. Overflow의 개념 이해  
+  4. 사칙연산 프로그램 작성  
+  ```  
+  ---  
+  
+  - Sizeof  
+  ```  
+  #include <stdio.h>
+
+  int main(void)
+  {
+    int x;
+    x = 5;
+    printf("%d\n", x);
+    printf("변수 x의 메모리 크기는: %d입니다.", sizeof(x));
+    return 0;
+  }  
+  ```  
+  - `int x;`:  x라는 이름의 변수는 int형이다.   
+  - `x=5`: 하나의 명령이 끝났음을 알려주는 약속 같은 것  
+  - `sizeof`: 자료형이 int면 무조건 4 byte만큼 차지하게 됨.  
+  
+  ---  
+  
+  - float 및 double 사용  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x = 50;
+    float y = 123456789.123456789;
+    printf("x = %d\n", x);
+    printf("y = %.2f\n", y);
+    return 0;
+  }
+  ```  
+  > 결과:  
+  ```  
+  x = 50
+  y = 1234567892.00 ?????
+  ```  
+  - float: 실수는 표현할 수 있는 범위가 굉장히 좁음 (4 byte까지만 자리를 차지)  
+    - 따라서, 아무리 길게 소수점을 작성해도 float이 커버할 수 없는 뒷 부분은 다 잘려나간다.  
+    - 대안: __double__  
+  ```  
+  #include <stdio.h>
+  
+  int main(void){
+    int x = 50;
+    float y = 123456789.123456789;
+    double z = 123456789.123456789;
+    printf("x = %d\n", x); 
+    printf("y = %.2f\n", y);
+    printf("z = %.2f\n", z);
+    return 0;
+  }
+  ```  
+  > 결과:  
+  ```  
+  x = 50
+  y = 1234567892.00 ?????
+  z = 1234567892.12  
+  ```    
+  ---  
+  
+  - limits와 overflow    
+  ```   
+  #include <stdio.h>
+  #include <limits.h>
+
+  int main(void){
+    int x = INT_MAX;  /* INT_MAX: C언어 상에서 INT 형이 가질 수 있는 최대값.   
+    printf("int형의 최대값 x는 %d입니다.\n", x);
+    printf("x+1은 %d입니다.\n".x+1);
+  }
+  ```  
+  > 결과:  
+  ```  
+  int형의 최대값 x는 2147483647입니다.
+  x+1은 -2147483648입니다. <- Overflow  
+  ```  
+  - `limits`: 어떤 '한계값'을 표현해줄 수 있도록 하는 `라이브러리` (INT_MAX의 사용을 가능하게 함)  
+  - `Overflow`란 값이 한계를 초과하는 것을 이름    
+  
+  ---  
+  - 사칙연산  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x=10;
+    int y=20;
+    printf("x = %d입니다.\n",x);
+    printf("y = %d입니다.\n",y);
+
+    printf("x+y = %d입니다.\n", x+y);
+    printf("x-y = %d입니다.\n", x-y);
+    printf("x*y = %d입니다.\n", x*y);
+    printf("x/y = %d입니다.\n", x/y);
+    return 0;
+  }
+  ```  
+  - 단, C에서는 `/`를 쓰면 몫만 반환  
+  
+---  
+
+# 3.자료형  
+- C: 전체 자료형의 종류에는 크게 세 가지  
+  - `Primitive`, `Derived`, `User Defiend`  
+    ```  
+    - Data Type  
+      ├ Primitive  
+        - chart 
+        - int
+        - float
+        - double
+        - void
+      ├ Derived 
+        - Array
+        - Pointer
+        - Function
+      └ User Defined
+        - enum
+        - Structure
+        - Union
+    ```  
+  - 하지만 흔히 말하는 자료형은 Prmitive만을 말하는 경우가 多  
+  - void: `자료형 자체가 없다.`  
+  - C언어는 따로 문자열을 저장하는 `string` 자료형이 없어 `char`자료형을 연속적으로 사용해야 함.  
+  
+- 자료형을 바르게 이해해야 다양한 프로그램을 작성할 수 있다.  
+
+  ```  
+  - Todo list  
+  1. 부동소수점을 이용해 연봉 구하기  
+  2. 아스키코드를 이해하고, int, chart 간의 상호 변환해보기 
+  3. 10진수를 8진수 혹은 16진수로 바꾸어 출력하기 
+  ```  
+  ---  
+  - 상수 사용 및 부동소수점 이용  
+  ```  
+  #include <stdio.h>
+  #define MONTHS 12 
+
+  int main(void){
+    double monthSalary = 1000.5;
+    printf("$ %.2f", monthSalary * MONTHS);
+    return 0;
+  }
+  ```  
+  - `define MONTHS 12`:  
+    - C언어: 상수에 대한 정의를 해준다. (ex. 원주율, 사각형을 구하는 공식 등 이미 정해진 법칙을 상수로 정의해 줌)    
+  
+  ---  
+  - int, char  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x = 'A';
+    printf("%c\n", x);
+    char y = 65;
+    printf("%c\n", y);
+    char z = 'B';
+    printf("%d\n", z);
+    return 0;
+  }
+  ```  
+  > 결과  
+  ```  
+  A
+  A
+  B
+  ```  
+  - char는 내부적으로 숫자로 구성된다.  
+    - 'A' 대신  65를 넣어도 똑같은 결과가 출력 됨 (`아스키코드`)  
+    - `char x='A'`든 `char x=65'`든 'int x=65`든 결과값은 같다.  
+  ---  
+  - 10, 8, 16진수로 출력하기  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x = 100;
+    printf("10진수로  출력: %d\n", x);
+    printf("8진수로 출력: %o\n", x);
+    // 1, 2, 3, 4, 5, 6, 7, 10, 12, ...
+    printf("16진수로 출력:%x\n", x);
+    return 0
+  }
+  ```    
+
+
+---  
+
+### Reference  
+- 나동빈 C언어 기초 프로그래밍 강좌
+    
