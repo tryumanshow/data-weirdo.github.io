@@ -57,108 +57,110 @@ comments: true
   3. Overflow의 개념 이해  
   4. 사칙연산 프로그램 작성  
   ```  
+  
   ---  
   
   - Sizeof  
-  ```  
-  #include <stdio.h>
+    ```  
+    #include <stdio.h>
 
-  int main(void)
-  {
-    int x;
-    x = 5;
-    printf("%d\n", x);
-    printf("변수 x의 메모리 크기는: %d입니다.", sizeof(x));
-    return 0;
-  }  
-  ```  
-  - `int x;`:  x라는 이름의 변수는 int형이다.   
-  - `x=5`: 하나의 명령이 끝났음을 알려주는 약속 같은 것  
-  - `sizeof`: 자료형이 int면 무조건 4 byte만큼 차지하게 됨.  
-  
+    int main(void)
+    {
+      int x;
+      x = 5;
+      printf("%d\n", x);
+      printf("변수 x의 메모리 크기는: %d입니다.", sizeof(x));
+      return 0;
+    }  
+    ```  
+    - `int x;`:  x라는 이름의 변수는 int형이다.   
+    - `x=5`: 하나의 명령이 끝났음을 알려주는 약속 같은 것  
+    - `sizeof`: 자료형이 int면 무조건 4 byte만큼 차지하게 됨.  
+
   ---  
   
   - float 및 double 사용  
   
-  ```  
-  #include <stdio.h>
+    ```  
+    #include <stdio.h>
 
-  int main(void){
-    int x = 50;
-    float y = 123456789.123456789;
-    printf("x = %d\n", x);
-    printf("y = %.2f\n", y);
-    return 0;
-  }
-  ```  
-  > 결과:  
-  ```  
-  x = 50
-  y = 1234567892.00 ?????
-  ```  
-  - float: 실수는 표현할 수 있는 범위가 굉장히 좁음 (4 byte까지만 자리를 차지)  
-    - 따라서, 아무리 길게 소수점을 작성해도 float이 커버할 수 없는 뒷 부분은 다 잘려나간다.  
-    - 대안: __double__  
-  ```  
-  #include <stdio.h>
-  
-  int main(void){
-    int x = 50;
-    float y = 123456789.123456789;
-    double z = 123456789.123456789;
-    printf("x = %d\n", x); 
-    printf("y = %.2f\n", y);
-    printf("z = %.2f\n", z);
-    return 0;
-  }
-  ```  
-  > 결과:  
-  ```  
-  x = 50
-  y = 1234567892.00 ?????
-  z = 1234567892.12  
-  ```    
-  ---  
+    int main(void){
+      int x = 50;
+      float y = 123456789.123456789;
+      printf("x = %d\n", x);
+      printf("y = %.2f\n", y);
+      return 0;
+    }
+    ```  
+    > 결과:  
+      ```  
+      x = 50
+      y = 1234567892.00 ?????
+      ```  
+    - float: 실수는 표현할 수 있는 범위가 굉장히 좁음 (4 byte까지만 자리를 차지)  
+      - 따라서, 아무리 길게 소수점을 작성해도 float이 커버할 수 없는 뒷 부분은 다 잘려나간다.  
+      - 대안: __double__  
+    ```  
+    #include <stdio.h>
+
+    int main(void){
+      int x = 50;
+      float y = 123456789.123456789;
+      double z = 123456789.123456789;
+      printf("x = %d\n", x); 
+      printf("y = %.2f\n", y);
+      printf("z = %.2f\n", z);
+      return 0;
+    }
+    ```  
+    > 결과:  
+    ```  
+    x = 50
+    y = 1234567892.00 ?????
+    z = 1234567892.12  
+    ```    
+    ---  
   
   - limits와 overflow    
-  ```   
-  #include <stdio.h>
-  #include <limits.h>
+    ```   
+    #include <stdio.h>
+    #include <limits.h>
 
-  int main(void){
-    int x = INT_MAX;  /* INT_MAX: C언어 상에서 INT 형이 가질 수 있는 최대값.   
-    printf("int형의 최대값 x는 %d입니다.\n", x);
-    printf("x+1은 %d입니다.\n".x+1);
-  }
-  ```  
-  > 결과:  
-  ```  
-  int형의 최대값 x는 2147483647입니다.
-  x+1은 -2147483648입니다. <- Overflow  
-  ```  
-  - `limits`: 어떤 '한계값'을 표현해줄 수 있도록 하는 `라이브러리` (INT_MAX의 사용을 가능하게 함)  
-  - `Overflow`란 값이 한계를 초과하는 것을 이름    
-  
+    int main(void){
+      int x = INT_MAX;  /* INT_MAX: C언어 상에서 INT 형이 가질 수 있는 최대값.   
+      printf("int형의 최대값 x는 %d입니다.\n", x);
+      printf("x+1은 %d입니다.\n".x+1);
+    }
+    ```  
+    > 결과:  
+    ```  
+    int형의 최대값 x는 2147483647입니다.
+    x+1은 -2147483648입니다. <- Overflow  
+    ```  
+    - `limits`: 어떤 '한계값'을 표현해줄 수 있도록 하는 `라이브러리` (INT_MAX의 사용을 가능하게 함)  
+    - `Overflow`란 값이 한계를 초과하는 것을 이름    
+
   ---  
+  
   - 사칙연산  
   
-  ```  
-  #include <stdio.h>
+    ```  
+    #include <stdio.h>
 
-  int main(void){
-    int x=10;
-    int y=20;
-    printf("x = %d입니다.\n",x);
-    printf("y = %d입니다.\n",y);
+    int main(void){
+      int x=10;
+      int y=20;
+      printf("x = %d입니다.\n",x);
+      printf("y = %d입니다.\n",y);
 
-    printf("x+y = %d입니다.\n", x+y);
-    printf("x-y = %d입니다.\n", x-y);
-    printf("x*y = %d입니다.\n", x*y);
-    printf("x/y = %d입니다.\n", x/y);
-    return 0;
-  }
-  ```  
-  - 단, C에서는 `/`를 쓰면 몫만 반환  
+      printf("x+y = %d입니다.\n", x+y);
+      printf("x-y = %d입니다.\n", x-y);
+      printf("x*y = %d입니다.\n", x*y);
+      printf("x/y = %d입니다.\n", x/y);
+      return 0;
+    }
+    ```  
+    - 단, C에서는 `/`를 쓰면 몫만 반환  
   
 ---  
 
@@ -182,6 +184,7 @@ comments: true
         - Structure
         - Union
     ```  
+    
   - 하지만 흔히 말하는 자료형은 Prmitive만을 말하는 경우가 多  
   - void: `자료형 자체가 없다.`  
   - C언어는 따로 문자열을 저장하는 `string` 자료형이 없어 `char`자료형을 연속적으로 사용해야 함.  
@@ -195,6 +198,7 @@ comments: true
   3. 10진수를 8진수 혹은 16진수로 바꾸어 출력하기 
   ```  
   ---  
+  
   - 상수 사용 및 부동소수점 이용  
   ```  
   #include <stdio.h>
