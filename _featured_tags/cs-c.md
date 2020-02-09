@@ -1,7 +1,7 @@
 ---
 layout: tag-blog
-title: Data Structure
-slug: data_structure
+title: C  
+slug: c  
 category: cs
 menu: false
 order: 0
