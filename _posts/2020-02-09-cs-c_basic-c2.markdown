@@ -1,0 +1,218 @@
+---  
+layout: post
+title:  "C언어 기초2 - 연산자"
+subtitle:   "C언어-2"
+categories: cs
+tags: c_basic
+comments: true
+---  
+
+- C언어 상의 연산자에 대한 글입니다.  
+
+---  
+
+# 4. 연산자1.  
+- 계산의 기본   
+  ```  
+  +  
+  -  
+  *  
+  / : 몫을 반환  
+  % : Modular division (나머지를 반환)  
+  ```  
+  - 피연산자와 연산자  
+    - ex) 1+2에서 연산자는 +, 피연산자는 1과 2  
+  - `++`(1을 더함을 의미), `!`(not을 의미) 등의 연산자도 존재.  
+  
+  ```  
+  - To-do List  
+  1. 초를 입력 받아 몇 분 몇 초인지 계산해보기  
+  2. ++, -- 연산의 개념 이해  
+  3. +=, -=, *=, /=, %s 이해  
+  4. ==, >, <, &&, ||, ! 이해  
+  5. 조건 ? 참: 거짓  연산 형태 이해  
+  6. pow()를 이용한 거듭제곱 연산 이해  
+  ```  
+
+  ---  
+
+  - 초를 입력 받아 몇 분 몇 초인지 계산해보기.  
+
+    ```  
+    #include <stdio.h>
+    #define SECOND_PER_MINUTE 60
+
+    int main(void){
+      int input = 1000;
+      int minute = input / SECOND_PER_MINUTE;	
+      int second = input % SECOND_PER_MINUTE;
+      printf("%d는 %d분 %d초입니다.\n", input, minute, second);
+      return 0;
+    } 
+    ```  
+  
+    ---  
+ 
+  
+  - 증감 연산자 (`++`, `--`)    
+    ```  
+    #include <stdio.h>
+
+    int main(void){
+      int x = 0;
+      printf("현재의 x는 %d입니다.\n", x);
+      x++;
+      printf("현재의 x는 %d입니다.\n", x);
+      printf("현재의 x는 %d입니다.\n", x--);
+      printf("현재의 x는 %d입니다.\n", x);
+      printf("현재의 x는 %d입니다.\n", --x);  
+      return 0;
+    }  
+    ```  
+    > 결과  
+      ```  
+      현재의 x는 0입니다.
+      현재의 x는 1입니다.
+      현재의 x는 1입니다.
+      현재의 x는 0입니다.
+      현재의 x는 -1입니다.
+      ```  
+      - 주의할 점  
+        - 증감연산자(`++` or `--`)가 변수의 뒤에 있으면 해당 줄에서 출력이 되고 난 뒤에 값이 변하게 되어 있다.__ 는 점에 주의  
+        - 증감연산자(`++` or `--`)가 변수의 앞에 있으면 해당 줄에서 먼저 값이 변하고 출력이 된다.__ 는 점에 주의  
+     
+  ---     
+     
+  - 복합 대입 연산자  
+    : 두 개 이상의 연산자가 한 꺼 번에 묶여서 사용됨을 의미  
+    
+    ```  
+    #include <stdio.h>
+
+    int main(void){
+      int x = 100;
+      printf("현재 x의 값은 %d입니다.\n", x);
+      x += 50; // x = x+50
+      printf("현재 x의 값은 %d입니다.\n", x);
+      x -= 50; // x = x-50
+      printf("현재 x의 값은 %d입니다.\n", x);
+      x *= 50;
+      printf("현재 x의 값은 %d입니다.\n", x);
+      x /= 50;
+      printf("현재 x의 값은 %d입니다.\n", x);
+      x %= 3;
+      printf("현재 x의 값은 %d입니다.\n", x);
+      return 0;
+    }
+    ```   
+    
+    > 결과  
+      ```  
+      현재 x의 값은 100입니다. 
+      현재 x의 값은 150입니다. 
+      현재 x의 값은 100입니다. 
+      현재 x의 값은 5000입니다. 
+      현재 x의 값은 100입니다. 
+      현재 x의 값은 1입니다. 
+      ```  
+    
+---  
+
+# 5. 연산자2  
+
+- 관계 연산자  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x= 50, y=30;
+    // x와 y는 같은 값을 갖고 있는가? 
+    // x==y  
+    printf("x와 y가 같은가? %d\n", x==y);
+    printf("x와 y가 다른가? %d\n", x!=y);
+    printf("x가 y보다 큰가? %d\n", x>y);
+    printf("x가 y보다 작은가? %d\n", x<y);
+    printf("x에 y값을 넣으면? %d\n", x=y);
+
+    return 0;
+  }
+  ```  
+  
+  > 결과  
+    ```  
+    x와 y가 같은가? 0
+    x와 y가 다른가? 1
+    x가 y보다 큰가? 1
+    x가 y보다 작은가? 0
+    x에 y값을 넣으면? 30
+    ```  
+    
+    ---  
+    
+- 논리 연산자  
+
+  ```  
+  #include <stdio.h> 
+
+  int main(void){
+    int x= 50, y=30;
+    printf("x가 y보다 크고 y는 40미만입니까? %d\n", (x>y) && (y<40));
+    printf("x가 y보다 작거나 혹은 y가 30입니까? %d\n", (x<y) || (y==30));
+    printf("x가 50이 아닙니까? %d\n", x != 50);
+    return 0; 
+  }
+  ```  
+  - `&&`: and, `||`: or  
+
+  ---  
+
+- 조건 연산자  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int x = -50, y=30;
+    int absoluteX = (x>0) ? x : -x;
+    int max = (x>y)? x: y;
+    int min = (x<y)? x: y;
+    printf("x의 절대값은 %d입니다.\n", absoluteX);
+    printf("x와 y중에서 최대값은 %d입니다.\n", max);
+    printf("x와 y중에서 최소값은 %d입니다.\n", min);
+    return 0;
+  }
+  ```  
+  - `(조건)? 참: 거짓` 형태  
+  
+  ---  
+  
+- pow: 거듭 제곱 연산 지원  
+  
+  ```  
+  #include <stdio.h>
+  #include <math.h>
+
+  int main(void){
+    double x=pow(2.0, 20.0);
+    printf("2의 20제곱은 %.0f입니다\n", x);
+    return 0; 
+  }
+  ```  
+  - pow 활용을 위해서는 `include <math.h>`를 추가해주어야.  
+    - math 라이브러리 내에는 다양한 함수들이 들어있음  
+      ex) pow(), abs()  
+      
+---  
+#### Reference  
+- 나동빈님 C언어 기초 프로그래밍  
+      
+  
+
+    
+
+      
+      
+  
+
+  
