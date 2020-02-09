@@ -200,58 +200,59 @@ comments: true
   ---  
   
   - 상수 사용 및 부동소수점 이용  
-  ```  
-  #include <stdio.h>
-  #define MONTHS 12 
+    ```  
+    #include <stdio.h>
+    #define MONTHS 12 
 
-  int main(void){
-    double monthSalary = 1000.5;
-    printf("$ %.2f", monthSalary * MONTHS);
-    return 0;
-  }
-  ```  
-  - `define MONTHS 12`:  
-    - C언어: 상수에 대한 정의를 해준다. (ex. 원주율, 사각형을 구하는 공식 등 이미 정해진 법칙을 상수로 정의해 줌)    
+    int main(void){
+      double monthSalary = 1000.5;
+      printf("$ %.2f", monthSalary * MONTHS);
+      return 0;
+    }
+    ```  
+    - `define MONTHS 12`:  
+      - C언어: 상수에 대한 정의를 해준다. (ex. 원주율, 사각형을 구하는 공식 등 이미 정해진 법칙을 상수로 정의해 줌)    
+  ---  
   
-  ---  
   - int, char  
-  ```  
-  #include <stdio.h>
+    ```  
+    #include <stdio.h>
 
-  int main(void){
-    int x = 'A';
-    printf("%c\n", x);
-    char y = 65;
-    printf("%c\n", y);
-    char z = 'B';
-    printf("%d\n", z);
-    return 0;
-  }
-  ```  
-  > 결과  
-  ```  
-  A
-  A
-  B
-  ```  
-  - char는 내부적으로 숫자로 구성된다.  
-    - 'A' 대신  65를 넣어도 똑같은 결과가 출력 됨 (`아스키코드`)  
-    - `char x='A'`든 `char x=65'`든 'int x=65`든 결과값은 같다.  
+    int main(void){
+      int x = 'A';
+      printf("%c\n", x);
+      char y = 65;
+      printf("%c\n", y);
+      char z = 'B';
+      printf("%d\n", z);
+      return 0;
+    }
+    ```  
+    > 결과  
+    ```  
+    A
+    A
+    B
+    ```  
+    - char는 내부적으로 숫자로 구성된다.  
+      - 'A' 대신  65를 넣어도 똑같은 결과가 출력 됨 (`아스키코드`)  
+      - `char x='A'`든 `char x=65'`든 'int x=65`든 결과값은 같다.  
+      
   ---  
+  
   - 10, 8, 16진수로 출력하기  
-  ```  
-  #include <stdio.h>
+    ```  
+    #include <stdio.h>
 
-  int main(void){
-    int x = 100;
-    printf("10진수로  출력: %d\n", x);
-    printf("8진수로 출력: %o\n", x);
-    // 1, 2, 3, 4, 5, 6, 7, 10, 12, ...
-    printf("16진수로 출력:%x\n", x);
-    return 0
-  }
-  ```    
-
+    int main(void){
+      int x = 100;
+      printf("10진수로  출력: %d\n", x);
+      printf("8진수로 출력: %o\n", x);
+      // 1, 2, 3, 4, 5, 6, 7, 10, 12, ...
+      printf("16진수로 출력:%x\n", x);
+      return 0
+    }
+    ```    
 
 ---  
 
