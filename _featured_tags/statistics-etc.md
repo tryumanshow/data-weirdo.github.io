@@ -4,5 +4,5 @@ title: Et cetera
 slug: etc
 category: statistics
 menu: false
-order: 3
+order: 4
 ---
