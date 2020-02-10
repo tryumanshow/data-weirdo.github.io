@@ -32,14 +32,14 @@ comments: true
   - 각각 `sample mean vector`, `sample(variance-)covariance matrix`, `sample correlation matrix`  
   - S: symmetric  
   
-  - ![](https://latex.codecogs.com/gif.latex?r_%7Bjj%7D) for 1≤j≤p  
+    ![](https://latex.codecogs.com/gif.latex?r_%7Bjj%7D) for 1≤j≤p  
 
 
 - 거리 측정  
 
   ```  
   1. Euclidean Distance    
-  2. Statistical Distance (Scaled version of Euclidean Distanc)  
+  2. Statistical Distance (Scaled version of Euclidean Distance)  
   3. Rotating  
   ```  
   
@@ -57,7 +57,7 @@ comments: true
     - 기하학적인 형태?  
       - 이변량의 경우: 원  
 
-  - __2__. Scaled Version Euclidean Distance  
+  - __2__. Statistical Distance  
     
     - 편의를 위해 이변량의 경우 가정  
     
