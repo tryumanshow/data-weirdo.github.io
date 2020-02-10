@@ -1,7 +1,7 @@
 ---
 layout: tag-blog
-title: Linear Regression
-slug: linear_regression
+title: Multivariate
+slug: multivariate  
 category: statistics
 menu: false
 order: 2
