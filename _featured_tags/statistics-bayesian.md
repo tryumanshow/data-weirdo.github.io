@@ -4,5 +4,5 @@ title: Bayesian
 slug: bayesian
 category: statistics
 menu: false
-order: 2
+order: 3
 ---
