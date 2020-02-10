@@ -31,10 +31,12 @@ comments: true
   
   - 각각 `sample mean vector`, `sample(variance-)covariance matrix`, `sample correlation matrix`  
   - S: symmetric  
+  
   - ![](https://latex.codecogs.com/gif.latex?r_%7Bjj%7D) for 1≤j≤p  
 
 
 - 거리 측정  
+
   ```  
   1. Euclidean Distance  
   2. Statistical Distance (Scaled version of Euclidean Distanc)
@@ -62,6 +64,7 @@ comments: true
       ![](https://latex.codecogs.com/gif.latex?d%28%5Cmathbf%7B0%7D%2C%20%5Cmathbf%7Bx%7D%29%20%3D%20%5Csqrt%7B%5Cfrac%7Bx_1%5E2%7D%7Bs_%7B11%7D%7D&plus;%5Cfrac%7Bx_2%5E2%7D%7Bs_%7B22%7D%7D%7D%20%3D%20%5Csqrt%7B%28%5Cfrac%7Bx_1%7D%7B%5Csqrt%7Bs_%7B11%7D%7D%7D%29%5E2&plus;%28%5Cfrac%7Bx_2%7D%7B%5Csqrt%7Bs_%7B22%7D%7D%7D%7D%29%5E2)  
     
     - 이 때 ![](https://latex.codecogs.com/gif.latex?s_%7B11%7D%2C%20s_%7B22%7D): 고정되지 않은 점으로부터 생김.  
+    
       - 변수 간의 variation을 고려한 Euclidean distance의 scaled version  
     - 두 변수 간 변동성이 같고, 서로 간 독립이라면 Euclidean distance를 쓰는 것은 적절.  
     
