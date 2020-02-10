@@ -1,13 +1,13 @@
 ---  
 layout: post
-title:  "C언어 기초2 - 연산자"
+title:  "C언어 기초2 - 연산자&조건문&반복문"
 subtitle:   "C언어-2"
 categories: cs
 tags: c_basic
 comments: true
 ---  
 
-- C언어 상의 연산자에 대한 글입니다.  
+- C언어 상의 연산자, 조건문 및 반복문에 대한 글입니다.  
 
 ---  
 
@@ -211,6 +211,139 @@ comments: true
       ex) pow(), abs()  
       
 ---  
+
+
+# 6. 조건문 & 반복문 1  
+- 절대값 출력하기  
+
+  ```
+  #include <stdio.h>
+
+  int main(void){
+    int x = -150;
+    if(x<0){
+      x = -x;
+    }
+    printf("x의 절대값은 %d입니다.\n", x);
+    return 0;		
+  }
+  ```  
+  
+- 학점 출력하기  
+
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int score = 85; // 학생의 점수 
+    if (score >= 90){
+      printf("당신의 학점은A입니다.\n");
+    } 
+    else if(score >= 80){
+      printf("당신의 학점은 B입니다.\n ");
+    }
+    else if(score >= 70){
+      printf("당신의 학점은 C입니다.\n");
+    }
+    else{
+      printf("당신의 학점은 F입니다.\n");
+    }
+    return 0;
+  }
+  ```  
+  
+# 7. 조건문 & 반복문 2    
+  
+- 윤년 출력하기  
+
+  ```  
+  #include <stdio.h>
+
+  int main(void)
+  {
+    /*
+      윤년 => 4년마다, 그렇지만 100년 단위일 때는 윤년에 해당하지 않도록 
+      윤년 => 400년 단위일 때는 어떤 상황이든 간에 윤년으로 설정   
+    */
+    int year = 2016;
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)){
+      printf("%d는 윤년입니다.\n", year);
+    } 
+    else {
+      printf("%d는 윤년이 아닙니다.\n", year);
+    }
+    return 0;
+  }
+  ```  
+  
+- 1부터 1000까지의 합 구하기  
+  ```  
+  #include <stdio.h>
+
+  int main(void)
+  {
+    int i = 1, sum = 0;
+    while (i <= 1000){
+      sum = sum+i;
+      i++;
+    }
+    printf("1부터 1000까지의 합은 %d입니다.\n", sum);
+    return 0;
+  }
+  ```  
+  
+  
+- 사각형 출력하기  
+
+  ```  
+  #include <stdio.h>
+  #define N 10
+
+  int main(void)
+  {
+    int i,j;
+    for(i=0; i<N; i++){
+      for(j=0;j<N;j++){
+        printf("*");	
+      }
+      printf("\n");
+    }
+    return 0; 
+  }
+  ```  
+  - for(i=0; i<N; i++)  
+    - i=0: 초기화  
+    - i<N: 조건  
+    - i++: 반복하면서 연산  
+
+- 피라미드 출력하기  
+
+  ```  
+  #include <stdio.h>
+  #define N 20
+
+  int main(void){
+    int i,j;
+    for (i=0; i<N; i++)
+    {
+      for (j=N-i-1; j>0; j--)
+      {
+        printf(" ");
+      }
+      for(j=0; j<i; j++)
+      {
+        printf("*");
+      }
+      for(j=0; j<i-1; j++){
+        printf("*");
+      }
+      printf("\n");
+    }
+    return 0;
+  }
+  ```  
+
+
 #### Reference  
 - 나동빈님 C언어 기초 프로그래밍  
       
