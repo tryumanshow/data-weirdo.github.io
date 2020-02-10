@@ -38,9 +38,9 @@ comments: true
 - 거리 측정  
 
   ```  
-  1. Euclidean Distance  
-  2. Statistical Distance (Scaled version of Euclidean Distanc)
-  3. Rotating
+  1. Euclidean Distance    
+  2. Statistical Distance (Scaled version of Euclidean Distanc)  
+  3. Rotating  
   ```  
   
   - __1__. Euclidean Distance  
