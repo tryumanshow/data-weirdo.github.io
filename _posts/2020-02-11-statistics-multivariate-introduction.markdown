@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "다변량분석에 대한 간단한 소개"
-subtitle:   "bayesian-gaussian&poisson"
+subtitle:   "multivariate-introduction"
 categories: statistics
 tags: multivariate
 comments: true
