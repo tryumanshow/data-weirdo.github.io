@@ -35,9 +35,7 @@ comments: true
   
 ---  
 
-![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7BX%7D%20%5Cin%20R%5Ep%20%5C%3B%20and%20%5C%3B%20%5Cboldsymbol%7BY%7D%20%5Cin%20R%5Eq)  
-
-인 두 개의 Random Vector가 있을 때,  
+- . ![](https://latex.codecogs.com/gif.latex?%5Cboldsymbol%7BX%7D%20%5Cin%20R%5Ep%20%5C%3B%20and%20%5C%3B%20%5Cboldsymbol%7BY%7D%20%5Cin%20R%5Eq) 인 두 개의 Random Vector가 있을 때,  
     
     - 공분산행렬  
       
@@ -47,7 +45,7 @@ comments: true
       - Cov(__X__,__X__) = Var(__X__) = Cov(__X__)  
       
       
-        ![](https://latex.codecogs.com/gif.latex?Cov%28%5Cboldsymbol%7BX%2C%20Y%7D%29%20%3D%20Cov%28%5Cboldsymbol%7BY%2C%20X%7D%29%5ET)  
+       - . ![](https://latex.codecogs.com/gif.latex?Cov%28%5Cboldsymbol%7BX%2C%20Y%7D%29%20%3D%20Cov%28%5Cboldsymbol%7BY%2C%20X%7D%29%5ET)  
         
         - 일변량일 경우 Cov(X,Y) = Cov(Y,X)  
       
