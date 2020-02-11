@@ -75,4 +75,15 @@ comments: true
         ![](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bx_1%5E2%7D%7B9%7D&plus;%5Cfrac%7Bx_2%5E2%7D%7B4%7D%20%3D%201)  
         ![](http://drive.google.com/uc?export=view&id=1st9XHtw_zPHOCDim4zQLch_KJYvo3hTS)  
         
+  - 요약  
+    - Euclidean Distance: 좌표축 마다의 변동성을 고려하지 못함  
+    - Statistical Distance: 좌표축의 변동성까지 고려 (Euclidean Distance의 한계 극복)  
+    
+    - 하지만, Euclidean Distance와 Statistical Distance 모두 변수이 서로 independent함을 가정  
+      - Dependency 고려:   
+
+  - __3__. Rotating  
+    - 변수들 간 depenency가 있을 경우, 데이터 포인트의 분포에 맞추어 축을 회전(rotate)하는 것이 가능  
+    
+        
         
