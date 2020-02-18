@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Fundamentals of Reinforcement Learning Week1"
+subtitle:  "FRL_Week1"
+categories: ml
+tags: rl
+comments: true
+
+---
+
+- 랜덤 벡터들의 통계량과 그 다변량 표기법에 대한 글입니다.  
+
+---  
