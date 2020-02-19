@@ -516,3 +516,8 @@ comments: true
     - But to do so, we also need the one-step dynamics of the MDP.  
     - We can get the optimal policy with much less work if we have the optimal action function.  
       - Simply select the action with the highest value in each state.  
+
+---  
+
+#### Reference  
+- Coursera
