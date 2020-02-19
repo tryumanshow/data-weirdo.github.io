@@ -58,11 +58,6 @@ comments: true
   - 수요가 늘어났을 때까지 보관했다가, 수요가 늘어났을 때 팔거나.  
   
   - reward: 전자 (short-term gain에 집착)  
-  
-    ```  
-    아 그러네. 그냥 각 time에서의 R (reward)들은 한 시점에 대해 얻어진 값이니까.  
-    그렇다면, value function은 State(혹은 (State, Action) pair))에 따른 장기적인 평가을 위한 조치라고 볼 수 있겠네.
-    ```  
     
   - `But`, The objective is to learn policy that achieves the most reward `in the long run`.  
   
@@ -89,8 +84,8 @@ comments: true
     
   
 - Value function의 장점   
-  - 1. The return is not immediately available  
-  - 2. The return may be random due to stochasticity in both the policy and environment dynamics.  
+  1. The return is not immediately available  
+  2. The return may be random due to stochasticity in both the policy and environment dynamics.  
   
   - Summarizes all the possible futures by averaging over returns  
   - 각기 다른 policy들의 퀄리티를 판단할 수 있도록 해준다.  
@@ -230,14 +225,6 @@ comments: true
 ### 3.3.1 Optimal Policies  
 - RL의 목적은 단순히 특정 policy를 평가하는 것만이 아니다.  
   - RL의 궁극적 목적: `Finding a policy that obtains as much reward as possible in the long run.`  
-
-- 이 강의에서 배울 것  
-
-  ```  
-  - Define an optimal policy  
-  - Understand how a policy can be at least as good as every other policy in every state  
-  - Identify an optimal policy for a given MDP  
-  ```  
   
 - 한 policy가 다른 policy보다 낫다는 것이 무엇인가?  
 
@@ -248,7 +235,6 @@ comments: true
   : The policy as good as or better than all the other policies  
   - 항상 하나 이상의 optimal policy가 존재한다. (둘 이상일 수도 있다)  ← `Proved`  
   ![](http://drive.google.com/uc?export=view&id=1wPj7YG78erNrzIsGxRJMQiW9mj3N66Js)  
-  (이 그래프의 x축과 y축이 무엇인지를 잘 보자~)  
   
   ![](http://drive.google.com/uc?export=view&id=1jFJuXS7jIYZNQEVhhE6_M1pH2zlrqYBn)  
   - γ = 0 → π1: optimal policy  
