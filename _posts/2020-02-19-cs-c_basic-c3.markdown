@@ -1,12 +1,13 @@
 ---
 layout: post
-title:  "C언어 기초3 - Hello World, 변수와 상수, 자료형"
+title:  "C언어 기초3 - 입출력, 사용자 정의 함수, 반복함수과 재귀함수"
 subtitle:   "C언어-3"
 categories: cs
 tags: c_basic
 comments: true
 ---  
 
+C상의 기본 입출력과 사용자 정의 함수, 반복함수 및 재귀함수에 대한 글입니다.  
 
 ---  
 
