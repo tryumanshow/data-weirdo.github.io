@@ -7,7 +7,7 @@ tags: rl
 comments: true
 ---
 
- 강화학습 및 Multi-Armed Bandit(MAB) Problem에 대한 간단한 소개와, 이를 해결하기 위한 몇 가지 알고리즘에 대한 소개입니다.  
+Policy Evaluation과 Improvement 및 Dynamic Programing, (General) Policy Iteration에 대한 글입니다.  
 
 ---  
 
@@ -88,11 +88,9 @@ comments: true
 - Enviornment `p`에 대한 접근이 가능하다고 가정  
   -  접근이 가능하다고 하더라도, `value function`과 `optimal policy`를 계산하기 위한 생각과 알고리즘이 필요  
   
-- Dynamic Programming은 다양한 Bellman equation (앞에서 봐왔던) & envronment `p`에 대한 지식을 함께 사용   
-  (고전적인 DP는 ENVORNMENT와의 상호작용은 생각하지 않음. 대신 DP방법을, 주어진 MDP Model에 대해  
-  value function과 optimal policies를 계산해내는 데에 사용)   
-  `Dynamic programming uses the various Bellman equations we've seen, along with knowledge of p, to work`  
-  `out value functions and optimal policies.`  
+- Dynamic Programming은 다양한 Bellman equation (앞에서 봐왔던) & environment `p`에 대한 지식을 함께 사용   
+  (고전적인 DP는 ENVORNMENT와의 상호작용은 생각하지 않음. 대신 DP방법을, 주어진 MDP Model에 대해 value function과 optimal policies를 계산해내는 데에 사용)   
+  `Dynamic programming uses the various Bellman equations we've seen, along with knowledge of p, to work`out value functions and optimal policies.`  
   - DP: 강화학습의 알고리즘들 이해하는 데에 유용  
   - 대부분의 RL이 모델이 없는 DP에의 approximation으로 볼 수 있음  
     (Most RL algorithms can be seen as an approximation to dynamic programming without the model.)  
@@ -221,8 +219,7 @@ comments: true
   to its own value function. This is just another way of saying that v_π obeys the 
   Bellmaan's optimality equation.  
   ```  
-  
-  (greedy: 다음 state 중에서 가장 높은 value function을 가진 state로 가는 것, 즉 max를 취하는 것)  
+
   - 이 방식으로 획득된 새로운 policy는 π에 대한 strict improvement여야 함.  
     (π가 이미 optimal 한 게 아니라면)  
   
@@ -250,18 +247,6 @@ comments: true
   ![](http://drive.google.com/uc?export=view&id=1_2X-gVa6D1i9aM79lZMBqVo9eOxkS1f8)  
   ![](http://drive.google.com/uc?export=view&id=1FszZpbehaOtaoj1aF6v85pUZ6JTq3m7N)  
   
-- 책에서 개인적으로 본 것  
-  - Policy에 대한 value function을 계산하는 이유: 더 나은 policy를 찾기 위함.  
-  - s로 부터 현재의 policy를 따르는 것이 얼마나 좋은지에 대한 건 이미 앎(![](https://latex.codecogs.com/gif.latex?v_%7B%5Cpi%7D%28s%29)  
-  - 다만, 새로운 policy로 바꾸는 것이 더 좋을지 아닐지는 어떻게 알까?  
-    - 한 가지 방법은 s에서 a를 택하고, 그 후에 existing policy π를 따르는 것  
-      - 이걸 식으로 나타내면  
-        ![](https://latex.codecogs.com/gif.latex?q_%7B%5Cpi%7D%28s%2Ca%29%20%5Cdoteq%20E%5BR_%7Bt&plus;1%7D&plus;%5Cgamma%20v_%7B%5Cpi%7D%28S_%7Bt&plus;1%7D%29%7CSt%3Ds%2C%20A_t%3Da%5D)  
-        ![](https://latex.codecogs.com/gif.latex?%3D%20%5Csum_%7Bs%27%2Cr%7Dp%28s%27r%7Cs%2Ca%29%5Br&plus;%5Cgamma%20v_%7B%5Cpi%7D%28s%27%29%5D)  
-        - 핵심 기준은 위 값이 ![](https://latex.codecogs.com/gif.latex?v_%7B%5Cpi%7D%28s%29)보다 큰가 작은가.  
-          - 크다면(즉, 항상 π를 따르는 것보다 s에서 한 번은 a를 택하고 그 후로 π를 따르는 게 낫다면),  
-            s에 있게 될 때마다 항상 a를 택하는 게 낫다고 생각할 것 (그리고 그 새로운 policy가 사실 전반적으로 더 나은 것이 될 것    
-    
 #### Summary  
 ```  
 - The Policy Improvement Theorem tells us that a greedified policy is a strict improvement(
@@ -270,7 +255,7 @@ comments: true
 ```  
     
 ### 4.2.2 Policy Iteration  
-- We leanred that the value function computed for a given policy can be used to find a better policy.  
+- We learned that the value function computed for a given policy can be used to find a better policy.  
   (Policy Improvement)  
   
 - Recall    
@@ -352,7 +337,7 @@ comments: true
       - 그 후, greedify again. 
     ![](http://drive.google.com/uc?export=view&id=1CGgZv_2rExI2MS7_1r_TzUs_qIz1dsAU)  
     - Iterative policy evaluation과 매우 유사   
-    - 다만 고정된 policy에 따라 업데이트하지 않고, current value estimate을 최대화한느 action을 사용하여 업데이트.  
+    - 다만 고정된 policy에 따라 업데이트하지 않고, current value estimate을 최대화하는 action을 사용하여 업데이트.  
     - 극한의 관점에서 value iteration은 여전히 ![](https://latex.codecogs.com/gif.latex?v_*)으로 수렴  
     
 - Value iteration은 (policy iteration처럼) 매 iteration마다 모든 state space를 sweep  
@@ -402,7 +387,7 @@ comments: true
     
 - Brute-force search  
   - optimal policy를 계산함에 있어서 Policy Iteration의 가능 대안  
-  - 단순히 모든 간으한 deterministic policy를 차례로 evaluate하고, 가장 큰 값을 가진 애를 선택  
+  - 단순히 모든 가능한 deterministic policy를 차례로 evaluate하고, 가장 큰 값을 가진 애를 선택  
   - 유한한 deterministic policy → 항상 optimal deterministic policy 존재  
   - 따라서 결국에는 답을 찾을 것. 하지만 deterministic policy의 수가 거대할 수도 있다.  
   
@@ -415,7 +400,7 @@ comments: true
   
 - 일반적으로, MDP의 해결은 state 수가 많아짐에 따라 어려워짐.  
   - 차원의 저주 → state 변수가 하나 늘어날 때, state space는 exponential 하게 늘어난다.  
-    - 하나의 ageent가 Grid를 돌아다니는 건 ㄱㅊ  
+    - 하나의 agent가 Grid를 돌아다니는 건 ㄱㅊ  
     - 근데, 수 백개의 location을 수천명의 운전사가 돌아다닌다면..?  
       - A raw enumeration of the possible states could lead to an exponential blow-up  
       - This would lead to problems if we try to sweep the states to perform policy iteration.  
@@ -473,6 +458,7 @@ its own evaluation function.
   - Dynamic programming algorithm for control is built on the policy improvement theorem.  
     : Is called `Policy Iteration`  
       - Policy Iteration의 2 step  
+      
         ```  
         1. Policy evaluation  
           - iterative computation of the value functions for a given policy
