@@ -8,11 +8,9 @@ comments: true
 
 ---
 
-- 강화학습 및 Multi-Armed Bandit 문제에 대한 간단한 소개와, 이를 해결하기 위한 알고리즘에 대한 소개입니다.  
+- 강화학습 및 Multi-Armed Bandit(MAB) Problem에 대한 간단한 소개와, 이를 해결하기 위한 몇 가지 알고리즘에 대한 소개입니다.  
 
 ---  
-
-# 1. Fundamentals of Reinforcement Learning - Week1  
 
 ## 1.1 Course Introduction  
 
@@ -27,12 +25,14 @@ comments: true
     - Agent→ 많은 `Train and Error`를 통해 최대의 캔을 모으는 방법 학습  
     - 원칙적으로 랩실의 '지도'를 알 필요도 없음  
       - 누가 랩실의 가구 배치를 달리해도 그 또한 스스로 자동으로 학습  
-      - 따라서, 
+      - 따라서,  
+      
         ```  
         - good exploration method  
         - function approximation (if we want to learn from an on-board camera)
         필요  
         ```  
+        
     - Reward Function: 하루의 끝에 로봇이 모은 캔을 세어보도록 할 수 있겠다.  
       - 따라서 이 delayed feedback을 잘 handling하기 위해 `TD-based algorithm`을 필요로 할 것  
         - cf) [TD(Temporal Difference) algorithm](https://www.google.com/search?q=td+algorithm&oq=td+algori&aqs=chrome.1.69i57j0l5.7662j0j4&sourceid=chrome&ie=UTF-8)   
@@ -51,7 +51,7 @@ comments: true
     - 비지도학습이 지도학습이나 강화학습의 성능 향상에 도움이 될 수 있음  
   - 강화학습: Reward가 agent로 하여금 최근의 action이 얼마나 좋은지 나쁜지에 대한 아이디어를 줌  
     - 선생님이 학생에게 좋은 행동이란 무엇인지는 알려는 주지만 어떻게 그렇게 행하는지에 대한 구체적인 답은 주지 않는 교육법  
-    - `지도학습, 비지도학습 기법들이 RL의 일반화를 돕는 데에 사용될 수 있다.`  
+    - 지도학습, 비지도학습 기법들이 RL의 일반화를 돕는 데에 사용될 수 있다.  
         
 - 세상은 static하지 않다.  
   - 따라서 세상을 완전히 'memorize'하는 것보다 최근의 변화들을 잘 통합하려는 노력 중요  
@@ -79,13 +79,14 @@ comments: true
 - 하지만 강화학습의 기초는 거의 같음  
   ex) DQN  
   ```  
-  Q-learning
-  Epsilon-greedy action selection
-  Neural network function approximation, 
-  a few other ideas to achieve superhuman scores in Atari games  
-  이 아이디어를 합쳐놓은 것  
+  - Q-learning
+  - Epsilon-greedy action selection
+  - Neural network function approximation, 
+  - a few other ideas to achieve superhuman scores in Atari games  
+  
+  → 이 아이디어들을 합쳐놓은 것  
   ```  
-  - DQN이라는 하나의 learning system에서 강화학습 시스템의 가장 기본적인 초석들을 볼 수 있음  
+  - `DQN`이라는 하나의 learning system에서 강화학습 시스템의 가장 기본적인 초석들을 볼 수 있음  
  
 ---   
  
@@ -96,19 +97,15 @@ comments: true
   - agent가 세계와 상호작용하면서 자기 자신의 training data를 생산  
   - 누군가로부터 정답을 입력받지 않고, agent 스스로가 trial and error를 통해 자신의 행동의 결과를 학습  
   
-- 이 강의에서 할 것  
   ```  
-  - Formalize the problem of decision making under uncertainty using k-armed bandits  
-  - Describe fundamental concepts: rewards, time steps, and values  
-  ```  
-  ```
   - 예를 들어, 의사가 환자에게 3개의 약 중 하나를 랜덤하게 처방  
   - 곧 의사는 C약이 그 증상에 잘 받는 약이라는 걸 알아차게 됨  
   - 그럼 C약으로 계속 처방할 것인가, 아니면 세 약(A,B,C)을 랜덤하게 처방하는 task를 계속 할 것인가  
     - C약으로 계속 처방할 경우: 나머지 두 약(A,B)에 대한 데이터를 더 이상 모을 수 없다.  
-    - 나머지 두 약(A,B) 중 한 개가, C약 보다 오히려 효과가 더 좋을 수도 있다. 현재까지의 'c약이 효과가 제일좋다.'라는 결과는 우연에 의한 것일 수 있다.  
+    - 나머지 두 약(A,B) 중 한 개가, C약 보다 오히려 효과가 더 좋을 수도 있다. 현재까지의 'C약이 효과가 제일좋다.'라는 결과는 우연에 의한 것일 수 있다.  
     - 또, 반면 실제로 A,B약이 더 안좋을 경우, 이 실험을 계속하는 것은 피실험 환자들의 건강을 악화시키는 일  
   ```  
+  
   → 이 예: 
   - `Decision-making under uncertainty`의 예이자 `K-armed bandit problem`의 예  
   
@@ -123,16 +120,18 @@ comments: true
 ### 1.2.2 K-Armed Problem  
 - Agent(`Decision Maker`)  
   - k개의 action들 사이에서 선택 & 선택한 액션에 근거하여 reward를 받음  
+  
   ```  
-  위의 예에서, 
+  약 처방의 예에서, 
   agent: doctor  
   action: 이 세 약 중 어떤 약을 처방할 것인가 
   reward: 특정 약을 복용하고 난 뒤의 환자의 상태  
   
-  * Doctor가 최상의 Reward를 낳는 action을 선택할 것  
+  * Doctor는 최상의 Reward를 낳는 action을 선택할 것  
   ```  
+  
   ```  
-  의사가 어떤 action이 가장 좋은 action인지를 고르기 위해 각 action이 갖는 가치를 정의해야 한다  
+  의사가 어떤 action이 가장 좋은 action인지를 고르기 위해 각 action이 갖는 가치를 정의해야 한다.  
   → Action value (Action value function)  
   ```  
     
@@ -161,14 +160,7 @@ comments: true
 
 ## 1.3 What to Learn? Estimating Action Values  
 
-### 1.3.1 Learning Action values  
-- 이 강의에서 할 것  
-  ```  
-  - Estimate action values using the sample-average method 
-  - Describe greedy action selection  
-  - Introduce the exploration-exploitation dilemma
-  ```  
-  
+### 1.3.1 Learning Action values    
 - `Value of an Action`  
   - = `expected reward` when that action is taken  
   
@@ -195,16 +187,17 @@ comments: true
     
       = sum of rewards when a taken prior to t / number of times a taken prior to t  
       
-      = (교재) ![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5E%7Bt-1%7DR_i%5Ccdot%20%5Cmathbb%7BI%7D_%7BA_i%3Da%7D%7D%7B%5Csum_%7Bi%3D1%7D%5E%7Bt-1%7D%5Cmathbb%7BI%7D_%7BA_i%3Da%7D%7D)  
+      = ![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5E%7Bt-1%7DR_i%5Ccdot%20%5Cmathbb%7BI%7D_%7BA_i%3Da%7D%7D%7B%5Csum_%7Bi%3D1%7D%5E%7Bt-1%7D%5Cmathbb%7BI%7D_%7BA_i%3Da%7D%7D)  
       
     - t-1을 쓴 건 time t에서의 value는 t 이전의 action들에 근거한 것이기 때문  
     - 따라서 어떤 action이 아직 일어나지 않았다면, value = 0처럼 default value를 줄 것  
-    - `Of course this is just one way to estimate action values, and not necessarily the best one`  
+    - 'Of course this is just one way to estimate action values, and not necessarily the best one'  
     
     
   ```  
   다시 예로 돌아가서, 약이 말을 잘 들으면 reward로 1 잘 안들으면 0
   ```  
+  
 - `Greedy Action`  
   - 현재 가장 큰 추정값을 가진 action 
   - Greedy Action을 선택한다는 것 = 현재 가진 정보를 이용한다는 것  
@@ -228,13 +221,6 @@ but exploration may produce the greater total reward in the long run.`
   - `강화학습의 근본적인 문제중 하나`  
 
 ### 1.3.2 Estimating Action Values Incrementally  
-- 이 강의에서 할 것:  
-  ```  
-  - Describe how action values can be estimated incrementally using the sample-average method  
-  - Identify how the incremental update rule is an instance of more general update rule
-  - Describe how the general update rule can be used to solve a non-stationary bandit problems  
-  ```
-
 - Situation:  
   ```  
   - 하루에 수 백만 방문자를 기록하는 웹사이트의 운영자
@@ -257,6 +243,7 @@ but exploration may produce the greater total reward in the long run.`
     ![](https://latex.codecogs.com/gif.latex?%5Ctherefore%20Q_%7Bn&plus;1%7D%20%3D%20Q_n%20&plus;%20%5Cfrac%7B1%7D%7Bn%7D%28R_n-Q_n%29)  
     
   - ![](https://latex.codecogs.com/gif.latex?%5Ctherefore%20Q_%7Bn&plus;1%7D%20%3D%20Q_n%20&plus;%20%5Cfrac%7B1%7D%7Bn%7D%28R_n-Q_n%29)  
+  
   : 이 식은 지겹도록 보게 될 식  
   : ![](https://latex.codecogs.com/gif.latex?R_n): current reward  
   : `New Estimate ← OldEstimate + Stepsize(Target - Old Estimate)`  
@@ -291,13 +278,16 @@ but exploration may produce the greater total reward in the long run.`
     (![](https://latex.codecogs.com/gif.latex?%5Calpha%20%5Cin%20%280%2C1%5D))  
     - → Recursive form  ...  
     ![](https://latex.codecogs.com/gif.latex?%3D%5Calpha%20R_n%20&plus;%20%281-%5Calpha%29%5Calpha%20R_%7Bn-1%7D%20&plus;%20%5Ccdots%20%281-%5Calpha%29%5E%7Bn-1%7D%5Calpha%20R_1%20&plus;%20%281-%5Calpha%29%5EnQ_1)  
-    ![](https://latex.codecogs.com/gif.latex?%3D%20%281-%5Calpha%29%5EnQ_1%20&plus;%20%5Csum_%7Bi%3D1%7D%5En%7B%5Calpha%281-%5Calpha%29%5E%7Bn-i%7DR_i%7D)     ![](https://latex.codecogs.com/gif.latex?Q_1) ← initial action-value  
+    ![](https://latex.codecogs.com/gif.latex?%3D%20%281-%5Calpha%29%5EnQ_1%20&plus;%20%5Csum_%7Bi%3D1%7D%5En%7B%5Calpha%281-%5Calpha%29%5E%7Bn-i%7DR_i%7D)  
+    ![](https://latex.codecogs.com/gif.latex?Q_1) ← initial action-value  
+    
     ```  
     첫번째항: Q1이 시간의 흐름에 따라 exponential하게 줄어든다.  
     두번째항: Reward가, 시간이 현재에서 멀어질수록 그 합에 exponential하게 덜 기여  
     → 종합해보자면, 
       초기값의 영향력은 데이터가 많아질수록 0으로 가까이가고, 
       가장 최근의 Reward가 현재 상태에 가장 큰 영향을 미친다. 
+    ```  
     
   - ![](https://latex.codecogs.com/gif.latex?Q_1) ← initial action-value  
   
@@ -313,13 +303,7 @@ but exploration may produce the greater total reward in the long run.`
 - cf) [multi-armed bandit pb.와 algorithm에 대한 글](https://towardsdatascience.com/solving-multiarmed-bandits-a-comparison-of-epsilon-greedy-and-thompson-sampling-d97167ca9a50)  
 - cf) [multi-armed bandit pb.와 algorithm에 대한 글2](https://brunch.co.kr/@chris-song/62)  
 
-### 1.4.1 What is the trade-off?  
-- 이 강의에서 할 것   
-  ```  
-  - Define the exploration-exploitation tradeoff
-  - Define epsilon greedy, a simple method to balance exploraation and exploitation  
-  ```  
-  
+### 1.4.1 What is the trade-off?    
 - 언제 Explore하고 싶어하고, 언제 Exploit하고 싶어할까? 라는 물음  
   - Exploration  
     - Agent로 하여금 액션에 대한 지식을 향상시키도록 해줌  
@@ -397,14 +381,9 @@ but exploration may produce the greater total reward in the long run.`
 ### 1.4.2 Optimistic Initial Values  
 - Uncertainty에 대해 긍정적인 입장을 취하는 것  
   → exploration-exploitation 문제에서 매우 일반적인 전략 중 하나  
-
-- 이 강의에서 할 것  
-  ```  
-  - Understand how optimistic initial values encourage early exploration  
-  - Descrbie limitations of optimistic initial values  
-  ```  
  
 - 의사 예시  
+
   ```  
   - 의사가 A, B, C 약 모두가 100% 효과있다는 가정을 갖고 있는 사람  
   - 그렇다면 의사는 이 세 약을 랜덤하게 환자들한테 처방해줄 것  
@@ -413,6 +392,7 @@ but exploration may produce the greater total reward in the long run.`
   - 의사는 남은 A,B 중 어느 약이 환자들에게 효과가 없다는 사실이 발견되기 전까지는 
     100% 효과있다는 자신의 가정을 계속 유지하면서 계속 A,B를 랜덤하게 처방할 것  
   ```  
+  
   - 이전에는 initial estimated values(![](https://latex.codecogs.com/gif.latex?Q_1%28A%29%3D0%2C%20Q_1%28B%29%3D0%2C%20Q_1%28C%29%3D0))를 0으로 줬었는데, 
     이번에는 좀 optimistic하게 A,B,C 모든 약에 대해 2라는 initial estimated values를 줘  
     (observed reward가 optimistic initial estimate보다 작다는 점에 유의)  
@@ -465,6 +445,7 @@ but exploration may produce the greater total reward in the long run.`
 - 하지만 Optimistic Initial Values 사용하는 것이 반드시 exploration and exploitation문제 해결을 위한 최선의 방법인 것은 아님  
 
   - `한계`  
+  
     ```  
     1. Optimistic initial values는 exploration을 초기에만.  
       - 시간이 좀 지난 후에는 exploration 안 하기 시작  
@@ -477,6 +458,7 @@ but exploration may produce the greater total reward in the long run.`
     3. optimistic initial value를 어떻게 설정해야할지 모르는 경우도 많음  
       - 실제로는 최대 reward 값이 얼마인지를 모를 수도 있기 때문에  
    ```  
+   
   - 그럼에도 불구하고 Optimistic initial values는 매우 유용한 heuristic  
       
 #### 요약  
@@ -484,11 +466,6 @@ but exploration may produce the greater total reward in the long run.`
 - Described limitations of optimistic initial values  
 
 ### 1.4.3 Upper-Confidence Bound(UCB) Action Selection  
-- 이 강의에서 할 것  
-  ```  
-  - Understand how UCB action-selection uses uncertainty in estimates to drive exploration  
-  ```  
-  
 - cf) 어떤 글에서, Multi-Armed Bandit 문제에서는 UCB를 베이스로 한 알고리즘이 제일 각광받고 있다고는 하는데...?  
 
 - `Q(a)`(Our current estimate for action A)에 대한 confidence interval  
@@ -505,10 +482,12 @@ but exploration may produce the greater total reward in the long run.`
     - c: exploration 정도를 컨트롤  
 - select `highest estimated value + our upper-confidence bound exploration term`  
 - upper-bound term은 세 부분으로 나누어짐  
+
   ```  
   C: user-specified parameter
     - controls the amount of exploration 
   ```  
+  
   ![](http://drive.google.com/uc?export=view&id=1cg4tfOyXcK1hKlvwP3MsQ30-_0QSC_q-)  
   ![](http://drive.google.com/uc?export=view&id=1XLG3WFEPMJj7iGOXPeMlAg7hc2jTDJfJ)  
   
@@ -533,13 +512,15 @@ but exploration may produce the greater total reward in the long run.`
   - A simulator provides observations, and then a learning algorithm has a policy which chooses an action  
   - The simulator then processess and returns in reward  
   
-  - 하지만, 현실에서는 
+  - 하지만, 현실에서는  
+  
     ```  
     'observation이 simulator로부터 오는가?' → 아니
     'observation에 근거한 action이 같은가? → 아니 (observation의 성격부터가 다르다)  
     └ same policy라도 다른 결과를 낳는다. 
     '실세계에서 얻는 reward와 observation으로부터 얻는 reward가 같은가?' → 아니
     ```  
+    
     `결론적으로 시뮬레이터로부터 학습을 하더라도 이걸 현실에 적용하기는 많은 경우에 마땅찮다. 불가능할 수도`  
 - `Q: 그렇다면 Real-World Reinforcement Learning은 어떻게 하지?`  
   `A: A shift in priorities`
@@ -608,36 +589,5 @@ Relevant stuff
 
 - 이게 전부 Reinforcement Learning의 기본 컨셉  
 - Bandit Pb ⊂ RL
-  
----  
 
-- 예시 중에 이런 예시가 있음  
-  ```  
-  Case1. Epsilon of 0.1 perform better over 1000 steps than epsilon of 0.01  
-  이유: 0.01 agent did not explore enough. Thus it ended up selecting a suboptimal arm for longer.  
-  Case2. Epsilon of 0.0 (a greedy agent) perform better than epsilon of 0.4  
-  이유: 0.4 agent explores too often that it takes many sub-optimal actions causing it to do worse over the long term  
-  ```  
-  
----  
----  
-  
-- Multi-Armed Bandit 문제에 대한 내 개인적인 정리  
-  - K-Armed Bandit 문제란, agent가 K개의 선택지에 대해 각 선택에 대해 그에 상응하는 reward를 받고, 
-    기대 reward를 maximize하는 방향으로 선택을 하려는 것  
-  - 여기서 기대 reward: action value ![](https://latex.codecogs.com/gif.latex?q_*%28a%29)  
-  - 하지만 확실한 action value를 이 기대 reward를 추정해야만 하고 그 estimator가 ![](https://latex.codecogs.com/gif.latex?Q_*%28a%29). 
-    - `sample-average method`  
-    - 재귀적으로 정의 가능    
-      ```  
-      - stationary   
-      - non-stationary  
-      ```  
-  - exploitation-exploration 사이의 balancing 문제  
-    - 방법론 소개  
-    ```  
-    (0. Greedy Method)  
-    1. Epsilon-Greedy Method  
-    2. Optimistic Initial Values  
-    3. UCB Action Selection  
-    ```  
+ 
