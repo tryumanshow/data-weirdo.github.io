@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- 강화학습 및 Multi-Armed Bandit(MAB) Problem에 대한 간단한 소개와, 이를 해결하기 위한 몇 가지 알고리즘에 대한 소개입니다.  
+- State Value Function 및 Action Value Function, 또 각각에 상응하는 Bellman Equation, Optimal Value Function에 대해 다루고 있는 글입니다.  
 
 ---  
 ## 3.1 Policies and Value Functions  
@@ -123,7 +123,7 @@ comments: true
 
 ```  
 - State-value functions represent the expected return from a given state under a specific policy   
-- Action-value funcitons represent the expected return from a given state after taking a specific action, 
+- Action-value functions represent the expected return from a given state after taking a specific action, 
   later following a specific policy  
 ```  
 
@@ -254,7 +254,7 @@ comments: true
 ```  
 - An optimal policy is defined as the policy with the highest possible value function 
   in all states  
-- At least one optimal policy awlays exists, but there may be more than one
+- At least one optimal policy always exists, but there may be more than one
 - The exponential number of possible policies makes searching for the optimal policy 
   by brute-force(무차별 대입) intractable(다루기 힘든). 
 ```  
@@ -304,7 +304,7 @@ comments: true
   `π* no longer appears in the equation`  
   
   ```  
-  Because it is the optimal value functio, however, v*'s consistency condition can be written in a special 
+  Because it is the optimal value function, however, v*'s consistency condition can be written in a special 
   form without reference to any specific policy.
   ```  
   
@@ -312,7 +312,7 @@ comments: true
   Remember, there always exists an optimal deterministic policy, 
   one that selects an optimal action in every state.  
   Such a deterministic optimal policy will assign probability 1, 
-  for an action that ahcieves the highest value, 
+  for an action that achieves the highest value, 
   and probability 0, for all other actions.  
   ```  
   
@@ -392,7 +392,7 @@ comments: true
   
   ```  
   14.0, 13.4, 13.0, 16.0 사이에서 가장 큰 값은 16.0 (←: going left)
-  - Left is the optimal action in this stat, and must be selected by any optimal policy.  
+  - Left is the optimal action in this state, and must be selected by any optimal policy.  
   - For the maximixing left(←) action, the right side of the equation of value is the 16 
     which is indeed equal to v star for the state itself.  
   ```  
