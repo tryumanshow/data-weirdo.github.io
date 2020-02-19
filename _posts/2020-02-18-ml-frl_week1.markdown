@@ -596,4 +596,8 @@ Relevant stuff
 - 이게 전부 Reinforcement Learning의 기본 컨셉  
 - Bandit Pb ⊂ RL
 
+---  
+
+#### Reference  
+- Coursera
  
