@@ -268,3 +268,8 @@ comments: true
   - MDP formalism can be used to model many real-world problems.  
   - The first step in applying rl will always be to formulate the problem as MDP.
 ```  
+
+---  
+
+#### Reference  
+- Coursera
