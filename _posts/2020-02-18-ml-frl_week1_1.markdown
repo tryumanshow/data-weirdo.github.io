@@ -78,6 +78,7 @@ comments: true
 - 강화학습도 새로운 알고리즘이나 새로운 application이 매주 쏟아져 나와  
 - 하지만 강화학습의 기초는 거의 같음  
   ex) DQN  
+  
   ```  
   - Q-learning
   - Epsilon-greedy action selection
@@ -86,6 +87,7 @@ comments: true
   
   → 이 아이디어들을 합쳐놓은 것  
   ```  
+  
   - `DQN`이라는 하나의 learning system에서 강화학습 시스템의 가장 기본적인 초석들을 볼 수 있음  
  
 ---   
@@ -222,13 +224,15 @@ but exploration may produce the greater total reward in the long run.`
 
 ### 1.3.2 Estimating Action Values Incrementally  
 - Situation:  
+
   ```  
   - 하루에 수 백만 방문자를 기록하는 웹사이트의 운영자
   - 이 문제를 k-armed bandit 문제로 볼 수 있음  
   - 광고 실어서 어떻게 가장 큰 수익을 얻을 수 있을까?  
   - 몇 백만 클릭을 데이터를 저장하지 않고 어떻게 추정할 수 있을까? 
     → 이 소주제  
-  ```
+  ```  
+  
 - Sample-average 방법  
   - 재귀적으로 쓰일 수 있음  
     → 모든 이전 데이터들을 저장해야만 하는 상황을 피할 수 있음  
@@ -328,9 +332,7 @@ but exploration may produce the greater total reward in the long run.`
 - 위 문제를 해결하기 위한 방법 중 하나: 
   - `Choose Randomly`  
   - 대부분의 경우 Exploit, 적은 확률로 Exploring  
-    (Behave greedily most of the time, but every once in a while, say with small probability ε,  
-    instead select randomly from among all the actions with equal probability, independently of  
-    the action-value estimates)  
+    (Behave greedily most of the time, but every once in a while, say with small probability ε, instead select randomly from among all the actions with equal probability, independently of the action-value estimates)  
     ```  
     ex) 
     주사위 눈1 → Explore  
@@ -341,14 +343,16 @@ but exploration may produce the greater total reward in the long run.`
   #### Epsilon-Greedy를 다음과 같이 써 볼 수 있다.  
   ![](https://latex.codecogs.com/gif.latex?A_t%20%5Cleftarrow%20%5Cleft%5C%7B%5Cbegin%7Bmatrix%7D%20argmax_a%20Q_t%28a%29%20%26%20w.p%20%5C1-%5Cvarepsilon%20%5C%5C%20a%20%5Csim%20Uniform%28%5Cleft%20%5C%7B%20a_1%2C%20...%2C%20a_k%20%5Cright%20%5C%7D%5D%29%20%26%20w.p%20%5C%20%5Cvarepsilon%20%5Cend%7Bmatrix%7D%5Cright.)  
   
-- 10-armed Testbed (on the textbook)  
+- 10-armed Testbed   
   - 10 actions  
   - x축: action 1-10, y축: action별 Reward distribution  
+  
     ```  
     The true value q*(a) of each of the ten actions were selected according to a normal dist'n
     with mean zero and unit variance, and then the actual rewards were according to a mean q*(a)
     unit variance normal dist'n, as suggested by the gray dist'ns below.  
     ```  
+    
     ![](http://drive.google.com/uc?export=view&id=1tU6g6oTqRqHw0XE2NHF7DmLKi1LyDwsx)  
     ![](http://drive.google.com/uc?export=view&id=1_eFy-IjUQFfOfOkvq30zl9KEzHAO9A_v)  
     (이런 식으로 10개의 각 액션에 대하여 normal distribution을 따르는 reward(q star)를 각 step마다 랜덤하게 추출)  
@@ -446,18 +450,18 @@ but exploration may produce the greater total reward in the long run.`
 
   - `한계`  
   
-    ```  
+      
     1. Optimistic initial values는 exploration을 초기에만.  
       - 시간이 좀 지난 후에는 exploration 안 하기 시작  
     2. non-stationary problem에는 적합하지 않음  
       - action value가 시간이 좀 지난 후에는 바뀔 수도 있는데, 
-        optimistic agen는 이미 특정 액션에 지나치게 고착화되어버려서, 
+        optimistic agent는 이미 특정 액션에 지나치게 고착화되어버려서, 
         현재에는 다른 액션이 낫다는 사실을 알아차리지 못할 것  
       - (어떤 방법이든 initial condition에 집중하는 방법은 일반적인 
         nonstationary case에 도움이 별로 안됨 → 사실 sample-avg에도 마찬가지) 
     3. optimistic initial value를 어떻게 설정해야할지 모르는 경우도 많음  
       - 실제로는 최대 reward 값이 얼마인지를 모를 수도 있기 때문에  
-   ```  
+     
    
   - 그럼에도 불구하고 Optimistic initial values는 매우 유용한 heuristic  
       
@@ -466,7 +470,7 @@ but exploration may produce the greater total reward in the long run.`
 - Described limitations of optimistic initial values  
 
 ### 1.4.3 Upper-Confidence Bound(UCB) Action Selection  
-- cf) 어떤 글에서, Multi-Armed Bandit 문제에서는 UCB를 베이스로 한 알고리즘이 제일 각광받고 있다고는 하는데...?  
+- (cf) 어떤 글에서, Multi-Armed Bandit 문제에서는 UCB를 베이스로 한 알고리즘이 제일 각광받고 있다고는 하는데...?)  
 
 - `Q(a)`(Our current estimate for action A)에 대한 confidence interval  
 - lower bound & upper bound  
@@ -483,10 +487,10 @@ but exploration may produce the greater total reward in the long run.`
 - select `highest estimated value + our upper-confidence bound exploration term`  
 - upper-bound term은 세 부분으로 나누어짐  
 
-  ```  
-  C: user-specified parameter
-    - controls the amount of exploration 
-  ```  
+  
+- C: user-specified parameter
+  - controls the amount of exploration 
+   
   
   ![](http://drive.google.com/uc?export=view&id=1cg4tfOyXcK1hKlvwP3MsQ30-_0QSC_q-)  
   ![](http://drive.google.com/uc?export=view&id=1XLG3WFEPMJj7iGOXPeMlAg7hc2jTDJfJ)  
@@ -536,12 +540,14 @@ but exploration may produce the greater total reward in the long run.`
 
 #### Contextual Bandits?  
 - Repeatedly  
+
   ```  
   1. Observe features x  
   ex. geolocation of users etc. 
   2. Choose action a ∈ A
   3. Observe reward r  
   ```  
+  
   - key change: no credit assignment problem  
   
 |Year|Algorithm|  
