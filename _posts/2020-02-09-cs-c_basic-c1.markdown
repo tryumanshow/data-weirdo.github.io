@@ -25,7 +25,7 @@ comments: true
 
   int main(void)
   {
-    printf("Hello World!"); # pri 
+    printf("Hello World!"); 
     return 0;
   }
   ```  
@@ -175,7 +175,7 @@ comments: true
     ```  
     - Data Type  
       ├ Primitive  
-        - chart 
+        - char 
         - int
         - float  
         - double  
@@ -264,5 +264,5 @@ comments: true
 ---  
 
 ### Reference  
-- 나동빈 C언어 기초 프로그래밍 강좌
+- 나동빈님 C언어 기초 프로그래밍 강좌
     
