@@ -1,0 +1,224 @@
+---
+layout: post
+title:  "C언어 기초4 - (다차원)배열, 포인터 ,문자열"
+subtitle:   "C언어-1"
+categories: cs
+tags: c_basic
+comments: true
+---
+
+- C언어 상의 배열 및 다차원 배열, 포인터, 그리고 문자열에 대해 정리한 글입니다.  
+
+---  
+
+# 11. 배열  
+- 데이터가 __많을 때__ 사용  
+  - 배열은 한없이 많을 수 있으면서도, 그 데이터 개수가 `변경될 수 있는` 데이터들의 집합을 지정해줄 수 있기 때문에 효과적으로 대부분의 프로그램에서 사용  
+  
+- 배열: 다양한 데이터를 삽입할 수 있는 공간    
+  - 배열에는 해당 데이터의 순서를 의미하는 인덱스가 존재  
+  - 첫번째 데이터를 가리키는 인덱스: 0  
+  
+  - Example  
+  
+    |데이터|70|25|12|48|52|
+    |-----|--|--|--|--|--|  
+    |index|0|1|2|3|4|  
+    
+    위의 데이터를 array라고 명명한다면,  
+    array[0] : 70  
+ 
+- 5개의 정수 중 최대값과 최소값의 위치를 출력  
+
+  ```  
+  #include <stdio.h>
+  #include <limits.h>
+  #define NUMBER 5
+
+  int main(void){
+    int i, max, min, index;
+    int array[NUMBER]; // 배열을 만들어주는 방법 (크기가 5인 배열 선언)
+    // array[0] ~ array[4]: 총 5개가 들어갈 수 있는 크기의 배열 선언  
+    max = 0;
+    index = 0;
+
+    for(i = 0; i < NUMBER; i++)
+    {
+      scanf("%d", &array[i]);
+      if (max < array[i])
+      {
+        max = array[i];
+        index = i;
+      }
+    } 
+    printf("가장 큰 값은 %d입니다. 그리고 %d번 째에 있습니다.", max, index+1);
+
+    min = INT_MAX;
+    for(i = 0; i < NUMBER; i++)
+    {
+      scanf("%d", &array[i]);
+      if (min > array[i])
+      {
+        min = array[i];
+        index = i;
+      }
+    } 
+    printf("가장 작은 값은 %d입니다. 그리고 %d번 째에 있습니다.", min, index+1);
+
+    return 0;
+  }
+  ```  
+  
+  - #define NUMBER 5  
+    - NUMBER: C언어에서 배열의 크기를 지정해줄 때 많이 사용  
+    
+- 5개의 정수 중 짝수 최대값과 홀수 최대값을 구하기  
+
+  ```  
+  #include <stdio.h>
+  #define NUMBER 5
+
+  int main(void)
+  {
+    int array[NUMBER];
+    int i, oddMax, evenMax;
+    oddMax = 0;
+    evenMax = 0;
+
+    for(i=0 ; i<NUMBER; i++)
+    {
+      scanf("%d", &array[i]);
+      if(array[i] & 2 != 0)
+      // 동빈님께서는 짝수 케이스부터 접근을 하셨기에 조금 다릅니다 :) 
+      {
+        if(oddMax < array[i])
+        {
+          oddMax = array[i];
+        }
+      }
+      else
+      {
+        if(evenMax < array[i])
+        {
+          evenMax = array[i];
+        }
+      }	
+    } 
+    printf("홀수 최대값: %d", oddMax);
+    printf("짝수 최대값: %d", evenMax);
+
+    return 0;
+  }
+  ```  
+  
+# 12, 다차원 배열  
+- 다차원 배열은 배열이 배열의 원소로 들어가는 구조를 말함  
+- 흔히 이차원 배열은 MxN 형태의 지도를 나타내고자 할 때 많이 사용됨  
+- 다차원 배열의 적절한 활용은 현실 세계의 다양한 문제에 보다 쉽게 접근할 수 있도록 함  
+
+
+- 이차원 배열을 이용해 구구단 출력  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+    int i,j;
+    int gugudan[10][10]; // 구구단이란 이름의 이차원 배열을 만듦   
+    for (i = 1; i <= 9; i++)
+    {
+      printf("\n[ %d단 ]\n\n", i);
+      for (j = 1; j <= 9; j++)
+      {
+        gugudan[i][j] = i * j;
+        printf("%d x %d = %d\n", i, j, gugudan[i][j]);
+      }
+    }
+    return 0;
+  }
+  ```  
+  
+  - 1차원 배열과 2차원 배열  
+    ![쿨프로그래밍](http://cfile218.uf.daum.net/image/240F8D3D5270EB961332C6)  
+    
+    - 2차원 배열의 각 행들은 1차원 배열!!! (배열의 원소로서 하나의 값이 아니라 배열이 들어가 있는 것!)  
+    
+- 학생 점수의 총합 구하기  
+  
+  ```  
+  #include <stdio.h>
+
+  int main(void){
+
+    int score[5][2]; // 학생 5명, 두 과목 (수학, 영어) 
+    int total[2] = { 0, }; // 일차원 배열 할당시 모든 데이터의 값을 0으로  
+
+    int i;
+
+    for(i = 0; i < 5; i ++)
+    {
+      printf("%d번 학생의 수학, 영어 점수: ", i+1);
+      scanf("%d %d", &score[i][0], &score[i][1]);
+    }
+
+    for(i = 0; i < 5; i ++)
+    {
+      total[0] += score[i][0];
+      total[1] += score[i][1];
+    }
+
+    printf("\n\n5명의 수학 점수 합계: %d", total[0]);
+    printf("\n\n5명의 수학 점수 합계: %d", total[1]);
+    return 0;
+  }
+  ```  
+  
+  - 배열을 잘 사용하면 다양한 프로그램을 잘 작성할 수 있다!  
+  
+# 13. 포인터 (Pointer)  
+: C언어의 무기?  
+
+- C언어가 갖고 있는 가장 큰 특징이자 장점  
+- 포인터: 특정 데이터가 저장된 `메모리의 주소를 저장`하는 변수  
+  - 다른 곳의 `주소` 그 자체를 가리키기 때문에 이를 응용하여 다양한 연산을 수행할 수 있음  
+  - 뿐만 아니라 프로그램의 어떤 위치에서 사용되더라도 특정한 주소를 그대로 사용하기 때문에 값이 즉시 변경됨.  
+  
+  - cf) Null Pointer: 가리키는 곳이 없는 포인터  
+  
+  - ex) int *y = &x;  
+    - *: 포인터  
+    - &: 특정 변수의 주소를 가리킴  
+    - x의 주소를 포인터 y가 값으로 가지게 된다!  
+      - 포인터 y라는 것도 따로 메모리 상의 어떤 위치에 자리를 잡게 되는데,  
+        y는 x의 `주소`를 가리키는 하나의 변수가 됨  
+       
+    - 즉, 다른 변수가 위치한 공간 그 자체에 바로 접근하면서 그 값을 바꾸거나 다른 처리를 할 수 있다는 것이 C언어의 무기!  
+    
+- 두 변수의 값을 서로 변환하는 프로그램  
+
+  ```  
+  #include <stdio.h>
+
+  // 두 변수의 값을 서로 변환하는 포인터 함수  
+  void swap(int *x, int *y) // int형의 어떤 값을 가리키는 포인터 x,y를 만들었다.  
+  {
+    int temp;
+    temp = *x; // temp에 포인터 x가 가리키는 위치의 값을 넣어줌.   
+    *x = *y;
+    *y = temp;
+  }
+
+  int main(void){
+
+    int x = 1;
+    int y = 2;
+    swap(&x, &y);
+    printf("x = %d \ny = %d\n", x, y);
+
+    return 0;
+  }
+  ```  
+
+- 포인터 변수의 값을 바꾸어 보는 프로그램  
+
+
