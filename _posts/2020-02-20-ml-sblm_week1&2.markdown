@@ -58,7 +58,7 @@ comments: true
       - 근데 이 return들은 episode의 끝에서만 관찰될 수 있음  
         → 그래서 몬테카를로 방법을 epsodic task에서만 보기로.  
         
-  - 몬테카를로: MAB문제와 비슷한 것처럼 보  
+  - 몬테카를로: MAB문제와 비슷한 것처럼 보임  
     - __하지만 몬테카를로는 arm 대신 `policy`를 고려.__  
       
     ![](http://drive.google.com/uc?export=view&id=18L_sVLFqqgzgtf0AVY_8Q8FYEqXW-bhd)  
