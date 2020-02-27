@@ -163,7 +163,7 @@ cf) on-policy, off-policy
 
 ## 2.2 Monte Carlo for Control  
 ### 2.2.1 Using Monte Carlo for Action Values  
-- 앞의 강의: 고정된 policy에 대해 sate-value fuction 학습하기.  
+- 앞의 강의: 고정된 policy에 대해 state-value fuction 학습하기.  
 - 이번 강의: action value 학습하기.  
   
 - action value 학습: state value 학습과 정확히 똑같은 과정  
@@ -208,11 +208,7 @@ cf) on-policy, off-policy
   
   
 ### 2.2.2 Using Monte Carlo methods for generalized policy iteration  
-- 이 강의에서 배울 것  
-  ```  
-  - Understand how to use Monte Carlo methods to implement a Generalized Policy Iteration algorithm
-  ```  
-  
+
 - GPI: policy evaluation & policy improvement  
   - policy: 계속 향상됨  
   - Policy Improvement Step:   
