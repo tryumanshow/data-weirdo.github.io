@@ -151,15 +151,15 @@ int main(void){
 - 내림차순~  
 
   ```  
-  	while(i <= j){ 
-		while(data[i] >= data[key]) // 이 부분  
-		{
-			i++;
-		}
-		while(data[j] <= data[key] && j > start) // 이 부분 
-		{
-			j--;
-		}
+ 	while(i <= j){ 
+	while(data[i] >= data[key]) // 이 부분  
+	{
+		i++;
+	}
+	while(data[j] <= data[key] && j > start) // 이 부분 
+	{
+		j--;
+	}
   ```  
   
   - 두 부분만 바꾸면 내림차순으로 쉽게 바뀐다~  
@@ -178,39 +178,157 @@ int main(void){
     ```  
     #include <stdio.h>
 
-int array[1001];
+		int array[1001];
 
-int main(void){
-	int number, i, j, min, index, temp;;
-	scanf("%d", &number);
-	for(i=0; i<number; i++)
-	{
-		scanf("%d", &array[i]);
-	}
-	
-	for(i=0; i<number; i++)
-	{
-		min = 1001; // 절대값이 1000보다 작거나 같은 수이기 때문에  
-		for (j=i; j<number; j++)
-		{
-			if (min > array[j])
+		int main(void){
+			int number, i, j, min, index, temp;;
+			scanf("%d", &number);
+			for(i=0; i<number; i++)
 			{
-				min = array[j];
-				index = j;
+				scanf("%d", &array[i]);
 			}
+
+			for(i=0; i<number; i++)
+			{
+				min = 1001; // 절대값이 1000보다 작거나 같은 수이기 때문에  
+				for (j=i; j<number; j++)
+				{
+					if (min > array[j])
+					{
+						min = array[j];
+						index = j;
+					}
+				}
+				temp = array[i];
+				array[i] = array[index];
+				array[index] = temp;
+			}
+
+			for(i=0; i<number; i++)
+			{
+				printf("%d\n", array[i]);
+			}
+
+			return 0;
 		}
-		temp = array[i];
-		array[i] = array[index];
-		array[index] = temp;
-	}
-	
-	for(i=0; i<number; i++)
-	{
-		printf("%d\n", array[i]);
-	}
-	
-	return 0;
-}
     ```  
-  
+		
+	- 세 숫자 정렬 case  
+		: 앞의 것 일부분을 바꾸어주면 됨  
+	
+		```  
+		#include <stdio.h>
+
+		int array[3];
+
+		int main(void){
+			int i, j, min, index, temp;;
+			for(i=0; i<3; i++)
+			{
+				scanf("%d", &array[i]);
+			}
+
+			for(i=0; i<3; i++)
+			{
+				min = 1000001; // 절대값이 1000보다 작거나 같은 수이기 때문에  
+				for (j=i; j<3; j++)
+				{
+					if (min > array[j])
+					{
+						min = array[j];
+						index = j;
+					}
+				}
+				temp = array[i];
+				array[i] = array[index];
+				array[index] = temp;
+			}
+
+			for(i=0; i<3; i++)
+			{
+				printf("%d ", array[i]);
+			}
+
+			return 0;
+		}
+		```  
+		
+	- 100만 개 정렬(#2751)  
+		- 시간 복잡도 NlogN을 요구  
+			(수의 개수가 백만 개가 주어지면, 무조건 nlogn으로 풀어야 돼!)  
+			-  퀵, 병합, 힙 정렬에 기반한 알고리즘이어야 정답으로 인정받을 수 있다!  
+				- 다만, 퀵 정렬 같은 경우 최악의 경우 NlogN을 보장할 수 없기 때문에 병합 정렬이나 힙 정렬을 사용해야 할 것  
+		- 그럼에도 불구하고 '퀵 정렬' 사용 해보겠음.  
+			 
+		```  
+		#include <stdio.h>
+
+		int number, data[1000001];
+
+		void quickSort(int *data, int start, int end){
+			if (start >= end)
+			{
+				return;
+			}
+			int key = start;
+			int i = start + 1, j= end, temp;
+			while(i <= j){
+				while(data[i] < data[key]){
+					i++;
+				}
+				while(data[j] >= data[key] && j > start)
+				{
+					j--;
+				}
+				if(i>j){
+					temp = data[j];
+					data[j] = data[key];
+					data[key] = temp;
+				} else {
+					temp = data[i];
+					data[i] = data[j];
+					data[j] = temp;
+				}
+			}
+			quickSort(data, start, j-1);
+			quickSort(data, j+1, end);
+		}
+
+		int main(void){
+			scanf("%d", &number);
+			for (int i=0; i<number; i++)
+			{
+				scanf("%d", &data[i]);
+			}
+			quickSort(data, 0, number-1);
+
+			for (int i=0; i<number; i++)
+			{
+				printf("%d\n", data[i]);
+			}
+			return 0; 
+		} 
+		```  
    
+	 	- cf) 위와 같이 퀵정렬을 사용해서 푸는 방법 이외에도, 
+			C++의 알고리즘 라이브러리를 활용해서 (`#include <algorithm`) 굉장히 쉽고 빠르게 정렬을 할 수 도 있음.  
+			- sort 함수: 퀵 정렬이 갖고 있는, O(N^2)라는 한계점을 효과적으로 해결  
+			
+			```  
+			#include <stdio.h>
+			#include <algorithm>
+
+			int number, data[1000000];
+
+			int main(void){
+				scanf("%d", &number);
+				for (int i=0; i<number; i++){
+					scanf("%d", &data[i]);
+				}
+				std::sort(data, data+number);
+				for (int i=0; i<number; i++){
+					printf("%d\n", data[i]);
+				}
+				return 0;
+			} 
+			```  
