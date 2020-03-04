@@ -323,3 +323,130 @@ comments: true
     - `vector<pair<string, pair<int, int> > > v;`: 이중페어 사용한 것  
     - 이렇듯, 정렬의 기준이 많다고 하더라도, 적절하게 pair를 섞으면 good  
       - 하지만, 기준이 4개가 넘어가면 클래스를 만드는 게 더 나을 수도 있음. (페어 지나치게 복잡해짐)  
+      
+# 11. 힙 정렬(Heap Sort)  
+- 퀵 및 병합 정렬만큼 빠르다.  
+- 실제로 고급 프로그래밍 기법으로 갈 수록 힙의 개념이 자주 등장한다.  
+- `힙 트리 구조(Heap Tree Structure)`를 이용  
+
+- Idea:  
+  `힙(Heap)을 이용하여 데이터를 정렬하면 어떨까?`  
+  - 힙 이전에 이진 트리를 알 필요가 있음.  
+    - 이진트리: 데이터를 표현할 때 데이터를 각 노드에 담은 뒤에 노드를 두 개씩 이어 붙이는 구조  
+  
+  - 이진트리  
+    - case1) `완전 이진 트리`  
+      : 데이터가 루트(Root) 노드부터 시작해서 자식 노드가 왼쪽 자식 노드, 오른쪽 자식 노드로 차근차근 들어가는 구조의 이진 트리  
+      : 이진 트리의 노드가 중간에 비어있지 않고 빽빽히 차있다.  
+      
+  - 힙  
+    - 최소값이나 최대값을 빠르게 찾아내기 위해 완전 이진 트리를 기반으로 하는 트리  
+    - 최대 힙과 최소 힙이 존재  
+      - 최대 힙: '부모 노드'가 '자식 노드'보다 큰 힙  
+    - 힙 정렬을 하기 위해서는 정해진 데이터가 `힙 구조`를 가지도록 만들어야 함.  
+      ▼ ex)  
+      ![](http://drive.google.com/uc?export=view&id=1KCx_qpbwdjr7_9Jq4oykMStGL2LM8HFi)  
+      - 두 가지 모두 힙 구조!  
+      
+    - 트리 안에서 특정 노드 때문에 최대 힙이 붕괴되는 경우가 있음.  
+      ▼ ex)  
+      ![](http://drive.google.com/uc?export=view&id=1cWR81DIYNjdirjvEoaOoahcSAd-xEoVe)  
+      
+      - 이런 경우, `힙 생성 알고리즘`(`Heapify Algorithm`)을 통해 `힙 정렬`을 수행해준다.  
+        - 힙 생성 알고리즘은 '하나의 노드'에 대해서 수행  
+        - 해당 '하나의 노드를 제외하고는 최대 힙이 구성되어 있는 상태'라고 가정.  
+        - 위의 예시에서는 5와 7을 바꾸어주면 힙을 유지할 수 있다.  
+        
+          ```  
+          * 힙 생성 알고리즘  
+          - 특정한 노드의 두 자식 중에서 더 큰 자식과 자신의 위치를 바꾸는 알고리즘.  
+          - 위치를 바꾼 뒤에도 여전히 자식이 존재하는 경우는 또 자식 중에서 더 큰 자식과 자신의 위치를 바꾸어야.  
+          ```  
+          
+- 힙 생성 알고리즘의 시간 복잡도?  
+  : O(NlogN)  
+    - 데이터의 개수 N  
+    - 힙 정렬이 이루어지는 데 걸리는 시간 logN (높이)  
+  
+  - 힙 생성 알고리즘에서 힙 정렬이 한 번 이루어지는 데 걸리는 수행시간: 트리의 높이와 같다.  
+  
+    ▼ ex  
+    ![](http://drive.google.com/uc?export=view&id=1WJmBK6AyDq7mLOArKwt2i1RlheyZIeS8)  
+    - 데이터의 개수 5개  
+    - ![](https://latex.codecogs.com/gif.latex?log_25%20%3D%202.xx)  
+      올림해서 약 3  (높이 3)  
+      
+- 완전 이진 트리의 가장 쉬운 방법  
+  - 배열에 그대로 삽입하기  
+
+    |0|1|2|3|4|5|6|7|8|  
+    |-|-|-|-|-|-|-|-|-|  
+    |7|6|5|8|3|5|9|1|6|  
+    
+    ▲ 트리모양으로 나타내면  
+    ![](http://drive.google.com/uc?export=view&id=1MS1i2PAcB0yHhNjScne_d0PUyzh35-A3)  
+    
+    이를 힙 구조로 만들면. 아래와 같이 됨  
+    ![](http://drive.google.com/uc?export=view&id=1iyPDzQjOHeRpw0z6xP3T1hXaysGhrgKA)  
+    
+    
+- 힙 정렬 해보기  
+  
+  ```  
+  
+  #include <stdio.h>
+
+  int number = 9;
+  int heap[9] = {7, 6, 5, 8, 3, 5, 9, 1, 6};
+
+  int main(void){
+    // 먼저 전체 트리 구조를 최대 힙 구조로 바꾼다.   
+    for(int i=1; i<number; i++)
+    {
+      int c=i;
+      do {
+        int root = (c - 1) / 2; // root: 부모
+        if(heap[root] < heap[c]){
+          int temp = heap[root];
+          heap[root] = heap[c];
+          heap[c] = temp;
+        }
+        c = root;
+      } while (c != 0);
+    }
+    // 크기를 줄여가며 반복적으로 힙을 구성  
+    for (int i = number-1; i>=0; i--){
+      int temp = heap[0];
+      heap[0] = heap[i];
+      heap[i] = temp;
+      int root = 0;
+      int c = 1;
+      do {
+        c = 2* root + 1;
+        // 자식 중에 더 큰 값을 찾기  
+        if(heap[c] < heap[c+1] && c < i-1){
+          c++;
+        } 
+        // 루트보다 자식이 더 크다면 교환 
+        if(heap[root] < heap[c] && c < i){
+          int temp = heap[root];
+          heap[root] = heap[c];
+          heap[c] = temp;
+        }  
+        root = c;
+      } while (c < i);
+    }
+    for(int i = 0; i < number; i++){
+      printf("%d ", heap[i]);
+    }
+  }  
+  ```  
+  
+- 힙 정렬은 병합 정렬과 다르게 별도로 추가적인 배열이 필요하지 않다는 점에서 메모리 측면에서 몹시 효율적.  
+- 항상 O(NlogN)의 시간복잡도를 보장 → 몹시 강력  
+- 이론적으로는 퀵 정렬, 병합 정렬보다 더 우위에.  
+- 단순히 속도로만 비교하면 퀵 정렬이 평균적으로 더 빠르기에, 힙 정렬이 일반적으로 많이 사용되지는 않음.  
+
+    
+    
+          
