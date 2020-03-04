@@ -373,8 +373,8 @@ cf) on-policy, off-policy
     결론적으로  
     ![](https://latex.codecogs.com/gif.latex?E_%7B%5Cpi%7D%5BX%5D%20%5Capprox%20%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi%3D1%7D%5Enx_i%5Crho%28x_i%29%2C%20%5C%3Bx_i%20%5Csim%20b)  
 
-### 2.4.3 Off-Policy Monte Carlo Prediction    
-  
+### 2.4.3 Off-Policy Monte Carlo Prediction  
+
 - Recall  
   - Monte Carlo Estimation의 목적  
     - Return들의 평균을 계산해서, 각 sate의 value를 추정하는 것  
@@ -387,5 +387,73 @@ cf) on-policy, off-policy
     ![](https://latex.codecogs.com/gif.latex?%5Crho%20%3D%20%5Cfrac%7BP%28trajectory%20%5C%3B%20under%5C%3B%20%5Cpi%29%7D%7BP%28trajectory%20%5C%3B%20under%5C%3B%20b%29%7D)  
     ![](https://latex.codecogs.com/gif.latex?V_%7B%5Cpi%7D%28s%29%20%3D%20E_%7Bb%7D%5B%5Crho%20G_t%7CS_t%3Ds%5D)  
     
+     
+- Trajectory의 확률분포  
+  ![](https://latex.codecogs.com/gif.latex?P%28A_t%2C%20S_%7Bt&plus;1%7D%2C%20A_%7Bt&plus;1%7D%2C%20...%2C%20S_T%7CS_t%2C%20A_%7Bt%3AT%7D%29)  
+  : agent가 state t에 있을 때, t라는 action을 취하고, 이후 시간 T가 되어 Termination이 될 때까지 state t+1에 있고, t+1 action을 취하는 일련의 과정의 확률?  
+  - 모든 action들: `b`에 따라 샘플링  
+  - Markov Property에 따라 이 확률분포들을 작은 chunk들로 쪼갤 수 있다.  
+  
+    ![](https://latex.codecogs.com/gif.latex?P%28A_t%2C%20S_%7Bt&plus;1%7D%2C%20A_%7Bt&plus;1%7D%2C%20...%2C%20S_T%7CS_t%2C%20A_%7Bt%3AT%7D%29%20%3D%20b%28A_t%7CS_t%29p%28S_%7Bt&plus;1%7D%7CS_t%2CA_t%29b%28A_%7Bt&plus;1%7D%7CS_%7Bt&plus;1%7D%29p%28S_%7Bt&plus;2%7D%7CS_%7Bt&plus;1%7D%2C%20A_%7Bt&plus;1%7D%29...p%28S_t%7CS_%7Bt-1%7D%2C%20A_%7Bt-1%7D%29)  
     
+    - 첫번째 chunk  
+      ![](https://latex.codecogs.com/gif.latex?b%28A_t%7CS_t%29p%28S_%7Bt&plus;1%7D%7CS_t%2CA_t%29)  
+    - 두번째 chunk  
+      ![](https://latex.codecogs.com/gif.latex?b%28A_%7Bt&plus;1%7D%7CS_%7Bt&plus;1%7D%29p%28S_%7Bt&plus;2%7D%7CS_%7Bt&plus;1%7D%2C%20A_%7Bt&plus;1%7D%29)  
+    
+    - 이를 정리하면, 다음과 같은 product notation으로 나타낼 수 있음.  
+      ![](https://latex.codecogs.com/gif.latex?%5Cprod_%7Bk%3Dt%7D%5E%7BT-1%7Db%28A_k%7CS_k%29p%28S_%7Bk&plus;1%7D%7CS_k%2CA_k%29)  
+    
+    
+- 정리해보자면,  
+  ![](https://latex.codecogs.com/gif.latex?P%28trajectory%5C%3Bunder%5C%3Bb%29%5C%3B%3D%5Cprod_%7Bk%3Dt%7D%5E%7BT-1%7Db%28A_k%7CS_k%29p%28S_%7Bk&plus;1%7D%7CS_k%2CA_k%29)  
+  
+  - Recall from above  
+    ![](https://latex.codecogs.com/gif.latex?%5Crho_%7Bt%3AT-1%7D%20%5Cdoteq%20%5Cfrac%7BP%28trajectory%5C%3Bunder%5C%3B%5Cpi%29%7D%7BP%28trajectory%5C%3Bunder%5C%3Bb%29%7D)  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdoteq%20%5Cprod_%7BK%3Dt%7D%5E%7BT-1%7D%5Cfrac%7B%5Cpi%28A_k%7CS_k%29p%28S_%7Bk&plus;1%7D%7CS_k%2CA_k%29%7D%7Bb%28A_k%7CS_k%29p%28S_%7Bk&plus;1%7D%7CS_k%2CA_k%29%7D)  
+    ![](https://latex.codecogs.com/gif.latex?%3D%20%5Cprod_%7BK%3Dt%7D%5E%7BT-1%7D%5Cfrac%7B%5Cpi%28A_k%7CS_k%29%7D%7Bb%28A_k%7CS_k%29%7D)  
+    
+- v_π off-policy estimating problem으로 다시 돌아와서,  
+  - agent는 behavior policy b를 따라서 많은 return들을 생산.  
+  - 이 각각의 return들을 ρ의 관점으로 바꿈으로써 v_π을 추정할 수 있음.  
+  
+    - Process  
+      ![](http://drive.google.com/uc?export=view&id=1UUdW0hgsP6SxJ41G1M7uVmsRAjn9tClx)  
+      
+  - ρ를 incremental하게 계산하기.  
+    ![](http://drive.google.com/uc?export=view&id=1kjlhY0N5sifHR7gKw4rm1BTE2KjGkWpe)  
+    
+    이로부터 다음과 같은 관계를 도출해볼 수 있음.  
+    ![](https://latex.codecogs.com/gif.latex?W_%7Bt&plus;1%7D%20%5Cleftarrow%20W_t%5Crho_t)  
+
+### 2.4.4 Summary  
+- Monte Carlo  
+  - sample-based methods  
+  - 모델 사용이 불가능할 때, 혹은 모델을 수식으로 쓰기가 어려울 때 사용  
+  - return들을 평균냄으로써 value function 추정  
+    - 단, value update를 위해서는 full-return을 기다려야 함  
+    - 이 때문에, Monte Carlo를 episodic MDP에만 사용  
+  
+- Monte Carlo usage in GPI  
+  - Monte Carlo는 DP처럼 state-action space를 sweep하지 않음.  
+    - 그래서, 모든 state-action pair에 대해 학습할 수 있는 exploration 매커니즘 필요  
+  
+  - Mechanism 1: Monte Carlo with `exploring starts`  
+    - 매 episode의 시작마다 첫 state와 action이 random하게 선택됨  
+    - 하지만 항상 feasible 하다거나 안전한 방법은 아님  
+    - 때문에, 다른 두 매커니즘 소개(Mechanism2, 3)  
+  - Mechanism 2: `On-policy with ε-soft policy`  
+    - agent가 stochastic policy를 따르거나 학습  
+    - 보통 greedy action을 취함  
+    - optimal policy 대신 `near` optimal policy로 다가감  
+      - exploration을 유지하면서도 near-optimal policy가 아닌 optimal policy를 찾고 싶다는 생각에 Mechanism 3 소개  
+  - Mechanism 3: `Off-policy`  
+    - target policy와 behavior policy에 대한 소개  
+      - behavior policy: agent가 action 선택을 위해 사용하는 policy  
+        - 적절한 exploratory behavior policy를 통해 agent는 `deterministic` `target` policy를 학습할 수 있음.  
+      - target policy: agent가 value function으로부터 학습하는 policy  
+      
+    - `Importance Sampling`  
+      : behavior policy로부터 추출된 샘플로부터 target policy의 expected return을 추정하는 방법  
+      - Ratio가 sample을 re-weight함.  
 
