@@ -78,13 +78,6 @@ comments: true
     - __Incremental Update__  
       `NewEstimate ← OldEstimate + StepSize[Target - OldEstimate]`  
       
-#### Summary  
-
-```  
-- We talked about how Monte Carlo methods learn directly from interaction.  
-  (Notably, they don't need a model of the environment dynamics.)  
-- We showed a Monte Carlo algorithm for learning state-values in episodic problems.  
-```  
       
 ### 2.1.2 Using Monte Carlo for Prediction  
 
@@ -149,14 +142,6 @@ comments: true
   - 각 state에서의 value 업데이트를 위한 연산은 MDP의 크기에 의존하지 않음.  
     - 오히려, 에피소드의 길이에 의존  
     
-#### Summary  
-
-```  
-- Showed how to use Monte Carlo Prediction to learn the value function of a policy
-- Talked about how Monte Carlo learning is computationally efficient
-  (모든 MDP를 sweep할 필요가 없음) 
-```   
-
 cf) on-policy, off-policy  
 
 ---  
@@ -198,20 +183,9 @@ cf) on-policy, off-policy
   - deterministic policy를 evaluate 하기 위해, 이런 방식으로 start state를 셋팅할 수 있어야 함  
   - 이 방식이 항상 간으한 건 아님.  
     - stochastic policy를 evaluate 하기 위해서는 epsilon-greedy 같은 다른 exploration strategy등을 사용 가능  
-    
-#### Summary  
-
-```  
-- Discribed a Monte Carlo algorithm for estimating action-values  
-- Discussed the importance of maintaining exploration  
-```  
   
   
 ### 2.2.2 Using Monte Carlo methods for generalized policy iteration  
-- 이 강의에서 배울 것  
-  ```  
-  - Understand how to use Monte Carlo methods to implement a Generalized Policy Iteration algorithm
-  ```  
   
 - GPI: policy evaluation & policy improvement  
   - policy: 계속 향상됨  
@@ -228,19 +202,10 @@ cf) on-policy, off-policy
   - dynamic programming보다 훨씬 쉽네.  
   
   - 이것이 `generalized policy iteration algorithm , Monte Carlo with exploring starts`  
-      
-#### Summary  
-```  
-- how to use Monte Carlo methods to create GPI algorithms  
-- showed an example algorithm, Monte Carlo with Exploring Starts
-```  
+
 
 ### 2.2.3 Solving the Blackjack Example  
 
-- 이 강의에서 배울 것  
-  ```  
-  - Apply Monte Carlo with Exploring Starts to solve an example MDP  
-  ```  
 - agent로 하여금 Exploring Starts 몬테카를로를 이용해 블랙잭을 플레이 하도록 학습시킬 것  
 
 - Exploring Starts  
@@ -267,11 +232,12 @@ cf) on-policy, off-policy
      
     - 이제 딜러의 차례  
       - 딜러가 9를 받으면, 21을 넘기에, agent 승! (agent의 reward +1) 
-   ```  
-   - 해당 사례에서 등장한 state-action pair? (에피소드의 끝에서부터 역순으로 올라가겠음)  
+    ```  
    
-    - `X=(NoAce, 20, 8)`  
-    - `Y=(NoAce, 13, 8)`  
+    - 해당 사례에서 등장한 state-action pair? (에피소드의 끝에서부터 역순으로 올라가겠음)  
+   
+      - `X=(NoAce, 20, 8)`  
+      - `Y=(NoAce, 13, 8)`  
     
       |S,A|Returns(S,A)|Q(S,A)|π(S)|  
       |---|------------|------|----|  
@@ -280,7 +246,7 @@ cf) on-policy, off-policy
       
       - 이런 process를 많은 episode들에 대해 반복  
         - Action value와 Policy가 각각의 Optimal Value로 다가갈 것  
-  ```  
+
    
   - 오랫동안 시행해보고 난 뒤에 agent가 찾은 optimal policy  
   ![](http://drive.google.com/uc?export=view&id=1R0ZyobxgTBZiZHS6Aq1b1cuzFYIITRoH)  
@@ -290,21 +256,11 @@ cf) on-policy, off-policy
       : 딜러가 보여주는 카드에 훨씬 더 크게 의존  
       - 예를 들어, 딜러가 보여주는 카드가 2, 3 정도로 낮을 경우 agent가 가진 카드의 sum이 13이상이면, stick을 하는데, 이러면 이길 확률이 낮은 것처럼 보여도  optimal임.  
       
-#### Summary  
-```  
-- We showed how to apply Monte Carlo with Exploring Starts to solve an example MDP.  
-```  
 
 ---  
 ## 2.3 Exploration Methods for Monte Carlo  
 ### 2.3.1 Epsilon-soft policies  
 
-- 이 강의에서 배울 것  
-  ```  
-  - Understand the Exploring Starts can be problematic in real problems.  
-  - Describe an alternative method to maintain exploration in Monte Carlo control  
-  ```  
-  
 - Exploring Starts를 사용할 수 없는 경우?  
   - 이 알고리즘은, Every possible State-action pair에서 출발할 수 있어야만 함.  
     - 그렇지 않다면, agent가 충분히 explore하지 못하고 sub-optimal에 빠질 가능성 농후  
@@ -345,22 +301,9 @@ cf) on-policy, off-policy
     
   - policy improvement 단계에서는 ε-greedy policy가 사용됐는데, 'Optimal ε soft policy is an ε greedy policy'라는 점을 이해하면 이해가 될 것  
 
-#### Summary  
-```  
-- how sampling an initial state-action pair for exploring starts is not always feasible.  
-- Monte Carlo control with ε-soft policies  
-```  
-  
 ---  
 ## 2.4 Off-policy Learning for Prediction  
 ### 2.4.1 Why does off-policy learning matter?  
-
-- 이 강의에서 할 것  
-  ```  
-  - Understand the off-policy learning can help deal with the exploration problem
-  - Produce examples of target policies  
-  - Produce exmaples of behavior policies  
-  ```  
 
 - π-soft policy  
   - continual exploration problem을 해결!  
@@ -405,21 +348,8 @@ cf) on-policy, off-policy
   
   - on-policy learning: off-policy learning의 generalization  
     - on-policy learning: `π(a|s)>0 = b(a|s)>0`  
-    
-#### Summary  
-```  
-- Off-policy learning allows learning an optimal policy from suboptimal behavior
-  - Off-policy learning is another way to obtain continual exploration
-- The policy that we are learning is the target policy
-- The policy that we are choosing from is the behavior policy 
-```  
-
 
 ### 2.4.2 Importance Sampling  
-- 이 강의에서 할 것  
-  ```   
-  - Use importance sampling to estimate the expected value of a distribution using samples from a different dist'n  
-  ```  
 
 - Importance Sampling이 해결할 수 있는 문제  
   - b라는 분포로부터 샘플링 된 확률변수 X  
@@ -442,19 +372,8 @@ cf) on-policy, off-policy
     
     결론적으로  
     ![](https://latex.codecogs.com/gif.latex?E_%7B%5Cpi%7D%5BX%5D%20%5Capprox%20%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi%3D1%7D%5Enx_i%5Crho%28x_i%29%2C%20%5C%3Bx_i%20%5Csim%20b)  
-    
-#### Summary  
-```  
-- Importance sampling uses samples from one probability dist'n to estimate the expectation of a 
-  different distribution  
-```  
 
-### 2.4.3 Off-Policy Monte Carlo Prediction  
-- 이 강의에서 할 것  
-  ```  
-  - Understand how to use importance sampling to correct returns  
-  - Understand how to modify the Monte Carlo prediction algorithm for off-policy learning  
-  ```     
+### 2.4.3 Off-Policy Monte Carlo Prediction    
   
 - Recall  
   - Monte Carlo Estimation의 목적  
