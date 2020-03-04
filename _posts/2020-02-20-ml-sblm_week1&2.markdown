@@ -208,7 +208,11 @@ cf) on-policy, off-policy
   
   
 ### 2.2.2 Using Monte Carlo methods for generalized policy iteration  
-
+- 이 강의에서 배울 것  
+  ```  
+  - Understand how to use Monte Carlo methods to implement a Generalized Policy Iteration algorithm
+  ```  
+  
 - GPI: policy evaluation & policy improvement  
   - policy: 계속 향상됨  
   - Policy Improvement Step:   
@@ -217,8 +221,252 @@ cf) on-policy, off-policy
   - Policy Evaluation Step:  
     : 몬테카를로 사용  (action value 추정을 위해)  
     - will use Monte Carlo method to estimate the action values.  
-    
-  - 수렴을 위해서는 estimate이 계속해서 improve 되는 것이 필요하지, ...
 
+- action value 학습 Monte Carlo method   
+  ![](http://drive.google.com/uc?export=view&id=1UakU0qfUaFf8Ep4iuiFGUJU7HtjN_v_s)  
+  - 이 과정을 episode 동안의 관찰되는 모든 state에서 행함  
+  - dynamic programming보다 훨씬 쉽네.  
+  
+  - 이것이 `generalized policy iteration algorithm , Monte Carlo with exploring starts`  
+      
+#### Summary  
+```  
+- how to use Monte Carlo methods to create GPI algorithms  
+- showed an example algorithm, Monte Carlo with Exploring Starts
+```  
+
+### 2.2.3 Solving the Blackjack Example  
+
+- 이 강의에서 배울 것  
+  ```  
+  - Apply Monte Carlo with Exploring Starts to solve an example MDP  
+  ```  
+- agent로 하여금 Exploring Starts 몬테카를로를 이용해 블랙잭을 플레이 하도록 학습시킬 것  
+
+- Exploring Starts  
+  : 에피소드가 random state와 random action에서 시작할 것을 요구  
+  
+  - 블랙잭의 경우, 다행히도, random state에서 시작함.  
+  - 이제, 각 epsiode마다 첫 action을 random하게 선택하기만 하면 됨  
+    = agent가 첫 state에서 꼭 best action이라고 생각하는 action을 뽑는 게 아니라는 말.  
+      (이 경우 hit이나 stick 중 아무 action이나 선택)  
+      
+    ```  
+    첫 policy: 
+    - agent sum < 20: hit
+    - agent sum == 20 or 21: stick  
+    ```  
+    
+    ```  
+    # ex) 
+    상황: agent 카드의 총합: 13, ace는 없음, 딜러의 visible 카드는 8 (invisible 카드는 5라고 가정) 
+    - randomm action에 따라 agent가 'hit'을 한다고 가정.  
+    
+    - 이윽고, agent가 7을 받았고 합은 20 
+      - agnet는 policy에 따라 stick하기로 결정 
+     
+    - 이제 딜러의 차례  
+      - 딜러가 9를 받으면, 21을 넘기에, agent 승! (agent의 reward +1) 
+   ```  
+   - 해당 사례에서 등장한 state-action pair? (에피소드의 끝에서부터 역순으로 올라가겠음)  
+   
+    - `X=(NoAce, 20, 8)`  
+    - `Y=(NoAce, 13, 8)`  
+    
+      |S,A|Returns(S,A)|Q(S,A)|π(S)|  
+      |---|------------|------|----|  
+      |X,Stick|Returns(X,Stick)=[1]|Hit:0 , Stick:1|Stick|  
+      |Y,Hit|Returns(Y,Hit)=[1]|Hit:1 , Stick:0|Hit|  
+      
+      - 이런 process를 많은 episode들에 대해 반복  
+        - Action value와 Policy가 각각의 Optimal Value로 다가갈 것  
+  ```  
+   
+  - 오랫동안 시행해보고 난 뒤에 agent가 찾은 optimal policy  
+  ![](http://drive.google.com/uc?export=view&id=1R0ZyobxgTBZiZHS6Aq1b1cuzFYIITRoH)  
+    - agent에게 ace가 있을 때  
+      : Policy가 훨씬 aggressive. (카드의 합 계산에 있어 flexibility가 더 크기 때문)  
+    - agent에게 ace가 없을 때  
+      : 딜러가 보여주는 카드에 훨씬 더 크게 의존  
+      - 예를 들어, 딜러가 보여주는 카드가 2, 3 정도로 낮을 경우 agent가 가진 카드의 sum이 13이상이면, stick을 하는데, 이러면 이길 확률이 낮은 것처럼 보여도  optimal임.  
+      
+#### Summary  
+```  
+- We showed how to apply Monte Carlo with Exploring Starts to solve an example MDP.  
+```  
+
+---  
+## 2.3 Exploration Methods for Monte Carlo  
+### 2.3.1 Epsilon-soft policies  
+
+- 이 강의에서 배울 것  
+  ```  
+  - Understand the Exploring Starts can be problematic in real problems.  
+  - Describe an alternative method to maintain exploration in Monte Carlo control  
+  ```  
+  
+- Exploring Starts를 사용할 수 없는 경우?  
+  - 이 알고리즘은, Every possible State-action pair에서 출발할 수 있어야만 함.  
+    - 그렇지 않다면, agent가 충분히 explore하지 못하고 sub-optimal에 빠질 가능성 농후  
+    
+  - Q: 자율주행차: 어떻게 agent가 모든 가능 state에서 출발할 수 있다고 보장할 수 있는가?  
+    - 이를 위해서는 자동차를 바쁜 도로 상 다양한 곳에 차를 놓아야할텐데, 이는 너무 위험하고 비현실적인 얘기.  
+    
+  - 그렇다면, exploring start 없이 모든 action value를 학습할 수 있는 방법은 없을까?  
+    : Epsilon-greedy Exploration을 떠올려 보라!  (⊂ ε-Soft Policies)  
+  
+- ε-Soft Policies  
+  - Epsilon-greedy Exploration ⊂ `ε-Soft Policies`  
+  - 각 action을 `ε / # of actions`의 확률로 취함  
+  - agent로 하여금 계속해서 explore하도록 만듦.  
+    - 이 말은, Monte Carlo Control 알고리즘에서 exploring starts 조건을 drop할 수 있다는 것.  
+    - 모든 state-action pair를 무기한으로 방문할 수 있도록 하기 때문에 모든 state의 모든 action에 0이 아닌 확률값을 부여!  
+
+  - Stochastic Policy! (Not Deterministic)  
+
+  - Episode들이 쌓이면 모든 sate에서 결국에는 모든 action을 한 번쯤은 취할 것  
+  
+    ![](https://drive.google.com/open?id=1q2oEfEyXStiPRKBysiVH-vluchRqj3Kl)  
+   
+- ε-Soft policies may not be optimal  
+  ![](http://drive.google.com/uc?export=view&id=1ra2_Wo9s-CCI1dwn-DQH0BrZtqcrEMcu)  
+  - Deterministic optimal policy로 수렴하는 것은 불가.   
+  - ε-Soft policy는 optimal ε-Soft policy를 찾는 데에만 사용.  
+  
+  - ε-Soft policies: 일반적으로는 optimal policy보다 나쁜 결과.  
+  - 하지만 때때로는 상당히 잘 수행하기 때문에 exploring starts를 사용하지 않을 수 있다!  
+  
+- pseudo-code  
+  ![](https://drive.google.com/open?id=1RW8K6unzQNmXnv18XX8uqMcay1KTeHIN)  
+  - Exploring Starts와의 차이점을 보면 이해하기 쉬울 것  
+    - one change to initial conditions  
+    - one change to policy evaluation  
+    - one change to the policy improvement step  
+    
+  - policy improvement 단계에서는 ε-greedy policy가 사용됐는데, 'Optimal ε soft policy is an ε greedy policy'라는 점을 이해하면 이해가 될 것  
+
+#### Summary  
+```  
+- how sampling an initial state-action pair for exploring starts is not always feasible.  
+- Monte Carlo control with ε-soft policies  
+```  
+  
+---  
+## 2.4 Off-policy Learning for Prediction  
+### 2.4.1 Why does off-policy learning matter?  
+
+- 이 강의에서 할 것  
+  ```  
+  - Understand the off-policy learning can help deal with the exploration problem
+  - Produce examples of target policies  
+  - Produce exmaples of behavior policies  
+  ```  
+
+- π-soft policy  
+  - continual exploration problem을 해결!  
+  - 하지만, reward나 action의 모두에서 `suboptimal`일 뿐  
+  
+- On-Policy & Off-Policy  
+  - On-Policy  
+    - improve and evaluate the policy being used to select actions  
+    - agent는 data를 생성하는 데에 사용된 policy 학습  
+  - Off-Policy  
+    - improve and evaluate a different policy from the one used to select actions   
+    - agent는 각기 다른 policy를 따라 생성된 data로부터 policy에 대해 학습  
+    
+- agent가 학습 중인 policy를 `target policy`라 부름. (agent의 target이기 때문에)  
+  - Target Policy: 보통 π로 표시  
+  - Target Policy를 위해 value function을 학습  
+  - ex) optimal policy  
+  
+- action을 선택하는 데에 agent가 사용하는 policy를 'behavior policy'라 부름 (agent의 behavior을 규정짓기 때문에)  
+  - Behavior Policy: 보통 b로 표시  
+  - Behavior Policy로부터 action을 선택  
+  - 일반적으로 exploratory policy  
+  
+- Target Policy vs Behavior Policy  
+  - Target Policy에 따라서만 행동하면, 지극히 적은 수의 state만을 경험할 것  
+  - Exploration을 좋아하는 policy(Behavior Policy)를 따라 behave할 수 있다면 훨씬 많은 수의 state을 경험할 수 있음  
+
+  ![](http://drive.google.com/uc?export=view&id=1DHamGi2QXs6yzP7M6axc9or_wXpu2dP0)  
+  
+  
+- off-policy learning 의 적용  
+  - ex) Learning from demonstration, parallel learning  
+  
+- off-policy의 key-rule  
+  - Behavior policy가 Target policy를 커버해야 한다는 점   
+  - `π(a|s)>0 where b(a|s)>0`  
+  
+  - ex)  
+    ![](http://drive.google.com/uc?export=view&id=1ZPlV5xY0h6xMxYsZLrZzrXCMBTJxHKoA)  
+    - 이 경우,behavior policy는 항상 위로 가는데, target policy는 오른쪽으로 가.  
+    - 이 때, agent는 오른쪽으로 갈 때, 가령 100000 reward를 얻는다고 하더라도, 이를 알지 못할 것  
+  
+  - on-policy learning: off-policy learning의 generalization  
+    - on-policy learning: `π(a|s)>0 = b(a|s)>0`  
+    
+#### Summary  
+```  
+- Off-policy learning allows learning an optimal policy from suboptimal behavior
+  - Off-policy learning is another way to obtain continual exploration
+- The policy that we are learning is the target policy
+- The policy that we are choosing from is the behavior policy 
+```  
+
+
+### 2.4.2 Importance Sampling  
+- 이 강의에서 할 것  
+  ```   
+  - Use importance sampling to estimate the expected value of a distribution using samples from a different dist'n  
+  ```  
+
+- Importance Sampling이 해결할 수 있는 문제  
+  - b라는 분포로부터 샘플링 된 확률변수 X  
+  - 타겟분포 π의 관점에서 확률변수 X의 기대값을 추정하려고 함  (b ≠ π)  
+  
+  - 결국 구하고자하는 것은  
+    ![](https://latex.codecogs.com/gif.latex?E_%7B%5Cpi%7D%5BX%5D)  
+    
+    ![](https://latex.codecogs.com/gif.latex?E_%7B%5Cpi%7D%5BX%5D%20%5Cdoteq%20%5Csum_%7Bx%5Cin%20X%7Dx%5Cpi%28x%29)  
+    ![](https://latex.codecogs.com/gif.latex?%3D%20%5Csum_%7Bx%5Cin%20X%7Dx%5Cpi%28x%29%5Cfrac%7Bb%28x%29%7D%7Bb%28x%29%7D)  
+    ![](https://latex.codecogs.com/gif.latex?%3D%20%5Csum_%7Bx%5Cin%20X%7Dx%5Cfrac%7B%5Cpi%28x%29%7D%7Bb%28x%29%7Db%28x%29)  
+    
+    ![](https://latex.codecogs.com/gif.latex?%5Cfrac%7B%5Cpi%28x%29%7D%7Bb%28x%29%7D)  
+    를 Importance Sampling Ratio라고 하고, 우리에게 중요한 것  
+    
+    ![](https://latex.codecogs.com/gif.latex?%3D%5Csum_%7Bx%5Cin%20X%7Dx%5Crho%28x%29b%28x%29)  
+    ![](https://latex.codecogs.com/gif.latex?%3DE_b%5BX%5Crho%28X%29%5D)  
+    ![](https://latex.codecogs.com/gif.latex?%5Capprox%20%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi%3D1%7D%5Enx_i%5Crho%28x_i%29)  
+    ![](https://latex.codecogs.com/gif.latex?x_i%20%5Csim%20b)  
+    
+    결론적으로  
+    ![](https://latex.codecogs.com/gif.latex?E_%7B%5Cpi%7D%5BX%5D%20%5Capprox%20%5Cfrac%7B1%7D%7Bn%7D%5Csum_%7Bi%3D1%7D%5Enx_i%5Crho%28x_i%29%2C%20%5C%3Bx_i%20%5Csim%20b)  
+    
+#### Summary  
+```  
+- Importance sampling uses samples from one probability dist'n to estimate the expectation of a 
+  different distribution  
+```  
+
+### 2.4.3 Off-Policy Monte Carlo Prediction  
+- 이 강의에서 할 것  
+  ```  
+  - Understand how to use importance sampling to correct returns  
+  - Understand how to modify the Monte Carlo prediction algorithm for off-policy learning  
+  ```     
+  
+- Recall  
+  - Monte Carlo Estimation의 목적  
+    - Return들의 평균을 계산해서, 각 sate의 value를 추정하는 것  
+      ![](http://drive.google.com/uc?export=view&id=1IF3cMyNEqckjKqMDNOn4ppvclwFacjTV)  
+      
+- 그렇다면, behavior policy `b`를 따르는 return을 바탕으로 target policy `π`의 value를 추정할 수는 없을까?  
+  ![](http://drive.google.com/uc?export=view&id=1WE_-05eIWYKHrzA8ZTmS_277hJ2JXTqO)  
+  - 여기에서 각 sampled return들마다 ρ를 알아내면 됨!  
+    
+    ![](https://latex.codecogs.com/gif.latex?%5Crho%20%3D%20%5Cfrac%7BP%28trajectory%20%5C%3B%20under%5C%3B%20%5Cpi%29%7D%7BP%28trajectory%20%5C%3B%20under%5C%3B%20b%29%7D)  
+    ![](https://latex.codecogs.com/gif.latex?V_%7B%5Cpi%7D%28s%29%20%3D%20E_%7Bb%7D%5B%5Crho%20G_t%7CS_t%3Ds%5D)  
+    
     
 
