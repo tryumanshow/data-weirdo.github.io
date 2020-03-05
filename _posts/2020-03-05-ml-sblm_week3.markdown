@@ -53,7 +53,7 @@ comments: true
       
 
 ### 3.1.2 Rich Sutton: The Importance of TD Learning  
-- __TD learning은 prediction learning에 특화된 학습 방법__이다!  
+- __TD learning은 prediction learning에 특화된 학습 방법__ 이다!  
   - 이 사실이 TD learning을 현 세기 AI에서 가장 중요한 것으로 만든다.  
   - 현 시대 연산 속도의 발전도 한 몫했다.  
     - 연산의 발전으로부터 가장 큰 수혜를 입은 부분: `prediction learning`  
@@ -147,7 +147,7 @@ comments: true
       - V(leave)=30, V(exit)=35, R1=5  
       
     - 주차장을 나왔을 때 TD algo를 적용  
-      !](https://latex.codecogs.com/gif.latex?V%28exit%29%20%5Cleftarrow%20V%28exit%29%20&plus;%20%5Calpha%5BR_%7B2%7D%20&plus;%20%5Cgamma%20V%28S_%7Bexit%20%5C%3B%20highway%7D%29%20-%20V%28exit%29%5D)  
+      ![](https://latex.codecogs.com/gif.latex?V%28exit%29%20%5Cleftarrow%20V%28exit%29%20&plus;%20%5Calpha%5BR_%7B2%7D%20&plus;%20%5Cgamma%20V%28S_%7Bexit%20%5C%3B%20highway%7D%29%20-%20V%28exit%29%5D)  
       - V(exit)=35, V(exit highway)=15, R2=15  
       - 연산 결과 V(exit) = 30이 됨 (Monte-Carlo 적용했을 때보다 estimated time이 줄었음.)   
         : 고속도로를 예상했던 것보다 빨리 빠져나왔기에 make sense!  
