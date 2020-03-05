@@ -15,15 +15,8 @@ comments: true
 
 # 2. Sample-based Learning Methods - Week3  
 
-## 2.1 Introduction to Temporal Difference Learning  
-### 2.1.1 What is Temporal Difference (TD) Learning?  
-
-- 이 강의에서 배울 것  
-  ```  
-  - Define Temporal Difference Learning  
-  - Define the Temporal Difference Error  
-  - Understand the TD(0) algorithm  
-  ```  
+## 3.1 Introduction to Temporal Difference Learning  
+### 3.1.1 What is Temporal Difference (TD) Learning?  
 
 - 교재의 내용을 빌리자면,  
   - 강화학습에 있어서 가장 중심이 되고 참신한 아이디어 중 하나를 꼽으라고 한다면 `Temporal Difference Learning`이다.  
@@ -58,14 +51,8 @@ comments: true
       
       ![](http://drive.google.com/uc?export=view&id=1_1RT8b_QqnTvHUKQTJ1BqIqYdPUeP8l1)  
       
-#### Summary  
-```  
-- Temporal Difference Learning - a way to incrementally estimate the return through bootstraping  
-- TD-error
-- TD(0) algorithm  
-```   
 
-### 2.1.2 Rich Sutton: The Importance of TD Learning  
+### 3.1.2 Rich Sutton: The Importance of TD Learning  
 - __TD learning은 prediction learning에 특화된 학습 방법__이다!  
   - 이 사실이 TD learning을 현 세기 AI에서 가장 중요한 것으로 만든다.  
   - 현 시대 연산 속도의 발전도 한 몫했다.  
@@ -104,19 +91,14 @@ comments: true
   - TD Learning은 Prediction Learning에 특화된 학습 방법  
   ```  
   
-## 2.2 Advantages of TD  
-### 2.2.1 The advantages of temporal difference learning  
+## 3.2 Advantages of TD  
+### 3.2.1 The advantages of temporal difference learning  
 - TD learning: Dynamic Programming과 Monte Carlo의 combination  
   - Dynamic Programming의 측면  
     : Bootstraping을 한다.  
   - Monte Carlo의 측면  
     : Experience로 부터 직접 학습.  
-    
-- 이 강의에서 배울 것  
-  ```  
-  - Understand the benefits of learning online with TD  
-  - Identify key advantages of TD methods over DP and MC methods  
-  ```  
+
   
 - 한 예시로 시작  
   - 매일, 집으로 운전해서 가는 데에 얼마나 걸리는지 예측  
@@ -181,12 +163,7 @@ comments: true
   - correct prediction에 `asymptotically converge`  
   - Monte Carlo보다 보통 더 빨리 수렴함.  
   
-### 2.2.2 Comparing TD and Monte Carlo  
-
-- 이 강의에서 할 것  
-  ```  
-  - Identify the empirical benefits of temporal difference learning  
-  ```  
+### 3.2.2 Comparing TD and Monte Carlo  
   
 - 역시 예로부터 시작!  
   - Random Walk  
@@ -240,14 +217,8 @@ comments: true
   - 답: __그렇다__  
   
   - 단, TD에서, learning rate가 0.15면 0.05일 때보다 error는 더 빨리 줄어들지만, 최종 결과는 더 낮은 학습률일 때가 더 좋더라.  
-  
-#### Summary  
-```  
-- We ran a careful experiment comparing TD and Monte-Carlo  
-- The result suggested that TD converges faster to a lower final error in this problem.  
-```  
-     
-### 2.2.3 Week 2 Summary  
+       
+### 3.2.3 Week 2 Summary  
 - TD algo.  
   - Dynamic programming과 Monte Carlo의 좋은 점을 섞었다!  
   
