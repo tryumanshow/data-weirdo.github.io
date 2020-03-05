@@ -144,11 +144,11 @@ comments: true
     ![](https://latex.codecogs.com/gif.latex?V%28S_t%29%20%5Cleftarrow%20V%28S_t%29&plus;%20%5Calpha%5BR_%7Bt&plus;1%7D&plus;%5Cgamma%20V%28S_%7Bt&plus;1%7D%29%20-%20V%28S_t%29%5D)  
     - 사무실을 떠난 경우에 TD algo를 적용  
       ![](https://latex.codecogs.com/gif.latex?V%28leave%29%20%5Cleftarrow%20V%28leave%29%20&plus;%20%5Calpha%20%5BR_1&plus;%5Cgamma%20V%28exit%29%20-%20V%28leave%29%5D)  
-      - V(leave)=30, V(exit)=35, R1=5  
+      - 우항에서, V(leave)=30, V(exit)=35, R1=5  
       
     - 주차장을 나왔을 때 TD algo를 적용  
       ![](https://latex.codecogs.com/gif.latex?V%28exit%29%20%5Cleftarrow%20V%28exit%29%20&plus;%20%5Calpha%5BR_%7B2%7D%20&plus;%20%5Cgamma%20V%28S_%7Bexit%20%5C%3B%20highway%7D%29%20-%20V%28exit%29%5D)  
-      - V(exit)=35, V(exit highway)=15, R2=15  
+      - 우항에서, V(exit)=35, V(exit highway)=15, R2=15  
       - 연산 결과 V(exit) = 30이 됨 (Monte-Carlo 적용했을 때보다 estimated time이 줄었음.)   
         : 고속도로를 예상했던 것보다 빨리 빠져나왔기에 make sense!  
         
