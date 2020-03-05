@@ -178,7 +178,6 @@ comments: true
   
   - 이 경우, 각 state의 value는 intuitive한 의미를 지님 
     : 각 state로부터 시작해서 오른쪽에서 끝날 학률  
-      (이해가 되는 게, 
   
   ▼ True value labeled MDP  
     ![](http://drive.google.com/uc?export=view&id=1j44VHfR3q9BacHtHEjsfcbC219TCquSr)  
@@ -191,7 +190,7 @@ comments: true
     
   ▼ First Episode 이후의 결과  
     ![](http://drive.google.com/uc?export=view&id=18gisE8NOOyQxhLuhbJxLBkQf80P5xfsU)  
-    - TD Learning에서는 state E`만` update   A → B → C → D   
+    - TD Learning에서는 state E`만` update   
     
       - C에서 D로의 transition을 보면 이해해볼 수 있음.  
         ![](https://latex.codecogs.com/gif.latex?V%28S_t%29%20%5Cleftarrow%20V%28S_t%29%20&plus;%20%5Calpha%20%5BR_%7Bt&plus;1%7D%20&plus;%20%5Cgamma%20V%28S_%7Bt&plus;1%7D%29%20-%20V%28S_t%29%5D)  
