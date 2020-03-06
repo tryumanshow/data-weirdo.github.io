@@ -86,6 +86,7 @@ comments: true
     - 이와 관련한 모든 문제는 `prediction learning`  
     
 - 한마디로 요약  
+
   ```  
   - Predition Learning은 AI 시대의 key  
   - TD Learning은 Prediction Learning에 특화된 학습 방법  
