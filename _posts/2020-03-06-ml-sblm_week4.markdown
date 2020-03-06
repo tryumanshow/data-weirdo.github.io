@@ -91,3 +91,114 @@ comments: true
       - Sarsa는 'get trapped'되지 않는다.  
         - 저런 policy들이 나쁘다는 걸 episode 동안에 학습할 것이기 때문에.  
         
+## 4.2 Off-policy TD Control: Q-learning  
+### 4.2.1 What is Q-Learning?  
+- 강화학습의 최근 적용 사례  
+  - Atari game 플레이 학습  
+  - 교통 신호 컨트롤  
+  - 웹 시스템 자동 configuring  
+  
+  ▲ 위 사례들: `단일` 알고리즘을 토대로 형성. (`Q-Learning`)  
+  
+- __Q-Learning__  
+  - 1989에 만들어짐.  
+  - online RL의 첫 주류  
+
+  - pseudo-code  
+    ![](http://drive.google.com/uc?export=view&id=1kuw6qJkOZX4ljbynz3vDBsGFYj4oPJMd)  
+  
+  ▼ Revisit  
+  ![](http://drive.google.com/uc?export=view&id=1vjL1ZQzXzLL1pv7FxoWFBfVspur72tGr)  
+  - Sarsa와 Q-Learning의 차이 → 왜?  
+    - Bellman Equation 및 Bellman Optimality Equation을 다시 떠올려 보자.  
+      - Sarsa는 Bellman Equation과, Q-Learning은 Bellman Optimality Equation과 suspiciously 비슷하다.  
+      - Bellman Optimality Equation은 Q-Learning으로 하여금 policy improvement, policy evaluation을 반복하지 않고 q\*로부터 바로 학습하도록 함  
+      
+    - 정리 (1st row based on 2nd row)  
+      
+      |Sarsa|Q-Learning|  
+      |-----|----------|  
+      |Bellman Equation|Bellman Optimality Equation|  
+      
+    - 요컨대 Sarsa, Q-Learning 모두 Bellman Equation에 근거를 두고 있지만, 매우 다른 Bellman Equation에 근거를 두고 있는 것.  
+  - 인용  
+    - "Sarsa is sample-based version of policy iteration which uses Bellman equations for action values, that each depend on a fixed policy."  
+    - "Q-Learning is a sample-based version of value iteration which iteratively applies the Bellman optimality equation."  
+
+### 4.2.2 Q-learning in the Windy Grid World  
+  
+- 앞 전의 Windy Grid World 예시 
+  - Sarsa와 Q learning 간의 비교  
+  ![](http://drive.google.com/uc?export=view&id=1awbRs4yUAdnPLn73qGbFaXBo0mvHVzAz)  
+    - 초반에는 두 알고리즘 성능 비슷  
+    - 끝으로 갈수록 Q-Learning의 성능이 더 뛰어나다. (더 나은 final policy를 학습한 것처럼 보임) 
+ 
+- __도대체 왜>>>>>__  
+  - Sarsa는 agent가 exploratory action을 취할 때`마다` 업데이트 도지만  
+    Q-Learning은 max값만을 취하기 때문에 agent가 '어떤 action이 다른 action보다 낫다'라고 평가할 때에만 업데이트  
+  
+- __그렇다면 SARSA가 더 잘하게 할 수는 없을까?__  
+  - 0.5라는 큰 stepsize는 agent가 exploratory action을 취할 때 SARSA의 성능을 저하시킬 수 있다.  
+  - α를 0.1로 낮추어 좀 더 오래 학습을 시켜보자.  
+    - 속도는 느리겠지만 더 나은 policy를 찾을 것  
+      ![](http://drive.google.com/uc?export=view&id=1ZJ72MAtioVWmuV1ml6NqwdOR-SfM_6H2)  
+      - SARSA는 Q-Learning과 똑같은 final policy를 학습! (좀 더 느리게)  
+      - 두 선의 기울기가 같기 때문에 두 알고리즘 모두 같은 policy로 수렴해야한다는 것을 알고 있음.  
+      
+        ```  
+        똑같은 slope = agent가 똑같은 속도로 episode 끝낸다는 것  
+        ```  
+      - 한편, 이 실험은 RL이 파라미터의 영향을 받는다는 것을 역설하고 있는 것이기도.  
+        - α, ε, 초기값, 실험횟수 등 모든 파라미터들이 최종 결과에 영향을 미칠 수 있다!!!  
+
+### 4.2.3 How is Q-Learning off-policy?  
+- 이 강의에서 할 것  
+  ```  
+  - Understand how Q-Learning can be off-policy without using importance sampling  
+  - Describe how learning on-policy or off-policy might affect performance in control  
+  ```  
+
+- Q-Learning  
+  - off-policy algorithm!  
+    - 앞에서, importance sampling을 이용한 off policy를 본 적이 있는데,  
+      __Q-Learning은 어떻게 importance sampling을 사용하지 않고서도 off-policy가 될 수 있을까?__  
+      
+- Sarsa  
+  - on-policy algorithm!  
+  
+  |-|Sarsa|Q-Learning|  
+  |-|-----|----------|  
+  |policy|on-policy|off-policy|  
+  |Bootstrap|Agent는 다음에 취할 action에 대한 value를 bootstrap|Agent는 다음 state에서 취할 가장 큰 action value를 bootstrap|   
+  
+  - 요컨대, Sarsa는 behavior policy estimate로부터, Q-Learning은 optimal policy estimate로부터 action을 샘플링     ![](http://drive.google.com/uc?export=view&id=1y0xOlYlVeGzx9reVggzF6qvMXh-ztf1y)  
+  
+- RL에서 늘 등장하는 자연스러운 의문점  
+  " Behavior Policy의 Target이 뭐지?"  
+  - Q-Learning의 경우  
+    - Target Policy:  
+      ![](https://latex.codecogs.com/gif.latex?%5Cunderset%7Ba%7D%7Bargmax%7DQ%28s%2Ca%29)  
+    - Behavior Policy:  
+      학습 동안 모든 state action pair를 방문하는 그 어떤 것도 될 수 있음.  
+      - ex) ε-greedy  
+      
+  - __그럼 Q-Learning이 off-policy라면 왜 important  sampling ratio가 등장하지 않는가?__  
+    - `agent가 known policy를 갖고 action value를 추정하기 때문` (발음이.. 부정확.. the known인지 unknown인지)   
+    - Q-Learning에서는 Importacne Sampling 없이 어떤 state 하에서라도 target policy의 expected return을 계산할 수 있다.  
+      ![](https://latex.codecogs.com/gif.latex?%5Csum_%7Ba%27%7D%5Cpi%28a%27%7CS_%7Bt&plus;1%7D%29Q%28S_%7Bt&plus;1%7D%2Ca%27%29%20%3D%20E_%7B%5Cpi%7D%5BG_%7Bt&plus;1%7D%7CS_%7Bt&plus;1%7D%5D)  
+      - agent의 target policy는 greedy하므로, maximum이 아닌 모든 action들은 확률이 0!  
+      - `결과적으로, 한 state로부터의 expected return은 그 state로부터의 maximal action value와 같다`  
+      
+- 하지만, 앞에서 Q-Learning에 대해,  
+  - policy evaluation과 policy improvement iteration을 하지 않고,  
+  - optimal value로부터 바로 학습한다고 했었는데,  
+  
+  - 이는 물론 멋진 아이디어이지만, 이 때문에 특정 상황에서는 적용하기 쉽지 않은 경우가 있어..  
+  
+  - cliff 예시 재 사용  
+    ![](http://drive.google.com/uc?export=view&id=1tQ6scoczrb0t8ODFHa_HtB3dfjejnlf1)  
+    - Q-Learning은 optimal value function을 학습하기에 optimal policy를 빨리 학습  
+      하지만 종종 cliff로 빠져버림  
+    - 반면, SARSA는 현재 policy를 학습하기에 ε-greedy의 action selection의 영향을 고려 
+      Q-Learning보다 시간은 오래 걸리겠으나 훨씬 `reliable` path를 낳음. (랜덤하게 cliff로 빠지는 action을 피함)   
+        
