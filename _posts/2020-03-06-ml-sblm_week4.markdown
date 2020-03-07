@@ -202,3 +202,136 @@ comments: true
     - 반면, SARSA는 현재 policy를 학습하기에 ε-greedy의 action selection의 영향을 고려 
       Q-Learning보다 시간은 오래 걸리겠으나 훨씬 `reliable` path를 낳음. (랜덤하게 cliff로 빠지는 action을 피함)   
         
+ 
+- 각종 알고리즘의 이해를 도울 수 있는 그림.  
+![](http://drive.google.com/uc?export=view&id=16asn9FohfLjhQtBvKJ-ImsQonGeMCzdo)  
+  
+## 4.3 Expected Sarsa  
+### 4.3.1 Expected Sarsa  
+- TD control methods: Sarsa, Q-learning에 대해 논의함.  
+  - 다른 TD control method인 `Expected Sarsa`에 대해 논의해보기로.  
+  
+  ![](http://drive.google.com/uc?export=view&id=1IMOzFs4pUhiBEvpIxDiS1ldb8ESN11Tc)  
+  - 1: action-value에 대한 Bellman Equation  
+    = 가능한 다음 state-action pair들의 값들에 대한 `기대값(expectation)`  
+  - 2: Sarsa는 위 기대값(q_π)를, 다음 state는 environment로부터, 다음 action은 policy로부터 샘플링 함으로써 추정(estimate)   
+    - 그런데, agent는 이미 policy (`π(a'|s')`)를 아는데 왜 다음 action을 샘플링해야 하나?  
+    - 3: '기대값을 직접 계산하면 되지 않나?'  
+      - 모든 가능한 다음 action 값들의 가중치 합을 취할 수 있음. (weighted sum)  
+        다음 action들에 대해 기대값을 계산하겠다는 것이 Sarsa algorithm의 메인 아이디어!  
+        
+        ![](https://latex.codecogs.com/gif.latex?Q%28S_t%2C%20A_t%29%20%5Cleftarrow%20Q%28S_t%2C%20A_t%29%20&plus;%20%5Calpha%28R_%7Bt&plus;1%7D%20&plus;%20%5Cgamma%20%5Cmathbf%7B%5Csum_%7Ba%27%7D%5Cpi%28a%27%7CS_%7Bt&plus;1%7D%29Q%28S_%7Bt&plus;1%7D%2C%20a%27%29%7D-Q%28S_t%2C%20A_t%29%29)  
+        - 이처럼 기대값을 명시적으로 계산하는 건 썩괜찮음.  
+          - Sarsa보다 더 stable한 update target을 지니고 있음.   
+          
+- 사례를 통한 Sarsa, Expected Sarsa 비교!  
+  ![](http://drive.google.com/uc?export=view&id=1mL6qA_IEtrp0QXrpCE0eeCe9W5z2dfaw)  
+  - Sarsa, Expected Sarsa 모두 다음 state에 대한 true action value로 시작  
+    __But__  
+    - Sarsa    
+      : (심지어는 이상적인 경우라 하더라도) Sarsa의 다음 action에 대한 샘플링의 경우 value update가 잘못된 방향으로 일어날 수도 있다.  
+      : 다수의 업데이트를 거친 기대값은 옳은 방향으로 갈 것이라는 사실에 기반   
+    - Expected Sarsa  
+      : 업데이트는 `Exactly Correct!`  
+      : True value에서 벗어나게 추정 value값을 바꾸지 않는다.  
+  - (일반적으로) Expected Sarsa가 Sarsas에 비해 훨씬 더 적은 분산을 갖고 타겟을 업데이트  
+    - 다만, 분산이 더 작다는 건 그만큼의 downside도 있긴 함.  
+      (action의 수가 증가할수록 다음 action의 평균 구하기 연산 비용 증가 - 매 time step마다 average를 게산해야되기 때문에)  
+      
+
+### 4.3.2 Expected Sarsa in the Cliff World   
+- Cliff 예시 recap  
+  - undiscounted episodic grid world  
+  - cliff의 존재 (cliff로 가면 reward -100과 함께 agent가 start로 다시 돌아감)  
+  - 그 외에는 매 time step마다 reward -1  
+  
+  - 적어도 이 문제에서는 Sarsa가 Q-learning보다 더 잘 수행  
+  - __Expected Sarsa__ vs __Sarsa__ in cliff example  
+    
+    ![](http://drive.google.com/uc?export=view&id=1FpGsoedAxcF7Vv2_yEVVzVPm3_jbjxJp)  
+    - ε=0.1 case  
+    - step size 파라미터 α의 값을 agent마다 달리하여 테스트  
+  - 100개의 에피소드 & 50000번의 independent run을 평균  
+    
+    - __Sarsa__  
+      - step size 값이 커질수록 성능도 좋아짐. 단, 특정 값까지만.  
+      - 최고의 α는 0.9  
+      - 거의 모든 α값에 대해 Expected Sarsa가 Sarsa를 능가!  
+      
+    - __Expected Sarsa__  
+      - 큰 α값을 더 효율적으로 사용  
+        ∵ policy의 randomness를 명시적으로 평균내기 때문.  
+        - Environment는 deterministic하고, 그래서 고려할 다른 randomness는 없다!  
+          
+          > Expected Sarsa's updates are deterministic for a given state and action.  
+          > Sarsa's updates, on the other hand, can vary significantly depending on the next action.  
+    
+  - 이번엔 100000 개의 episode!  
+    ![](http://drive.google.com/uc?export=view&id=1s1C76kS93m1YqN-Li_T0ttgrsohYlpsy)  
+    - 이 때는, 두 알고리즘 모두 학습할 거리는 이미 다 해버림!  
+      - 이 때 Expected Sarsa의 long-term behavior은 alpha 값에 의해 영향을 받지 않고, update도 deterministic  
+        - 이 말인 즉슨, step size는 estimate가 target value로 얼마나 빨리 접근해가냐를 결정할 뿐.  
+      - Sarsa: 개판!  
+        - α값이 커지니까 수렴 실패.  
+        - α값이 작아지니까, long-run performance가 expected Sarsa의 그것에 접근.  
+ 
+
+### 4.3.3 Generality of Expected Sarsa    
+- 이제껏 배운 TD algo for control  
+  
+  ```  
+  1. Sarsa  
+  2. Q-learning  
+  3. Expected Sarsa  
+  ```  
+  
+- `1. Sarsa`와 `3. Expected Sarsa`는 똑같은 Bellman Equation을 근사  
+  & (target updating시 target policy의 기대값을 이용한다!)  
+
+- 문제의식: __2. Q-Learning과 3. Expected Sarsa 간에도 관련이 있다???__  
+  
+- on-poliy case  
+  - behavior policy = target policy  
+  
+  - Recall. Expected Sarsa Update  
+    ![](https://latex.codecogs.com/gif.latex?Q%28S_t%2C%20A_t%29%20%5Cleftarrow%20Q%28S_t%2C%20A_t%29%20&plus;%20%5Calpha%28R_%7Bt&plus;1%7D%20&plus;%20%5Cgamma%20%5Csum_%7Ba%27%7D%5Cpi%28a%27%7CS_%7Bt&plus;1%7D%29Q%28S_%7Bt&plus;1%7D%2C%20a%27%29-Q%28S_t%2C%20A_t%29%29)  
+    - 다음 action은 π로부터 샘플링 되는데, action들의 기대값은 실제로 다음 state에서 선택되는 action이랑은 독립적으로 (independently) 계산됨.  
+    - 사실 π가 behavior policy랑 같아야할 필요가 없기도 함  
+    
+    > Expected Sarsa도 (Q-Learning처럼) importance sampling 없이 off-policy 학습이 가능하다  
+    
+    - 만약 target policy가 greedy 하다면!?  
+      ![](http://drive.google.com/uc?export=view&id=1R0c_jZ5JmCpeP0oUc6JKVmjX0gv-aYWp)  
+      ↓  
+      ![](http://drive.google.com/uc?export=view&id=121ra_Xle2ytEXDq60UOBplovZBZ6ANK-)  
+      
+      > Q-Learning은 Expected Sarsa의 special case다!  
+
+
+### 4.3.4 Week 3 Summary  
+- TD control algorithm: Bellman Equation에 근거하고 있다.  
+  - Sarsa  
+    - Bellman Equation의 sample based version 사용  
+    - q_π를 학습  
+    - On-policy  
+  - Q-Learning  
+    - Bellman optimality equation을 사용  
+    - q_*를 학습  
+    - Off-policy  
+  - Expected Sarsa  
+    - Sarsa와 같은 Bellman Equation 사용  
+    - 다만 샘플링 방식이 조금 다름  
+      - 다음 action value의 기대값 사용  
+    - Off-policy (사실 On-policy, Off-policy 둘다!)  
+  ![](http://drive.google.com/uc?export=view&id=1hyin7a8YUKSXT6f_uI0k6EPe3M55csas)  
+
+- Sarsa vs Q-Learning  
+  - online-learning 시 Sarsa가 Q-Learning보다 더 나을 수 있다.  
+    - on-policy control은 exploration까지 고려하기 때문.  
+    - cliff 예시에서, Q-Learning은 exploratory action 때문에 종종 떨어짐  
+    - Sarsa는 학습 시간이 길었지만 더 안전한 path를 거침으로써 cliff로 거의 떨어지지 않았고, 결과적으로 reward도 더 컸음.  
+  
+- Sarsa vs Expected Sarsa  
+  - 모든 step size에 대해 Expected Sarsa가 Sarsa보다 낫더라!  
+    - ∵ Expected Sarsa의 variance 완화 (policy 때문)  
+      - 이름이 의미하듯, 다음 action들의 기대값!  
