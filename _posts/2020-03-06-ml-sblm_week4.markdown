@@ -8,7 +8,7 @@ comments: true
 
 ---
 
-- Sarsa algorithm 및 Q-learning에 관한 글입니다.  
+- Sarsa, Q-learning 및 Expected Sarsa algorithm에 관한 글입니다.  
 
 ---  
 
