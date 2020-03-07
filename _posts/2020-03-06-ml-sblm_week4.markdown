@@ -51,7 +51,7 @@ comments: true
     ![](http://drive.google.com/uc?export=view&id=1C1aaZgvIHisl8Sj46QltdAZ6QFJu5msX)  
     - Sarsa의 update 알고리즘은 TD update algo.와 굉장히 닮았네 (state value를 action value로 대체한 것일 뿐)  
   - 위를 바탕으로 `control`  
-    - 역시 episode 이후나 convergence 이후가 아닌, 매 teim step마다 policy improvement 가능  
+    - 역시 episode 이후나 convergence 이후가 아닌, 매 time step마다 policy improvement 가능  
     
 ### 4.1.2 Sarsa in the Windy Grid World  
       
@@ -152,12 +152,6 @@ comments: true
         - α, ε, 초기값, 실험횟수 등 모든 파라미터들이 최종 결과에 영향을 미칠 수 있다!!!  
 
 ### 4.2.3 How is Q-Learning off-policy?  
-- 이 강의에서 할 것  
-  ```  
-  - Understand how Q-Learning can be off-policy without using importance sampling  
-  - Describe how learning on-policy or off-policy might affect performance in control  
-  ```  
-
 - Q-Learning  
   - off-policy algorithm!  
     - 앞에서, importance sampling을 이용한 off policy를 본 적이 있는데,  
