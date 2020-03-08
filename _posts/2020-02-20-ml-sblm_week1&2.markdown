@@ -272,6 +272,7 @@ cf) on-policy, off-policy
     : Epsilon-greedy Exploration을 떠올려 보라!  (⊂ ε-Soft Policies)  
   
 - ε-Soft Policies  
+  ![](http://drive.google.com/uc?export=view&id=1bYXr0d6t8CvMpVp1txFgHylXb7gwOsEO)  
   - Epsilon-greedy Exploration ⊂ `ε-Soft Policies`  
   - 각 action을 `ε / # of actions`의 확률로 취함  
   - agent로 하여금 계속해서 explore하도록 만듦.  
