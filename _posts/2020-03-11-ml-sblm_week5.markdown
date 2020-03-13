@@ -171,12 +171,6 @@ comments: true
       - `Dyna는 step마다 더 많은 연산을 하지만, 제한된 experience를 효율적으로 사용한다.`  
       
 ### 5.3.2 The Dyna Algorithm  
-- 이 강의에서 배울 것  
-  ```  
-  - Describe how Tabular Dyna-Q works
-  - Identify the direct RL and planning updates in Tabular Dyna-Q
-  - Identify the model learning and search control components of Tabular Dyna-Q
-  ```  
 - 앞서서, Dyna: planning, learning, acting의 결합(unification)   
   - 이 결합은 추가적인 개념 몇 가지를 소개. (ex. model learing, search control)  
 
@@ -216,7 +210,7 @@ comments: true
         - Planning step은 여러 번 반복된다.  
         
     - `Dyna-Q는 각 environment transition에 대해 많은 planning update 수행`  
-    = __Tabular Dyna-Q__  (a simple instane of the Dyna architecture)   
+    = __Tabular Dyna-Q__  (a simple instance of the Dyna architecture)   
     
 - 앞전의 로봇의 예를 통한 `Dyna-Q algorithm` 이해    
   ![](https://drive.google.com/open?id=1Ppr51VkF_KOIZmJB6kUT955GufVYpf8P)  
@@ -236,11 +230,6 @@ comments: true
 - Tabular Dyna-Q는 (planning이 없었을 경우에 비해) 훨씬 많은 value function update.  
 - Dyna-Q는 environment와의 한정된 interaction을 효율적으로 더 잘 사용한다.  
 
-#### Summary  
-```  
-- Tabular Dyna-Q mixes planning, learning and acting through the value function.  
-- We studied how Dyna-Q updates its value function in an example gridworld. 
-```  
 
 ### 5.3.3 Dyna & Q-learning in an Simple Maze  
 
