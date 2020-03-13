@@ -64,7 +64,7 @@ comments: true
     
 
 ## 5.2 Planning  
-### 5.2.1 Random Tabular Q-Learning  
+### 5.2.1 Random Tabular Q-Planning  
 - model experience와의 `process planning`?  
   : 세계와 상호작용 하지 않고 더 나은 의사결정을 하기 위해 모델을 어떻게 `leverage`할지에 대한 것  
   
