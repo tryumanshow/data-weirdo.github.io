@@ -24,7 +24,7 @@ __1. RDC Tool 사용하기 (Remote Desktop Connection)__
   - 컴퓨터란에 `IP번호:포트번호` 입력  
   - 본인 계정 및 비밀번호를 입력하면 연결 완료!  
   
-__2. SSH로 접속하기(Secured Shell)  
+__2. SSH로 접속하기(Secured Shell)__  
   - PuTTY이용 (인터넷에서 쉽게 다운받을 수 있음)  
   - Host Name에 IP번호, Port에 포트 번호를 입력  
   
