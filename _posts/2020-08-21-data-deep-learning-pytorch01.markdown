@@ -3,7 +3,7 @@ layout: post
 title:  "파이토치로 시작하는 딥러닝 기초-Part1"
 subtitle:   "deep-learning-범주형 변수 다루기"
 categories: data
-tags: deep-learning
+tags: deep_learning
 comments: true
 ---
 
