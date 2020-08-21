@@ -1,10 +1,10 @@
 ---
 layout: list
-title: ML
-slug: ml
+title: Data
+slug: data
 menu: true
 submenu: true
-order: 3
+order: 1
 description: >
-  머신러닝을 기초부터 다시 차근차근 공부합니다.
+  Be-a-Data-Weirdo!
 ---
