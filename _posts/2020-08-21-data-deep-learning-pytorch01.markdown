@@ -175,15 +175,149 @@ comments: true
   ```
   
 - Full Training Code  
+
   ```  
-  ### Part
+  ### Part A: 한 번만
   x_train = torch.FloatTensor([[1], [2], [3]])
   y_train = torch.FloatTensor([[2], [4], [6]])
-  
+
   W = torch.zeros(1, requires_grad = True)
   b = torch.zeros(1, requires_grad = True)
-  
+
   optimizer = optim.SGD([W,b], lr=0.01)
   
+  ### Part B: 반복!
+  nb_epochs = 1000  
+  for epoch in range(1, nb_epochs+1):
+    hypothesis = x_train * W + b
+    cost = torch.mean((hypothesis - y_train) ** 2)
+    
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+  ```  
+  
+  - Part A: 한 번만!
+    > 1. 데이터 정의  
+    > 2. Hypothesis 초기화
+    > 3. Optimizer 정의  
+    
+  - Part B: 반복!  
+    > 1. Hypothesis 예측  
+    > 2. Cost 계산  
+    > 3. Optimizer로 학습  
+    
+---       
+    
+## Lab3. Deeper Look at GD  
+- [Lab3 코드 링크](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-03_minimizing_cost.ipynb)  
+
+- 회귀의 Cost function: MSE  
+- Gradient Descent  
+  W := W-α∇W  
+  
+- Full Code  
+
+  ```  
+  # 데이터
+  x_train = torch.FloatTensor([[1], [2], [3]])  
+  y_train = torch.FloatTensor([[1], [2], [3]]) 
+  # 모델 초기화  
+  W = torch.zeros(1, requires_grad=True)
+  # optimizer 설정  
+  optimizer = optim.SGD([W], lr=0.15)  
+  
+  nb_epochs = 10
+  for epoch in rangE(np_epochs+1):
+  
+    # H(x) 계산  
+    hypothesis = x_train * W  
+    # cost 계산  
+    cost = torch.mean((hypothesis - y_train) ** 2)  
+    
+    print('Epoch {:4d}/{} W: {:.3f} Cost: {:.6f}'.format(
+      epoch, nb_epochs, W.item(), cost.item()
+    ))
+    
+    # cost로 H(x) 계산  
+    optimizer.zero_grad()  
+    cost.backward()
+    optimizer.step()
+  ```  
+  
+---  
+
+## Lab4-1. Multivariable Linear Regression 
+- [Lab4-1 코드 링크](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-04_1_multivariable_linear_regression.ipynb)  
+
+- Multivariable Linear Regression  
+  - Simple LInear Regresseion과 사고는 다를 게 전혀 없음.  
+  - x_train, y_train의 선언만 차원을 달리 해주는 것 밖에 없음.  
+  
+- 근데 어쨌든, 이렇게 직접 데이터들을 다 적어준다는 건, 차원이 커지면 상당히 비효율적인 일  
+  → PyTorch는 `nn.Module`이라는 편리한 모듈 제공  
+  
+    ```  
+    # Example  
+    import torch.nn as nn
+    
+    class MultivariateLinearRegressionModule(nn.Module):  
+      def __init__(self):
+        super().__init__()
+        self.linear = nn.Linear(3, 1)
+        
+      def forward(self, x):
+        return self.linear(x)
+    ```    
+    
+    ```  
+    # 데이터
+    x_train = torch.FloatTensor([[73, 80, 75],
+                               [93, 88, 93],
+                               [89, 91, 90],
+                               [96, 98, 100],
+                               [73, 66, 70]])
+    y_train = torch.FloatTensor([[152], [185], [180], [196], [142]])
+    # 모델 초기화
+    model = MultivariateLinearRegressionModel()
+    # optimizer 설정
+    optimizer = optim.SGD(model.parameters(), lr=1e-5)
+
+    nb_epochs = 20
+    for epoch in range(nb_epochs+1):
+        # H(x) 계산
+        prediction = model(x_train)
+
+        # cost 계산
+        cost = F.mse_loss(prediction, y_train)
+
+        # cost로 H(x) 개선
+        optimizer.zero_grad()
+        cost.backward()
+        optimizer.step()
+
+        # 20번마다 로그 출력
+        print('Epoch {:4d}/{} Cost: {:.6f}'.format(
+            epoch, nb_epochs, cost.item()
+        ))
+    ```  
+## Lab4-2. Loading Data  
+- [Lab4-2 코드 링크](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-04_2_load_data.ipynb)  
+
+- 복잡한 ML 모델의 학습을 위해서는 엄청나게 많은 양의 데이터가 필요  
+  - 데이터 多: 데이터를 한 번에 학습시키는 것은 불가능해짐  
+    → 해결책: Mini-Batch Gradient Descent  
+      ![](https://wikidocs.net/images/page/55580/%EB%AF%B8%EB%8B%88%EB%B0%B0%EC%B9%98.PNG)  
+      
+    - 단, Batch gradient descent 방법에 비해 Mini-batch Gradient Descent 방법은  
+      매끄럽게 학습이 되지는 않음 (mini batch # vs. cost 그래프)  
+      
+- 코드 등장  
+  - torch.utils.data.Dataset  
+  - \__len\__()  
+  - \__getitem\__()    
+
+
+
 #### Reference
 [파이토치로 시작하는 딥러닝 기초](https://www.edwith.org/boostcourse-dl-pytorch/lecture/42994/)  
