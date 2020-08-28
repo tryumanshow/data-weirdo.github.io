@@ -7,7 +7,7 @@ tags: deep_learning
 comments: true
 ---
 
-- PyTorch 사용에 관한 학습을 시작하기 전 먼저 알아야 할     
+- PyTorch 사용에 관한 학습을 시작하기 전 먼저 알아야 할 기본적인 개념들     
 
 ---  
 
@@ -658,7 +658,7 @@ comments: true
   plot.show()
   ```  
     
-
+---  
 
 #### Reference
 [파이토치로 시작하는 딥러닝 기초](https://www.edwith.org/boostcourse-dl-pytorch/lecture/42994/)  
