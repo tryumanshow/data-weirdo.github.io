@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "파이토치로 시작하는 딥러닝 기초-Basic ML"
+title:  "파이토치로 시작하는 딥러닝 기초 - Part1.Basic ML"
 subtitle:   "deep-learning-part1"
 categories: data
 tags: deep_learning
 comments: true
 ---
 
-- 기본적인 머신러닝에 대한 정리    
+- PyTorch 사용에 관한 학습을 시작하기 전 먼저 알아야 할     
 
 ---  
 
@@ -317,6 +317,347 @@ comments: true
   - \__len\__()  
   - \__getitem\__()    
 
+---  
+
+## Lab5. Logistic Regression    
+- [Lab5 코드 링크](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-05_logistic_classification.ipynb)  
+
+- Logistic Regression: Classification 문제  
+- 문제 정의: Binary Classification  
+  - Sigmoid: ![](https://latex.codecogs.com/gif.latex?H%28X%29%20%3D%20%5Cfrac%7B1%7D%7B1&plus;e%5E%7B-W%5ETX%7D%7D%20%5Capprox%20P%28X%3D1%29)    
+  ![](https://wikidocs.net/images/page/22881/%EC%8B%9C%EA%B7%B8%EB%AA%A8%EC%9D%B4%EB%93%9C%EA%B7%B8%EB%9E%98%ED%94%84.png)  
+  
+  - Cost Function   
+    ![](https://latex.codecogs.com/gif.latex?cost%28W%29%20%3D%20-%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5Em%7Bylog%28H%28x%29%29&plus;%281-y%29log%281-H%28x%29%29%7D)  
+  
+- 사용될 모듈 Import  
+  
+  ```  
+  import torch
+  import torch.nn as nn
+  import torch.nn.functional as F
+  import torch.optim as optim 
+  ```  
+
+- Sigmoid 함수는 PyTorch에서 제공 : `torch.sigmoid()`  
+- Costfunction도 PyTorch에서 제공: `F.binary_cross_entropy(hytothesis, y_train)`  
+
+- 전체 훈련 과정 예시  
+   
+  ```  
+  x_data = [[1, 2], [2, 3], [3, 1], [4, 3], [5, 3], [6, 2]]
+  y_data = [[0], [0], [0], [1], [1], [1]]
+  x_train = torch.FloatTensor(x_data)
+  y_train = torch.FloatTensor(y_data)
+  
+  # 모델 초기화  
+  W = torch.zeros((2,1), requires_grad=True)
+  b = torch.zeros(1, requires_grad=True)
+  # optimizer 설정  
+  optimizer = optim.SGD([W,b], lr=1)
+  
+  nb_epochs = 1000
+  for epoch in range(nb_epochs + 1):
+      
+      # Cost 계산  
+      hypothesis = torch.sigmoid(x_train.matmul(W) + b) 
+      cost = F.binary_cross_entropy(hypothesis, y_train)
+      
+      # cost로 H(x) 개선
+      optimizer.zero_grad() # 기존에 구해놓은 gradient가 있으면 초기화를 해주어야. 
+      cost.backward()
+      optimizer.step()
+      
+      # 100번마다 로그 출력하기
+      if epoch % 100 == 0:
+        print('Epoch {:4d}/{} Cost: {:.6f}'.format(
+          epoch, nb_epochs, cost.item()
+        ))
+      ```  
+      
+- 일련의 과정들을 Class로 좀 더 세련되게 표현하기  
+  
+  ```  
+  class BinaryClassifier(nn.Module): # nn.Module을 상속받음  
+    def __init__(self):
+      super().__init__()
+       self.linear = nn.Linear(8, 1)
+       self.sigmoid = nn.Sigmoid()
+       
+    def forward(self, x):
+      return self.sigmoid(self.linear(x))
+  
+  model = BinaryClassifier()
+  ```  
+  
+  - cf. [nn.Linear()](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html)  
+  
+  ```  
+  # optimizer 설정
+  optimizer = optim.SGD(model.parameters(), lr=1)
+
+  nb_epochs = 100
+  for epoch in range(nb_epochs + 1):
+
+      # H(x) 계산
+      hypothesis = model(x_train)
+
+      # cost 계산
+      cost = F.binary_cross_entropy(hypothesis, y_train)
+
+      # cost로 H(x) 개선
+      optimizer.zero_grad()
+      cost.backward()
+      optimizer.step()
+
+      # 20번마다 로그 출력
+      if epoch % 10 == 0:
+          prediction = hypothesis >= torch.FloatTensor([0.5])
+          correct_prediction = prediction.float() == y_train
+          accuracy = correct_prediction.sum().item() / len(correct_prediction)
+          print('Epoch {:4d}/{} Cost: {:.6f} Accuracy {:2.2f}%'.format(
+              epoch, nb_epochs, cost.item(), accuracy * 100,
+          ))
+  ```  
+  
+  
+---  
+
+## Lab6. Softmax Classification  
+- [Lab6 코드 링크-1](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-06_1_softmax_classification.ipynb)  
+- [Lab6 코드 링크-2](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-06_2_fancy_softmax_classification.ipynb)  
+
+- ![](https://latex.codecogs.com/gif.latex?P%28class%3Di%29%20%3D%20%5Cfrac%7Be_i%7D%7B%5Csum%7Be_j%7D%7D)  
+- Softmax 함수는 PyTorch에서 제공: `F.softmax()`  
+  
+- Cross Entropy  
+  - 두 확률분포가 얼마나 비슷한지를 나타내는 수치  
+    ![](https://latex.codecogs.com/gif.latex?H%28P%2CQ%29%20%3D%20-%5Cmathbb%7BE%7D_%7Bx%20%5Csim%20P%28x%29%7D%5BlogQ%28x%29%5D%20%3D%20-%5Csum_%7Bx%5Cin%20X%7DP%28x%29logQ%28x%29)  
+    
+    
+  - [Low-level의 구현](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-06_1_softmax_classification.ipynb)    
+  - [High-level의 구현](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-06_2_fancy_softmax_classification.ipynb)   
+    - `F.log_softmax(z, dim=1)`  
+    - `F.nll_loss(F.log_softmax(z, dim=1), y)`  # negative loglikelihood  
+    - `F.cross_entropy(z, y)`  
+    
+    ```  
+    # High-level Implementation with nn.Module 
+    
+    class SoftmaxClassifierModel(nn.Module):  
+      def __init__(self):
+        super().__init__()
+        self.linear = nn.Linear(4, 3) # Output이 3
+        
+      def forward(Self, x):
+        return self.linear(x)
+        
+    model = SoftmaxClassifierModel()
+    ```  
+    
+  
+- 요컨대  
+  - Binary Classification: Sigmoid 사용  
+  - Multinomial Classification: Softmax 사용  
+ 
+---  
+
+
+## Lab7-1. Tips  
+- [Lab7 코드 링크-1](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-07_1_tips.ipynb)  
+
+
+- MLE (Maximum Likelihood Estimation)  
+  - 관찰한 데이터를 가장 잘 설명하는 pdf의 `parameter`를 찾는 것  
+    - 이 parameter를 찾는 방법 (Optimization via Gradient Ascent)  
+      ![](https://latex.codecogs.com/gif.latex?%5Ctheta%20%5Cleftarrow%20%5Ctheta%20-%20%5Calpha%20%5Cbigtriangledown_%7B%5Ctheta%7DL%28x%3B%5Ctheta%29)  
+      - 'Local Maxima' 찾기  
+      
+- Overfitting  
+  - MLE는 숙명적으로 Overfitting이 따르게 된다.  
+    (주어진 데이터에 대해 그 데이터를 가장 잘 설명하는 pdf를 찾다보니 당연히 overfitting이 발생)  
+  - Overfitting을 최소화하는 방법?  
+    : Training Set(.0.8) / Validation Set(0~0.1) / Test Set(0.1~0.2)으로 Observation을 나누기.  
+    
+  - Training Set으로 훈련을 하면 epoch이 늘어날수록 Train Loss가 꾸준히 줄어든다.  
+  - 하지만 Validation Set은 epoch이 늘어날수록 Validation Loss가 줄다가 다시금 늘어난다.  
+    - 여기서 다시금 늘어나는 그 지점부터가 `Overfitting`이 일어나기 시작하는 것  
+      
+  
+  - Overfitting을 방지하는 방법?  
+    
+    ```  
+    1. 데이터를 더 많이 모은다.  
+    2. Feature 개수를 줄인다.  
+    3. Regularization 
+    ```  
+    
+    - Regularization  
+      
+      ```  
+      - Early Stopping (Validation Loss가 더 이상 낮아지지 않을 때까지.)
+      - Reducing Network Size  (딥러닝의 경우)
+      - Weight Decay  
+      - Dropout
+      - Batch Normalization 
+      ```  
+      
+      - DeepLearning에 한해 Dropout과 Batch Normalization이 가장 많이 사용된다~  
+      ```  
+      
+- DNN 학습하는 의사결정 과정?  
+  
+  ```  
+  1. 신경망 아키텍쳐를 만든다. (물론 Input, Output size는 고정)  
+  2. 모델을 훈련하고, 그 모델이 overfitting 된 모델인지 확인한다. 
+    - 만약 Overfitted: Drop-out이나 Batch-Normalization과 같은 Regularization 실행 
+    - 만약 Not overfitted: 모델 크기 증가 (Deeper & Wider)
+  3. Step2를 반복  
+  ```  
+- '좋은' Learning Rate는 데이터와 모델에 따라 굉장히 달라질 수가 있기 때문에,   
+  딱히 '어떤 값을 사용해라!' 라고 할 수는 없고, 다만 lr=1e-1와 같은 값을 사용했을 때  
+  학습이 너무 느리다든지, 아니면 큰 값을 썼는데 발산을 해버린다든지, 그런 경우들을  
+  잘 고려하여 적절하 숫자를 잘 찾아내자.  
+  
+  
+- 데이터 전처리  
+  - 굉장히 중요~  
+  - 데이터 전처리를 하면 학습이 훨씬 더 수월해짐  
+    - ex. Standardization  
+      ![](https://latex.codecogs.com/gif.latex?x_j%5E%7B%27%7D%20%3D%20%5Cfrac%7Bx_j-%5Cmu_j%7D%7B%5Csigma_j%7D)  
+  - NN은 전처리를 하지 않으면, 값이 큰 특정 column의 학습에만 힘을 쏟을 것.  
+    - NN 모델을 잘 만들고, 코딩을 잘 하는 것도 중요하지만, 그것만큼이나 데이터의 성격을 파악하고 전처리를 잘 해주는 것 또한 굉장히 중요.  
+      ∵ MLE를 Gradient Descent 방법을 사용해서 구하는데, 최적화가 원활히 이뤄지지 않으면 최적의 파라미터를 찾을 수 없다. 
+    
+  
+## Lab7-2. MNIST Introduction    
+- [Lab7 코드 링크-2](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-07_2_mnist_introduction.ipynb)  
+
+- MNIST 데이터 셋  
+  - 손으로 쓰여진 0~9의 숫자 이미지  
+  - 우편번호 자동 인식이 목적  
+  - Train set: 60000장의 Image & Label  
+  - Test set: 10000장의 Image & Label  
+  
+  ```  
+  28 x 28 Image  
+  1 channel gray image  
+  0~9 digits  
+  ```  
+
+- `torchvision` 패키지   
+  - 유명한 데이터 셋들, 모델 아키텍쳐들, 다양한 Transformation들로 구성됨  
+    [참고](https://pytorch.org/docs/stable/torchvision/index.html)  
+  
+  - 코드 부분 주석   
+  
+    ```  
+    import torchvision.datasets as dsets
+    
+    mnist_train = dsets.MNIST(root="MNIST_data/", 
+                              train=True, 
+                              transform = transform.ToTensor(), 
+                              download=True)
+    ```  
+    
+    - root: 어디에 MNIST 데이터가 있는가,  
+    - train=True: MNIST 데이터의 Trainset을 불러오겠다.  
+    - transform: MNIST 데이터셋을 불러올 때 어떤 Transform을 적용해서 불러올 거냐?  
+      - 일반적으로 PyTorch의 경우 이미지는 0~1 사이의 값을 갖게 되고, 순서는 Channel - Height - Width  
+      - 일반적인 이미지는 0~255의 값을 갖게 되고, Height - Width - Channel의 순서  
+      - To Tensor는 후자를 PyTorch에 맞게 전자로 바꾸어 준다.  
+    - download=True: 만약 root에 MNIST 데이터가 존재하지 않으면 다운로드 받겠다.   
+
+    ```  
+    data_loader = torch.utils.DataLoader(DataLoader=mnist_train, 
+                                        batch_size=batch_size, 
+                                        shuffle=True, 
+                                        drop_last=True)
+    ```  
+    
+    - DataLoader: 어떤 데이터를 load할 것인가.  
+    - batch_size: 이미지를 불러올 때 몇 개씩 잘라서 불러 올래?  
+    - shuffle = True: 섞어서 불러올래? (True)  
+    - drop_last = True: 배치 사이즈만큼 잘라서 불러올 때 뒤에 남는 데이터들을 자르자.  
+    
+    ```  
+    for epoch in range(training_epochs):
+    ...  
+      for X, Y in data_loader: # X: image, Y: label 
+        X = X.view(-1, 28*28).to(device) # view를 이용해서 28 by 28을 784로 바꾸어 준다.  
+    ```  
+  
+    [Epoch  Batch size / Iteration 참고](https://stackoverflow.com/questions/4752626/epoch-vs-iteration-when-training-neural-networks)  
+    - Epoch  
+      : 훈련 셋 전체가 학습에 한 번 사용이 된다? = 1 epoch  
+    - Batch Size   
+      : Training Set을 몇 개 단위로 자를 거냐?  
+    - Iteration  
+      : Batch를 몇 번 학습에 사용?  
+
+    - ex) 
+      1000개의 Training Set  
+      Batch Size: 500  
+      -> Epoch 한 번 도는 데에 2번의 Iteration 소요  
+
+  - Classifier 학습하기  
+    
+    ```  
+    linear = torch.nn.Linear(784, 10, bias=True).to(device) # ∵ MNIST 데이터 이미지 shape: 784  
+    
+    training_epochs = 15
+    batch_size = 100
+    
+    criterion = torch.nn.CrossEntropyLoss().to(device) # PyTorch: CrossEntropyLoss가 자동으로 Softmax 계산  
+    optimizer = torch.optim.SGD(linear.parameters(), lr=0.1)  
+    
+    for epoch in range(training_epochs):
+      avg_cost = 0
+      total_batch = len(data_loader)  
+      for X, Y in data_loader:
+        X = X.view(-1, 28*28).to(device)
+        optimizer.zero_grad()
+        hypothesis = linear(X)
+        cost = criterion(hypothesis, Y)
+        cost.backward()
+        optimizer.step()
+        avg_cost += cost / total_batch  
+        
+      print("Epoch: ", "%04d" % (epoch+1), "cost = ", "{:.9f}.format(avg_cost))"
+      
+    ```  
+      
+- Test 하기  
+  
+  ```  
+  With torch.no_grad(): # 'Gradient는 계산하지 않겠다.'(Test시 항상 사용하는 습관 들이자.)
+    X_test = mnist_test.test_data.view(-1, 28*28).float().to(device)
+    Y_test = mnist_test.test_labels.to(device)
+    
+    prediction = linear(X_test)
+    correct_prediction = torch.argmax(prediction, 1) == Y_test
+    accuracy = correct_prdiction.float().mean()
+    pritn("Accuracy: ", accuracy.item())
+  ```  
+  
+- Image를 이용하기 때문에 Visualization도 필요~  
+
+  ```  
+  import matploblib.pyplot as plt
+  import random  
+  
+  r = random.randint(0, len(mnist_test) - 1)
+  X_single_data = mnist_test.test_data[r: r+1].view(-1, 28*28).float().to(devicee)
+  Y_single_data = mnist_test.test_labels[r: r+1].to(device)
+  
+  print("Label: ", Y_single_data.item())
+  single_prediction = linear(X_single_data)
+  print("Prediction: ", torch.argmax(single_prediction, 1).item())
+  
+  plt.imshow(mnist_test.test_data[r:r+1].view(28,28), cmap='Greys', interpolation='nearest')
+  plot.show()
+  ```  
+    
 
 
 #### Reference
