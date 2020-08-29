@@ -10,3 +10,174 @@ comments: true
 - CS224W의 Intro를 정리한 글입니다.  
 
 ---  
+
+- 네트워크 및 그래프에 대한 분류로 시작  
+  - `Networks(=Natural Graphs)` vs `Information Graphs`  
+  
+  - 1. Networks  
+    - 주어진 도메인을 어떻게 모델링할 것인가? 및 그 네트워크는 도메인에 대해 무엇을 나타내고 있는가? 에 대한 관심  
+  - 2. Information Graphs  
+    - Entity들 사이의 relationship에 관심 -> 예측(Prediction) 진행  
+    
+  - 하지만 이 두 분류가 혼합되어 사용되는 경우가 많다.  
+  
+- 데이터가 네트워크의 형태로 표현되는 사례는 굉장히 많음.  
+  - Social networks  
+  - Economic networks  
+  - Communication networks  
+  - Information networks: Web & Citations  
+  - Internet  
+  - Network of neruons  등등  
+  
+  - __"네트워크에 대한 제대로 된 이해 없이는 어떤 모델링이나 예측도 '제대로'진행할 수 없다." (Domain Motivation 필요)__  
+  
+- 많은 데이터들은 그래프의 형태로 표현됨  
+  - Event Graphs  
+  - Knoledge Graphs  
+  - Disease Pathways  
+  - Molecules  
+  - Scene Graphs  
+  - Cell-cell similarity Networks   
+
+  - __"이런 데이터에서 Relationship들을 잘 모델링할 수 있다면 Prediction에 상당한 도움이 될 것."__  
+  
+- Network가 중요한가? 그렇다면 왜 지금인가?  
+  - 복잡한 데이터를 묘사하기 위한 보편적인 언어 Universal Language)  
+  - 분야들 사이에서의 용어 공유 (Shared Vocab.)  
+  - 데이터 이용가능성 (Data Availability) & 연산 능력 증대  
+  - Impact  (Google, Cisco, Facebook, Amazon, Pinterest와 같은 기업들)  
+  
+### 네트워크 분석 방법  
+  1. Node classification  
+    - 주어진 노드의 타입/색깔 예측  
+  2. Link prediction  
+    - 두 노드들이 연결되어 있는지 예측  
+  3. Community Detection  
+    - 고밀도를 이루고 있는 노드들의 군집 인식  
+  4. Network Similarity  
+    - 두 노드 및 네트워크들의 유사도 측정  
+    
+- Embedding Node에 대한 언급  
+  ![GNN01-01](https://user-images.githubusercontent.com/43376853/91637016-20f5af00-ea40-11ea-90e1-9d2d3302a862.png)
+  - 목표  
+    : 유사한 네트워크에 속하는 노드들이 Embedding space에서 더 가까운 거리에 위치하도록 Input Space의 많은 노드들을 d-dimensional embedding space로 mapping  
+    - Graph 상에서 깊은 관계를 맺고 있던 노드들은 d-dim space에서도 가까이에 놓이게 된다.  
+    - 그래프 상의 모든 노드들이 d-dim space에서 하나의 '점'이 된다.  
+    - Ideation "d-dim 상의 임의의 점을 택했을 때, 이 점 주변의 점들이 무엇인가?"를 찾는 것이 바로 'Recommendation'  
+    - 앞으로 학습할 것은 '그렇다면 이 mapping을 어떻게 할 것인가?'에 대한 것  
+    
+ 
+### 네트워크의 구성요소  
+
+  |Components|표기|  
+  |----------|---|  
+  |Objects: Nodes, Vertices|N|  
+  |Interactions: links, edges|E|  
+  |System: network, graph|G(N,E)|  
+
+- Network? Graphs?  
+  - 네트워크: 현실 세계를 지칭  
+    - ex) Web, Social Network, Metabolic network  
+    - Terms: Network, node, link  
+    
+  - 그래프: 네트워크의 '수학적인' 표현 (Mathematical Representation of network)  
+    - ex) Web graph, Social graph, Knowledge Graph  
+    - Temrs: Graph, vertex, edge  
+    
+- (앞에서도 강조했지만) 어떤 domain에 대해 네트워크를 적용하고 있는지를 정확히 파악하고, 그 도메인에 맞는 적절한 네트워크 표기 (proper network representation)을 선택하는 것이 네트워크의 성공적인 활용을 결정  
+  - 같이 일하는 개인들을 연결한다면 -> `Professional Network`를 탐색하게 될 것이고,  
+  - 서로를 인용하고 있는 과학 논문들을 연결한다면 -> `Citation Network`를 연구하게 될 것 etc.  
+
+
+### Network Representation  
+#### 1. Directed vs. Undirected Graphs (방향 그래프, 무방향 그래프)  
+![GNN01-02](https://user-images.githubusercontent.com/43376853/91637232-1a683700-ea42-11ea-89f3-b2f0614f9517.png)  
+    
+#### 2. Node Degrees (노드의 차수)  
+![GNN01-03](https://user-images.githubusercontent.com/43376853/91637270-58655b00-ea42-11ea-8652-409b850ae3c9.png)  
+- 무방향 그래프의 경우  
+    - E: 총 Edge들의 개수  
+    - 2를 곱하는 이유: 차수 카운팅시 모든 edge들은 두 번 세지기 때문에.  
+  - 방향 그래프의 경우  
+    - 전입, 전출차수를 구분 (전입: in-degree, 전출: out-degree)  ㅇ
+
+#### 3. Complete Graph (완전 그래프)  
+: 서로 다른 두 개의 꼭짓점이 반드시 하나의 변으로 연결된 그래프  
+  - N개의 노드를 가진 무방향 완전 그래프의 Edge의 개수  
+    ![](https://latex.codecogs.com/gif.latex?E_%7Bmax%7D%20%3D%20%5Cbinom%7BN%7D%7B2%7D%20%3D%20%5Cfrac%7BN%28N-1%29%7D%7B2%7D)  
+![GNN01-04](https://user-images.githubusercontent.com/43376853/91637449-69629c00-ea43-11ea-8081-19fdb501992b.png)  
+
+#### 4. Bipartite Graph (이분 그래프)  
+![GNN01-05](https://user-images.githubusercontent.com/43376853/91637479-b6467280-ea43-11ea-97da-0e587b4f0cea.png)  
+- cf) 'Folded' Networks: 한 side에서의 두 노드가 적어도 하나의 공통된 neighbor를 share.  
+  ![GNN01-06](https://user-images.githubusercontent.com/43376853/91637587-877ccc00-ea44-11ea-9763-bc592279f5e5.png)  
+  - 첫번째, 세번째 그림: Folded Networks  
+  - 두번째 그림: Bipartite Graph  
+  
+
+### 그래프를 나타내는 방법   
+
+```  
+1. 인접 행렬 (Adjacency Matrix)  
+2. 엣지 리스트 (Edge List)  
+3. 인접 리스트 (Adjacency List)  
+```  
+
+1. 인접 행렬  
+- 노드끼리 연결되어 있으면1, 아니면 0으로 나타내는 행렬  
+- 역시 방향, 무방향 그래프의 두 경우를 나누어 생각해볼 수 있음  
+  ![GNN01-07](https://user-images.githubusercontent.com/43376853/91637710-52bd4480-ea45-11ea-82dd-ba8c158215ed.png)  
+- 하지만, 인접행렬의 단점: `Sparsity`  
+  ![GNN01-08](https://user-images.githubusercontent.com/43376853/91637747-9617b300-ea45-11ea-894d-ccfb85d50dc1.png)  
+  - 인접행렬을 Matrix 상에 표시해본 것인데, 상당히 Sparse함을 알 수 있음.  
+  
+2. 엣지 리스트  
+- 그래프를 엣지들의 집합으로 나타냄  
+  ![GNN01-09](https://user-images.githubusercontent.com/43376853/91637798-f149a580-ea45-11ea-9a5b-0583904383c7.png)  
+
+3. 인접 리스트  
+  - 네트워크가 `크거나(Large)`, `희소할(Sparse)` 때 잘 working  
+  - 특정 노드가 주어지면 그 노드의 이웃 노드들을 빨리 찾을 수 있음  
+    ![GNN01-10](https://user-images.githubusercontent.com/43376853/91637837-3ff73f80-ea46-11ea-87a9-6d30f7a53e52.png)  
+
+
+- 실 세계의 네트워크에 대해서 잘 곱씹어 볼 사항 중의 하나  
+  : 실 세계의 네트워크는 정말 `Sparse`하다.  
+  ![GNN01-11](https://user-images.githubusercontent.com/43376853/91637911-aaa87b00-ea46-11ea-96e1-cd5507523a53.png)  
+  - 예를들어, MSN의 경우를 보면, 노드는 2억 개가 넘는데, 평균 차수는 11.1 밖에 안됨.  
+  - 실세계는 너무나 복잡한 나머지 그 관계들도 정말 복잡할 것 같지만, 실제로는 의외로 상당히 'Sparse'하다.  
+    -> 이것이 바로 그래프를 Adjacency Matrix로 잘 나타내지 않는 이유.  
+    
+
+### Edge Attributes  
+- 엣지들 특성에도 다양한 옵션들이 있음.  
+  - Weight (가중치)  
+  - Ranking (best friend, second best friend)  
+  - Type (friend, relative, co-worker)  
+  - Sign (Postive, Negative, 친구 vs 적)  등등  
+  
+### 이 외의 여러 그래프 타입   
+- Unweighted, Weighted, Self-Edges, Multigraph  
+  ![GNN01-12](https://user-images.githubusercontent.com/43376853/91638054-b0529080-ea47-11ea-9c2f-4d8aefb0989c.png)  
+  ![GNN01-13](https://user-images.githubusercontent.com/43376853/91638056-b183bd80-ea47-11ea-935b-c5e93cdd5c01.png)  
+
+### 무방향 그래프의 연결성  
+![GNN01-14](https://user-images.githubusercontent.com/43376853/91638091-f14aa500-ea47-11ea-831a-a68049d57bc7.png)  
+- Disconnected graph는  두 개 이상의 연결 성분으로 구성되어 있다.  
+- Giant Component는 연결 성분으로 구성된 그룹들 중 가장 크기가 큰 그룹을 의미  
+
+### 방향 그래프의 연결성  
+- `Strongly` connected directed graph
+  - 방향 그래프에서, 어떤 한 노드에서 다른 모든 노드들로의 경로가 있는 방향 그래프  
+- `Weakly` connected directed graph  
+  - 방향 그래프에서, 그 방향성을 무시했을 때에, 어떤 한 노드에서 다른 모든 노드들로의 경로가 발생하는 그래프 
+  
+- 그래프를 __strongly connected components (SCCs)__ 로 decompose할 수 있다. 
+  - Strongly connected components (SCCs)  
+    ![GNN01-15](https://user-images.githubusercontent.com/43376853/91638213-ac733e00-ea48-11ea-8aae-1338ed9b70b8.png)  
+
+
+---  
+
+### References  
+[CS224W: Machine Learning with Graphs](http://web.stanford.edu/class/cs224w/slides/01-intro.pdf)  
