@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 01.Intro"
 subtitle:   "GNN-01.Intro"
 categories: data
-tags: graph_nerual_network
+tags: gnn
 comments: true
 ---
 
