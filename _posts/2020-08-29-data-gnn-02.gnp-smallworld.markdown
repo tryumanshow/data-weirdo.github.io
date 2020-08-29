@@ -1,0 +1,56 @@
+---
+layout: post
+title:  "CS224W - 02.GNP-Smallworld"
+subtitle:   "GNN-02.gnp-smallworld"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 2주차 강의, Properteis of Networks, Random Graphs Models를 정리한 내용입니다.    
+
+---  
+
+### 네트워크의 특성  
+- 네트워크는 네 가지의 특성(Property)를 지닌다.  
+  
+  |Property|표기|  
+  |--------|----|  
+  |Degree Distribution|P(k)|  
+  |Path Length|h|  
+  |Clustering Coefficient|C|  
+  |Connected Components|s|  
+  
+#### 특성1. Degree Distribution  
+- Degree(차수): 임의로 노드를 택했을 때, 그 노드가 Degree k를 가질 확률  
+- 다음과 같은 그래프에 대해 Degree Distribution의 히스토그램을 그려볼 수 있음.  
+  ![GNN02-1](https://user-images.githubusercontent.com/43376853/91638443-a54d2f80-ea4a-11ea-9069-ced73b431446.png)  
+  - 역시 방향 그래프는 전입, 전출 차수 각각에 대해 Degree Distribution을 갖게 될 것.  
+  
+#### 특성2. Path Length  
+- Path: 노드들의 Sequence   
+  - Path라는 개념은 같은 edge를 여러 번 방문해도 상관 없음.  
+  
+- Distance (= Shortest Path, Geodesic)    
+  - 무방향 그래프의 경우  
+    : 한 노드에서 다른 특정 노드까지 갈 수 있는 경로 중 가장 짧은 경로  
+    : 만약 두 노드가 연결되어 있지 않다면, Distance = Infinity로 정의  
+    ![GNN02-2](https://user-images.githubusercontent.com/43376853/91638894-9f0c8280-ea4d-11ea-88a1-0b01fcef2b14.png)  
+  - 방향 그래프의 경우  
+    : 반드시 arrow의 방향을 따라서 path를 설정해야.  
+    : 때문에 방향 그래프에서는 symmetric하지 않다.  
+    ![GNN02-3](https://user-images.githubusercontent.com/43376853/91638896-a03daf80-ea4d-11ea-829c-26fa8f9dc374.png)  
+    
+- Diameter  
+  : 해당 그래프가 얼마나 큰가?  
+  : 한 그래프 상에서의 모든 노드 쌍들 사이에서의 `maximum (shortest path) distance`  
+    - 실제 그래프에서는 그다지 유용하지 않음  
+    - Upper bound의 관점에서 바라보면 될 듯.  
+  
+- Average Path Length   
+  - 대상: Connected Graph or Strongly Connected Directed Graph  
+  - 정의  
+    ![GNN02-4](https://user-images.githubusercontent.com/43376853/91638968-34a81200-ea4e-11ea-80ff-3fdc710f0f7d.png)  
+  - 대부분의 경우, Average Path Length에 있어서, 연결된 노드들만 고려함. (Infinite Length Path는 무시)   
+  
+#### 특성3. Clustering Coefficient  
