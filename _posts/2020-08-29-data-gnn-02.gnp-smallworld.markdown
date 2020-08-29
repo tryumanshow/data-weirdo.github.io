@@ -54,3 +54,130 @@ comments: true
   - 대부분의 경우, Average Path Length에 있어서, 연결된 노드들만 고려함. (Infinite Length Path는 무시)   
   
 #### 특성3. Clustering Coefficient  
+- 대상: 무방향 그래프(Undirected Graphs)  
+- "어떤 노드 i의 `neighbor`들이 서로 어떻게 연결 되어 있나?"  
+- 표기: ![](https://latex.codecogs.com/gif.latex?C_i)  
+  ![GNN02-5](https://user-images.githubusercontent.com/43376853/91641347-adaf6580-ea5e-11ea-82b5-2610a0cbd5f1.png)  
+  - 예를 들어, 첫번째 그림  
+    : k_i는 4 ∵ 노드 i는 degree가 4이기 때문.  
+    : e_i는 6 ∵ 노드 i와 연결된 4개의 노드 간에는, 6개의 Edge가 존재하기 때문.  
+    
+  - Average Clustering Coefficient: 모든 노드들마다의 Clustering Coefficient를 평균낸 것에 불과.  
+  
+- 예시  
+  ![GNN02-6](https://user-images.githubusercontent.com/43376853/91641425-3a5a2380-ea5f-11ea-90c5-c7457ec61299.png)  
+  - 해석: '대략 1/3의 random node들이 서로 연결되어 있다.'  
+  - 예상컨대, Social Network의 경우에는 Clustering Coefficient가 클 것.  
+ 
+#### 특성4. Connectivity   
+- Largest connected component의 크기  
+- `Largest Component` = `Giant Component`  
+
+---  
+
+- 이제 이 4가지 특성을 실세계에 적용시켜보자.  
+  (Degree Distribution, Path Length, Clustering Coefficient, Connected Components)  
+  
+- MSN Messenger의 사례  
+  ![GNN02-7](https://user-images.githubusercontent.com/43376853/91641516-e69c0a00-ea5f-11ea-887a-637be3790de1.png)  
+  - 이 유저들의 Communication Network   
+    ![GNN02-8](https://user-images.githubusercontent.com/43376853/91641552-1b0fc600-ea60-11ea-8dbf-c1c4f5f4f386.png)  
+
+#### 특성1. Degree Distribution in MSN example  
+![GNN02-9](https://user-images.githubusercontent.com/43376853/91641571-45618380-ea60-11ea-96d4-28b3f1bb2384.png)  
+- 근데 이 그래프는 너무 useless 해보임. 여기서 어떤 insight를 얻을 수 있겠어...  
+  - Idea: x, y axis 모두에 log scale을 적용해보자.  
+![GNN02-10](https://user-images.githubusercontent.com/43376853/91641612-8bb6e280-ea60-11ea-8259-b54c3b6d2f50.png)  
+- '아, 대다수의 사람들은 small degree를 갖고 있으며, degrees는 놀라울 정도로 skewed되어 있구나!'  
+  
+
+#### 특성2. Path Length in MSN example   
+- X-Axis인 Distance는 Linear scale로, Y-Axis인 path 수는 log scale로  
+  ![GNN02-11](https://user-images.githubusercontent.com/43376853/91641755-adfd3000-ea61-11ea-89c4-ebd8a3168134.png)  
+  ![GNN02-12](https://user-images.githubusercontent.com/43376853/91641792-cf5e1c00-ea61-11ea-94e8-371f7d27e3d7.png)  
+- '아, 대다수의 노드들은 서로 가까이에 위치해 있구나.'  
+  
+#### 특성3. Clustering Coefficient in MSN example     
+![](![GNN02-13](https://user-images.githubusercontent.com/43376853/91641907-3976c100-ea62-11ea-98b3-6fc96242c4b9.png)
+)  
+- '아, C=0.1140으로, 어떤 사람은 다른 지인의 지인들 중 11% 정도를 함께 아는 구나.'  
+
+#### 특성4. Connectivity in MSN example     
+- log-log scale  
+  ![GNN02-14](https://user-images.githubusercontent.com/43376853/91641961-92465980-ea62-11ea-941e-a64268f95754.png)  
+
+
+- 결국 MSN의 사례에 대하여 4가지 Property를 요약해보면,  
+  ![GNN02-15](https://user-images.githubusercontent.com/43376853/91641988-c28df800-ea62-11ea-841d-132b3022dc15.png)  
+  와 같이 요약해볼 수 있음.  
+  - 이에 대해 다음과 같은 궁금증이 생김.  
+  
+    ```  
+    이 숫자들이 큰 건지 작은 건지 모르겠다.  
+    이 숫자들을 보고 놀라야하는 건가?  
+    ```  
+    
+    → __모델의 필요성__  
+    
+---  
+
+- 몇 가지 모델을 소개할 것  
+
+  ```  
+  - Erdős–Rényi Random Graph Model  
+  - The Small-World Model  
+  - Kronecker Graph Model  
+  ```  
+  
+  - 이 모델들도 결국에는 관심이 되는 네트워크의 비교 기준이 되는 것이기 때문에 4가지 Property에 대해 조사하게 될 것.  
+  
+### Erdős–Rényi Random Graph Model  
+- 두 가지 variant가 있는데 그 중 ![](https://latex.codecogs.com/gif.latex?G_%7Bnp%7D)를 사용할 것. (이하 gnp로 명명)  
+  ![GNN02-16](https://user-images.githubusercontent.com/43376853/91642164-09302200-ea64-11ea-83b2-27cf44896694.png)  
+  - 그래프: not uniquely defined by n, p  (`Random Process`)  
+    = 똑같은 n,p라도 i.i.d with probability p이기 때문에 수많은 이형들이 생겨날 수 있음.  
+    ![GNN02-17](https://user-images.githubusercontent.com/43376853/91642196-57452580-ea64-11ea-98b1-2f79af1da093.png)  
+    
+#### 특성1. Degree Distribution in Erdős–Rényi Random Graph Model   
+- gnp의 Degree Distribution은 이항분포를 따른다.  
+  ![GNN02-18](https://user-images.githubusercontent.com/43376853/91642252-d33f6d80-ea64-11ea-8d73-90ac9a33b583.png)  
+  - 여기서 n-1: 하나의 노드와 연결될 수 있는 노드의 개수는 n-1개  
+  - 문제점 하나 발견! (MSN 데이터는 결코 bell-shaped가 아니다.)  
+
+#### 특성2. Path Length in Erdős–Rényi Random Graph Model   
+- Expansion의 개념 등장  
+- 이 모델은 굉장히 커질 수는 있지만 노드들은 단지 a few hops apart일 뿐임.  
+  ![GNN02-19](https://user-images.githubusercontent.com/43376853/91642487-ae4bfa00-ea66-11ea-99f0-4ef13651d5d9.png)  
+
+#### 특성3. Clustering Coefficient in Erdős–Rényi Random Graph Model   
+![GNN02-20](https://user-images.githubusercontent.com/43376853/91642660-22d36880-ea68-11ea-871c-78e5f31b1771.png)  
+![](https://latex.codecogs.com/gif.latex?E%28C_i%29%20%3D%20%5Cfrac%7B2%7D%7Bk_i%28k_i-1%29%7DE%28e_i%29%20%3D%20%5Cfrac%7B2%7D%7Bk_i%28k_i-1%29%7D%20%5Ctimes%20p%20%5C%20%5Cfrac%7Bk_i%28k_i-1%29%7D%7B2%7D%20%3D%20p)  
+
+#### 특성4. Connectivity in Erdős–Rényi Random Graph Model   
+![GNN02-21](https://user-images.githubusercontent.com/43376853/91642708-8067b500-ea68-11ea-9bd6-5688cff3603a.png)  
+- x축: avg degree, y축: fraction of nodes in largest CC  
+
+#### MSN과의 비교  
+![GNN02-22](https://user-images.githubusercontent.com/43376853/91642733-abea9f80-ea68-11ea-9302-285c053585bc.png)  
+- Avg. path length, Largest Connected Components의 관점에서는 MSN case가 그다지 놀랄만한 사실은 아니다.  
+  - gnp의 특성2 -> O(logn): 그래프 크기보다 exponentially smaller  
+    -> MSN의 6.6이란 수치는 그닥 놀랍지 않음.  
+  - gnp의 특성4 -> k bar가 1보다만 크면 GCC가 존재하는데, k bar=14래    
+    -> MSN의 99%라는 수치 또한 그닥 놀랍지 않음.  
+ 
+- 다만, Degree distribution과 Avg.clustering Coefficient의 관점에서 gnp로부터의 결과는 MSN과 거리가 멀다.  
+  - __실세계의 Network는 결코 gnp처럼 random하지 않다.__  
+    -> 이 말인 즉슨, 관심 네트워크에서의 4가지의 특성이 gnp에서의 4가지 특성 수치와 결과가 유사하다면, 그 네트워크는 random한 특성을 지닌 네트워크라 할 수 있을 것  
+  - 하지만 gnp 모델은 reference model이 된다는 점에서 그 의의를 지님.  
+  
+
+
+---  
+
+요약해보자면, 분석의 대상이 되는 네트워크는 네 가지 특성을 가지고, 이 네 가지 특성을 수치화할 수 있다.  
+이 수치를 해석하려면 (이 수치가 큰지, 작은지, 유의미한 것인지) 결국 baseline이 필요한 건데,  
+우리는 기본적인 '모델'을 baseline으로 상정하고 관심이 되는 네트워크에 대해 해석을 함.  
+
+
+
+
