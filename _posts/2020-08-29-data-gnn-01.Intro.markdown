@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "CS224W - 01.Intro"
+title:  "CS224W - 01.Machine Learning with Graphs"  
 subtitle:   "GNN-01.Intro"
 categories: data
 tags: gnn
