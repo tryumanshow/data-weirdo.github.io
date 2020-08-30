@@ -131,7 +131,7 @@ comments: true
   
   - 이 모델들도 결국에는 관심이 되는 네트워크의 비교 기준이 되는 것이기 때문에 4가지 Property에 대해 조사하게 될 것.  
   
-### Erdős–Rényi Random Graph Model  
+### 모델1. Erdős–Rényi Random Graph Model  
 - 두 가지 variant가 있는데 그 중 ![](https://latex.codecogs.com/gif.latex?G_%7Bnp%7D)를 사용할 것. (이하 gnp로 명명)  
   ![GNN02-16](https://user-images.githubusercontent.com/43376853/91642164-09302200-ea64-11ea-83b2-27cf44896694.png)  
   - 그래프: not uniquely defined by n, p  (`Random Process`)  
@@ -169,15 +169,82 @@ comments: true
   - __실세계의 Network는 결코 gnp처럼 random하지 않다.__  
     -> 이 말인 즉슨, 관심 네트워크에서의 4가지의 특성이 gnp에서의 4가지 특성 수치와 결과가 유사하다면, 그 네트워크는 random한 특성을 지닌 네트워크라 할 수 있을 것  
   - 하지만 gnp 모델은 reference model이 된다는 점에서 그 의의를 지님.  
-  
-
 
 ---  
 
-요약해보자면, 분석의 대상이 되는 네트워크는 네 가지 특성을 가지고, 이 네 가지 특성을 수치화할 수 있다.  
-이 수치를 해석하려면 (이 수치가 큰지, 작은지, 유의미한 것인지) 결국 baseline이 필요한 건데,  
-우리는 기본적인 '모델'을 baseline으로 상정하고 관심이 되는 네트워크에 대해 해석을 함.  
+### 모델2. The Small-World Model  
+- 문제의식: "현실세계의 네트워크는 아마도 'High clustering & Short Paths'일 것인데, 이를 반영할 수 있는 모델을 만들 수는 없을까?"  
+  ![GNN02-23](https://user-images.githubusercontent.com/43376853/91651534-dd935300-eac8-11ea-871e-69f8c28fbdf5.png)  
+  (뭔가 이 중간쯤 되는 그런 그래프 모델을 찾고 싶다.)  
+  
+  - 위에서 확인한 바, gnp 모델과 실제 MSN 네트워크의 Avg. Clustering Coefficient는 7자리수(7 orders of magnitude)만큼의 큰 차이가 남.  
+
+- The Small-World Model  
+  : High clustering과 small diameter를 동시에 획득하는 모델  
+
+  
+  - 형성 방법?  
+    1. Start with a low-dimensional regular rattice  
+      ![GNN02-25](https://user-images.githubusercontent.com/43376853/91651727-192f1c80-eacb-11ea-920f-4b7b1a7d573e.png)  
+      - 굉장히 큰 clustering coefficient를 가진다. (이 경우: 1)  
+    2. `Rewire`: Introduce randomness("shortcuts")  
+      - 모든 edge들을 p의 확률로 다른 random node로 rewire  
+      ![GNN02-26](https://user-images.githubusercontent.com/43376853/91651746-4b407e80-eacb-11ea-87cf-2e95d2e29920.png)  
+
+- 결과  
+  ![GNN02-24](https://user-images.githubusercontent.com/43376853/91651670-7f676f80-eaca-11ea-85ab-4e0af60dedd4.png)  
+
+  ![GNN02-27](https://user-images.githubusercontent.com/43376853/91651785-cb66e400-eacb-11ea-9c72-2e7f4b6933dd.png)  
+  
+- The Small-World Model을 통해 Clustering Coefficient의 문제는 해결했는데, 아직 degree distribution의 문제는 해결하지 못함.  
+
+---  
+
+### 모델3. Kronecker Graph Model   
+- 소제목: 'Generating large realistic graphs'  
+- Ideation: '네트워크가 `Self-similarity`의 특성을 갖고 있음에 착안하여, `Recursive`하게 네트워크 구조를 형성해보면 어떨까?'  
+  - 'Self-similarity': 한 Object는 Object의 특정 부분과 닮아있다.  
+  - `Kronecker Product`: Self-similar matrices를 generate하는 방법  
+  
+#### Kronecker Graphs  
+![GNN02-28](https://user-images.githubusercontent.com/43376853/91651882-dff7ac00-eacc-11ea-9192-b6285276ef64.png)  
+
+#### Kronecker Product  
+![GNN02-29](https://user-images.githubusercontent.com/43376853/91651897-0fa6b400-eacd-11ea-8dc2-8bb8495a1de0.png)  
+
+- Kronecker Graph는 initiator matrix K1에 대해 Kronecker product를 iterate 하여 graph들의 sequence들을 키워나감으로써 형성됨.  
+  ![GNN02-30](https://user-images.githubusercontent.com/43376853/91651923-5d232100-eacd-11ea-995d-2cccf1e2853f.png)  
+  ![GNN02-31](https://user-images.githubusercontent.com/43376853/91651933-762bd200-eacd-11ea-97f3-c6f95ddf816e.png)  
+  - 근데 위 그래프를 보고 드는 생각  
+    `현실과는 맞지 않는데? 아. 그렇다면 Kronecker Graphs를 Stochastic한 관점에서 접근해보아야겠다!`  
+    
+#### Stochastic Kronecker Graphs  
+![GNN02-32](https://user-images.githubusercontent.com/43376853/91652001-feaa7280-eacd-11ea-819c-16bcbddfdf35.png)  
+- 또 문제의식 발생: "Node의 수가 많아지면 Operation의 수 또한 많아질텐데? (Quadratic in the number of nodes) 조금 더 빨리 generate 할 수 있는 방법은 없을까?"  
+  -> "`Recursive` 구조를 사용하자."  
+  
+##### Faster way  
+![GNN02-33](https://user-images.githubusercontent.com/43376853/91652064-9740f280-eace-11ea-89ce-4ceaa22886d7.png)  
+- '1'이 바로 앞의 'cell-by-cell product'의 예라면,  
+  '2'는 'Re-insertion'을 통해 더 빠른 연산을 가능하게 하는 방법.  
+- 두 방법이 똑같은 결과를 내는데, 2가 연산 속도가 훨씬 빠르다 -> Then, why not?  
+
+- 알고리즘  
+  ![GNN02-34](https://user-images.githubusercontent.com/43376853/91652097-e25b0580-eace-11ea-9ab4-d4895ab24608.png)  
+  
+- 결론적으로, 실세계 데이터의 분석 결과와 Kronecker 모델로부터의 결과는 굉장히 similar  
+  ![GNN02-35](https://user-images.githubusercontent.com/43376853/91652141-0cacc300-eacf-11ea-9b2f-4a8ea610842a.png)  
 
 
+
+  
+---  
+
+요약해보자면, 분석의 대상이 되는 네트워크는 네 가지 특성을 가지고, 이 네 가지 특성을 수치화할 수 있다. 이 수치를 해석하려면 (이 수치가 큰지, 작은지, 유의미한 것인지) 결국 baseline이 필요한 건데, 우리는 기본적인 '모델'을 baseline으로 상정하고 관심이 되는 네트워크에 대해 해석을 함. 세 가지 그래프 모델을 소개 (Erdős–Rényi Random Graph Model, The Small-World Model, Kronecker Graph Model)   
+
+---  
+
+### References  
+[CS224W: Properties of Networks, Random Graph Models](http://web.stanford.edu/class/cs224w/slides/02-gnp-smallworld.pdf)  
 
 
