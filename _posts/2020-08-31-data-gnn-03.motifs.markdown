@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "CS224W - 03.Motifs and Structural Roles in Networks"  
+title:  "CS224W - Week3-Motifs and Structural Roles in Networks"  
 subtitle:   "GNN-03.Motifs and Structural Roles in Networks"
 categories: data
 tags: gnn
