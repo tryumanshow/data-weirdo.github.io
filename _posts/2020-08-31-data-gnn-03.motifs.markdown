@@ -45,5 +45,52 @@ comments: true
       3. 각 network 마다의 그래프는 모두 다르지만, 서로 행동 양태가 상당히 비슷함.  
       4. y-axis가 바로 significance profile  
       ```  
+      
+      - 4번에서, 'significance profile을 어떻게 generate 하는가?'에 대한 답은 아래의   
+        ### Network Significance Profile (SP)   
+        를 참조.  
+---  
+
+## Subgraphs, Motifs, and Graphlets  
+
+### Network motifs  
+:= "Recurring, Significnat patterns of interconnections". (하나의 정의로 생각하면 됨)  
+  - `Pattern`: 작은 [Induced subgraph](https://en.wikipedia.org/wiki/Induced_subgraph)  
+  - 'Recurring': 고빈도로, 자주 발견됨.  
+  - `Significant`: 생각했던 것보다 더 Frequent  
+     └-> 역시 그 비교기준이 필요하고 -> 그 기준으로 'Erdos-Renyi random graphs, scale-free networks'등을 사용  
+     
+### Motifs  
+- 네트워크가 어떻게 작동하는지를 이해하는 데에 도움을 줌  
+- 주어진 상황에서 연산(operation)과 반응(reaction)을 예측하는 데에 도움을 줌  
+
+- 예시  
+  ![GNN03-4](https://user-images.githubusercontent.com/43376853/91664859-d0a84b00-eb2c-11ea-945b-472a0956de7d.png)  
+  - cf. Feed-forward loops: 딥러닝에서의 Skip connection  
+  
+### 위 Network Motifs에 대한 구체화  
+- Induced Subgraph in `Pattern`  
+  ![GNN03-5](https://user-images.githubusercontent.com/43376853/91664913-2e3c9780-eb2d-11ea-8959-4d27e648f068.png)  
+- `Recurrence`  
+  ![GNN03-6](https://user-images.githubusercontent.com/43376853/91665035-d5213380-eb2d-11ea-8db2-e90629226166.png)  
+- `Significance` 
+  - 아이디어: Random Network를 generate했을 때, 특정 Subgraph가 Real Network에서 훨씬 많이 나타난다면, 그 Subgraph는 functional significance를 갖고 있을 것!  
+    ![GNN03-7](https://user-images.githubusercontent.com/43376853/91665148-81fbb080-eb2e-11ea-8d72-b99715e0b2ca.png)  
+  - 통계학의 Z-score 개념을 차용  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B150%7D%20Z_i%20%3D%20%28N_i%5E%7Breal%7D-%5Cbar%7BN%7D_i%5E%7Brand%7D%29/std%28N_i%5E%7Brand%7D%29)  
+    이 ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20Z_i)가 motif i의 Statistical Significance를 포착함.  
     
-    
+### Network Significance Profile (SP)  
+![GNN03-8](https://user-images.githubusercontent.com/43376853/91665295-7e1c5e00-eb2f-11ea-9c3e-c54a7fe74005.png)  
+
+- 이제 이까지, Network Motif의 정의에 대해 알아보면서, Induced Subgraph란 무엇인지, Recurrence란 무엇인지, Significance란 무엇인지에 대해 알아봄  
+  Subgraph 파트에서, Network Significance Profile(SP)라는 개념을 통해, Significance를 어떻게 계산하는지를 알아보았는데,  
+  다른 하나의 궁금증은 -> Random graph들은 어떻게 generate 해야 하는가? 좋은 Null model이란 무엇인가?  
+
+---  
+
+### References  
+[Motifs and Structural Roles in Networks](http://web.stanford.edu/class/cs224w/slides/03-motifs.pdf)  
+
+
+  
