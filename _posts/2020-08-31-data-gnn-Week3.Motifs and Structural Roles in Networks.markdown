@@ -1,0 +1,49 @@
+---
+layout: post
+title:  "CS224W - 03.Motifs and Structural Roles in Networks"  
+subtitle:   "GNN-03.Motifs and Structural Roles in Networks"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 3주차 강의, Motifs and Structural Roles in Networks를 보고 정리한 글입니다.  
+
+---  
+
+### 부분그래프 (Subgraph = Subnetworks)  
+- Network의 Building block  
+  ![GNN03-1](https://user-images.githubusercontent.com/43376853/91663880-7c01d180-eb26-11ea-96af-c47cd8e65e33.png)  
+- 부분그래프의 역할  
+  1. `Characterize` the network  
+  2. `Discriminate` the (types of) network  
+  
+  ```  
+  Subnetworks have the power to characerize and discriminate networks.  
+  ```  
+  
+- 예를 들어, 3개의 노드를 가진 Non-isomorphic한 모든 방향 그래프를 생각해보자.  
+  -> 13개를 생각해볼 수 있음   
+  ![GNN03-2](https://user-images.githubusercontent.com/43376853/91663958-ec105780-eb26-11ea-8744-57b02627b0fd.png)  
+
+  - 이 때, 각 subgraph들에 대해, 이들의 `Significance`를 분류해볼 수 있는 metric은 없을까?  
+    (Negative value를 지닌다면, under-representation으로 평가하고  
+    positive value를 지닌다면, over-representation으로 평가하는)  
+    ↓  
+    #### Network Significance Profile  
+    : 모든 Subgraph 타입들에 대한 값들(values)을 갖고 있는 feature vector  
+    : 각 Subgraph들이 over-represented 되었는지, under-represented 되었는지를 보여줄 숫자.  
+    - 단, domain이 다르면 network도 다르다.  
+    
+    ![GNN03-3](https://user-images.githubusercontent.com/43376853/91664258-faf80980-eb28-11ea-8131-827cfe5bd3e7.png)
+      
+      ```  
+      1. 네 가지 plot들은 모두 다른 종류의 네트워크를 표현  
+      2. 1번 Subgraph를 예로 들어 생각해보면,  
+        Language netowrk에서는 over-represented 되어있으나  
+        Web & Socail network에서는 under-represented 되어 있음.  
+      3. 각 network 마다의 그래프는 모두 다르지만, 서로 행동 양태가 상당히 비슷함.  
+      4. y-axis가 바로 significance profile  
+      ```  
+    
+    
