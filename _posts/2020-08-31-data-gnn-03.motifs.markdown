@@ -157,7 +157,7 @@ comments: true
 
 ## Finding Motifs and Graphlets  
 - 그렇다면, Motif와 Graphlet을 어떻게 찾는가?  
-  - Size가 k인 motifs / graphlets 를 찾는 게 목표라고 하자  
+  - `Size가 k인 motifs / graphlets 를 찾는 게 목표`라고 하자  
   - 두 가지 문제를 해결해야 함  
  
     ```  
@@ -166,9 +166,9 @@ comments: true
     ```  
     - 1, 2를 위한 연구가 굉장히 활발.  
     
-- 1. Enumerating  
+  1. Enumerating  
   : Size-k 짜리의 모든 instance를 찾는다.  
-- 2. Counting  
+  2. Counting  
   : 모든 Instance들에 대해 Isomorphic instance들의 개수를 센다.  
   
 - 특정 Subgraph가 그래프 내에 존재하는지 찾는 것은 Hard computational problem!  
@@ -189,12 +189,52 @@ comments: true
   ![GNN03-18](https://user-images.githubusercontent.com/43376853/91705952-a69c6a80-ebb8-11ea-8c6d-cacb1e5c92df.png)
   
 - Recursive Implementation!  
-  - Depth k의 트리 구조아 유사하다. (`ESU-Tree`라고도 불림)  
+  - Depth k의 트리 구조와 유사하다. (`ESU-Tree`라고도 불림)  
   - Pseudo-code  
     ![GNN03-19](https://user-images.githubusercontent.com/43376853/91706297-2aeeed80-ebb9-11ea-95ad-140f9805b454.png)  
 
 
+- 예시  
+  - 다음과 같은 Real Graph가 있다고 가정하자.  
+    ![GNN03-20](https://user-images.githubusercontent.com/43376853/91714566-06017700-ebc7-11ea-8e6c-bdff7beffebd.png)  
+    이 Graph에 대해 ESU-Tree 알고리즘을 적용  
+    
+    k=3인 경우를 가정  
+    1. Enumerate  
+    ![GNN03-21](https://user-images.githubusercontent.com/43376853/91714729-48c34f00-ebc7-11ea-95a4-1139ad585677.png)  
+    2. Count  
+    ![GNN03-22](https://user-images.githubusercontent.com/43376853/91714932-b0799a00-ebc7-11ea-80f1-35617a9d7ef9.png)  
 
+    - 두 개의 non-isomorphic한 size-3의 Subgraph들 탄생  
+    - 첫 네 개의 subgraph들은 `topologically equivalent` (`Isomorphic`) -> Isomorphic한 Subgraph들은 묶는다(group).  
+
+    ##### Isomorphic?  
+    - 다음을 만족하는 Bijection f:V(G) → V(H)가 존재하면 그래프 G와 H는 `Isomorphic`하다.  
+      : 그래프 G 임의의 두 노드 u와 v가 adjacent <=> 그래프 H에서 f(u)와 f(v)가 인접  
+      ![GNN03-23](https://user-images.githubusercontent.com/43376853/91715428-98564a80-ebc8-11ea-81ee-4bc722460693.png)  
+      -> G and H are `Topologically Equivalent`!  
+      - Cf. 위 그림에서 9! 만큼의 모든 bijection의 경우의 수를 확인하는 것은 Computationally Really Hard  
+        -> 사람들은 Brute-force Search와 같은 알고리즘 등을 사용해서 이를 해결  
+
+
+---  
+
+## Structural Roles in Networks  
+- Role?  
+  : 네트워크 상에서 노드들의 "Function"  
+  ![GNN03-24](https://user-images.githubusercontent.com/43376853/91715728-3c3ff600-ebc9-11ea-92ec-7601f6296b7a.png)  
+  ![GNN03-25](https://user-images.githubusercontent.com/43376853/91715881-89bc6300-ebc9-11ea-9846-9b46fffb0cd7.png)  
+
+- Role과 Group은 다른 개념이다.    
+  - Role: 유사한 구조적 특성을 지닌 노드들의 그룹  
+    - 노드들이 꼭 연결되어 있을 필요는 없다.  
+  - Group: 노드들 간에 잘 연결되어 있는 노드들의 그룹  
+    - 노드들은 서로 연결되어 있어야 한다.  
+    
+  ![GNN03-26](https://user-images.githubusercontent.com/43376853/91716112-f46d9e80-ebc9-11ea-9a0f-66699c932a1a.png)  
+
+    
+  
 
 
 ---  
