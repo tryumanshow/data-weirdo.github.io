@@ -79,6 +79,8 @@ comments: true
   - 통계학의 Z-score 개념을 차용  
     ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B150%7D%20Z_i%20%3D%20%28N_i%5E%7Breal%7D-%5Cbar%7BN%7D_i%5E%7Brand%7D%29/std%28N_i%5E%7Brand%7D%29)  
     이 ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20Z_i)가 motif i의 Statistical Significance를 포착함.  
+    ![GNN03-9](https://user-images.githubusercontent.com/43376853/91697124-8d40f180-ebab-11ea-8b4e-f7c24a601cf3.png)  
+
     
 ### Network Significance Profile (SP)  
 ![GNN03-8](https://user-images.githubusercontent.com/43376853/91665295-7e1c5e00-eb2f-11ea-9c3e-c54a7fe74005.png)  
@@ -86,11 +88,104 @@ comments: true
 - 이제 이까지, Network Motif의 정의에 대해 알아보면서, Induced Subgraph란 무엇인지, Recurrence란 무엇인지, Significance란 무엇인지에 대해 알아봄  
   Subgraph 파트에서, Network Significance Profile(SP)라는 개념을 통해, Significance를 어떻게 계산하는지를 알아보았는데,  
   다른 하나의 궁금증은 -> Random graph들은 어떻게 generate 해야 하는가? 좋은 Null model이란 무엇인가?  
+  
+### Configuration Model  
+- Degree Sequence k_1, k_2, ..., k_N이 주어졌을 때, random graph generate해내는 방법 [개념 이해](https://en.wikipedia.org/wiki/Configuration_model)   
+- 네트워크의 Null Model로서 유용  
+- Configuration Model을 통해 만들어낸 Random Graph는,  
+  
+  - 노드(Nodes)의 개수  
+  - 간선(Edges)의 개수   
+  - Degree Distribution  
+  
+  세 가지 모두 Real Graph와 같아진다.  
+
+- Configuration Model을 generation 하는 방법?  
+
+  ```  
+  1. Spoke!  
+  2. Switching!  
+  ```  
+  
+  #### 1.Spoke  
+  ![GNN03-10](https://user-images.githubusercontent.com/43376853/91697718-8b2b6280-ebac-11ea-98e0-d382a2aad316.png)  
+  - 4개의 노드가 있다고 가정했을 때, Real 그래프에서의 각 노드들은 각자의 Spoke들을 지니고 있음  
+  - 먼저 노드 A에서부터 시작해, spoke의 수를 유지하면서 확장해나감.  
+  - Node B가 이상함을 느낄 수 있는데 (분명 Real 그래프에서의 spoke수는 4였는데, random graph에서는 3개가 나옴) 이런 bad event는 'Exponentially rare'  
+  - 초록색 글자로 언급되었듯, Spoke를 이용한 Configuration Model generation은 'Double Edges'나 'Self-loops'는 고려하지 못한다는 단점이 있음.  
+  
+  #### 2.Switching  
+  - Spoke에 비해서 훨씬 expensive한 방법이지만, 원 그래프에서의 Degree Sequence를 완벽하게 유지함.  
+  - Real Graph에서 시작해서, Edge들을 충분히 Cross시켜준다.  
+  - 그럼 결과는 'Randomly rewired graph (with same node degrees)'  
+    ![GNN03-11](https://user-images.githubusercontent.com/43376853/91698418-aa76bf80-ebad-11ea-84ea-a302f893106b.png)  
+    - 여기서 Q: Repeat times.  
+    - converge: converge to a uniform sample  
+    
+- Spoke나 Switching을 통해서 random graph를 generate하면, (위에서 본 적 있던 그래프가 다시 등장) 비로소 `Network Significance Profile`을 얻어낼 수 있게 됨  
+  ![GNN03-12](https://user-images.githubusercontent.com/43376853/91698671-0d685680-ebae-11ea-91dc-72b33662e1e7.png)  
+
+  ![GNN03-13](https://user-images.githubusercontent.com/43376853/91699110-c169e180-ebae-11ea-87c6-a748a7429cb4.png)
+
+  - 물론, Motif에도 다양한 변형(Variation)들이 있음.  
+    ![GNN03-14](https://user-images.githubusercontent.com/43376853/91699352-24f40f00-ebaf-11ea-8f04-f257bddf0bd7.png)  
+    
+---  
+
+## Graphlets: Node feature vectors  
+- Graphlet: Network Motif의 Extension으로 이해하면 편함  
+  - Network Motif: '전체' 네트워크를 characterize하는 데에 사용  
+  - Graphlets: 주어진 '__노드__'를 characterize하는 데에 사용    
+  
+- Graphlets  
+  ![GNN03-15](https://user-images.githubusercontent.com/43376853/91699727-b2376380-ebaf-11ea-9f06-a3965ebaaa47.png)  
+  - 그래프의 크기↑ → graphlet의 갯수↑   
+  - 가령, G1과 G2는 노드의 개수는 같지만, non-isomorphic position에 있음.  
+  
+  - 일반적으로 그래프에서 써왔던 'Degree'라는 개념  
+    -> Graphlets에서도 물론 적용 가능.  
+    -> Graphlets에서는 `Graphlet Degree Vector`라는 개념을 도입  
+    
+  - `Automorphism orbit`: 부분그래프의 대칭성을 고려 (즉, Isomorphism between the same object)  
+  - `Graphlet Degree Vector`: 각 orbit position에서 노드의 빈도를 기록한 벡터  
+    ![GNN03-16](https://user-images.githubusercontent.com/43376853/91701401-34c12280-ebb2-11ea-9f5d-e70f26b07711.png)  
+    - Graphlet Degree Vector를 통해 노드의 국소적인 네트워크의 위상(local network topology)에 대한 measure를 제공  
+    
+---  
+
+## Finding Motifs and Graphlets  
+- 그렇다면, Motif와 Graphlet을 어떻게 찾는가?  
+  - Size가 k인 motifs / graphlets 를 찾는 게 목표라고 하자  
+  - 두 가지 문제를 해결해야 함  
+ 
+    ```  
+    1. Enumerating  
+    2. Counting  
+    ```  
+    - 1, 2를 위한 연구가 굉장히 활발.  
+    
+- 1. Enumerating  
+  : Size-k 짜리의 모든 instance를 찾는다.  
+- 2. Counting  
+  : 모든 Instance들에 대해 Isomorphic instance들의 개수를 센다.  
+  
+- 특정 Subgraph가 그래프 내에 존재하는지 찾는 것은 Hard computational problem!  
+  Motif size가 3~8일 때가 그나마 Feasible한 허용 범위.  
+      
+#### Enumerating & Counting을 위한 방법론  
+- Exact subgraph enumeration (ESU) \[Wernicke 2006] <- 오늘 다룰 알고리즘  
+- Kavosh \[Kashani et al. 2009]  
+- Subgraph sampling \[Kashtan et al. 2004]  
+
+##### Exact Subgraph Enumeration (ESU)  
+
+
+
 
 ---  
 
 ### References  
-[Motifs and Structural Roles in Networks](http://web.stanford.edu/class/cs224w/slides/03-motifs.pdf)  
+[CS224W: Motifs and Structural Roles in Networks](http://web.stanford.edu/class/cs224w/slides/03-motifs.pdf)  
 
 
   
