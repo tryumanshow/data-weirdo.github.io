@@ -1,7 +1,7 @@
 ---
 layout: tag-blog
-title: Deep-Learning
-slug: deep_learning
+title: Pytorch
+slug: pytorch
 category: data
 menu: false
 order: 1
