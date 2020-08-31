@@ -49,16 +49,18 @@ comments: true
       - 4번에서, 'significance profile을 어떻게 generate 하는가?'에 대한 답은 아래의   
         ### Network Significance Profile (SP)   
         를 참조.  
+        
 ---  
 
 ## Subgraphs, Motifs, and Graphlets  
 
 ### Network motifs  
-:= "Recurring, Significnat patterns of interconnections". (하나의 정의로 생각하면 됨)  
+:= "_Recurring_, _Significant_ _Patterns_ of interconnections". (하나의 정의로 생각하면 됨)  
   - `Pattern`: 작은 [Induced subgraph](https://en.wikipedia.org/wiki/Induced_subgraph)  
   - 'Recurring': 고빈도로, 자주 발견됨.  
   - `Significant`: 생각했던 것보다 더 Frequent  
-     └-> 역시 그 비교기준이 필요하고 -> 그 기준으로 'Erdos-Renyi random graphs, scale-free networks'등을 사용  
+     └-> 역시 그 비교기준이 필요하고 
+      -> 그 기준으로 'Erdos-Renyi random graphs, scale-free networks'등을 사용  
      
 ### Motifs  
 - 네트워크가 어떻게 작동하는지를 이해하는 데에 도움을 줌  
@@ -178,6 +180,19 @@ comments: true
 - Subgraph sampling \[Kashtan et al. 2004]  
 
 ##### Exact Subgraph Enumeration (ESU)  
+- 두 가지 집합   
+  ![GNN03-17](https://user-images.githubusercontent.com/43376853/91705716-4f969580-ebb8-11ea-8401-df41ade7ce95.png)  
+  - V_subgraph: 특정 시점까지 만들어놓은 부분그래프  
+  - V_extension: 그 Subgraph를 확장하는 데에 사용할 노드 후보군들의 집합  
+  
+- Idea  
+  ![GNN03-18](https://user-images.githubusercontent.com/43376853/91705952-a69c6a80-ebb8-11ea-8c6d-cacb1e5c92df.png)
+  
+- Recursive Implementation!  
+  - Depth k의 트리 구조아 유사하다. (`ESU-Tree`라고도 불림)  
+  - Pseudo-code  
+    ![GNN03-19](https://user-images.githubusercontent.com/43376853/91706297-2aeeed80-ebb9-11ea-95ad-140f9805b454.png)  
+
 
 
 
