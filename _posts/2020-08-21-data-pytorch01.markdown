@@ -3,7 +3,7 @@ layout: post
 title:  "파이토치로 시작하는 딥러닝 기초 - Part1.Basic ML"
 subtitle:   "deep-learning-part1"
 categories: data
-tags: deep_learning
+tags: pytorch
 comments: true
 ---
 
