@@ -149,13 +149,121 @@ comments: true
     [Lab 9-7](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-09_7_mnist_nn_selu(wip).ipynb)  
       
      
+---  
 
-    
- 
- 
+## Lab9-2. Weight Initialization  
+- Geoffrey Hinton 曰 "우리는 이제껏 weight initialization을 굉장히 멍청한 방법으로 행하고 있었다."  
+  - Weight를 잘 Initialize하는지가 딥러닝의 성능에 상당한 영향을 미침.  
+
+- 어떻게 Initialize?  
+  - 모든 weight가 9이면 안 된다. -> Backpropagation 자체가 안됨    
   
+  #### Method1. RBM  
+  - 2006년, Hinton 교수님께서 RBM(Restricted Boltzmann Machine)을 제안  
+    Hinton et al. (2006) "A Fast Learning Algorithm for Deep Belief Nets"  
     
+    ![torch02-01](https://user-images.githubusercontent.com/43376853/91835080-dbc1bf00-ec83-11ea-8c0b-af3ab627cc75.png)  
+    - 이에, Pre-training의 개념을 적용하여 Weigth Initialize  
+      - Layer마다 학습하고, Fine-tuning  
+
+    - 현재는 그리 많이 쓰이지는 않는다.  
     
+  #### Method2. Xavier / He Initialization  
+  - RBM에 비해 상당히 간단하게 Weight 초기화  
+  - Layer의 특성에 따른 Initialization  
+  
+  ##### Xavier Initialization  
+  - 방식1. Normal distribution으로 weight 초기화  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20W%20%5Csim%20N%280%2C%20Var%28W%29%29)  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20Var%28W%29%20%3D%20%5Csqrt%7B%5Cfrac%7B2%7D%7Bn_%7Bin%7D&plus;n_%7Bout%7D%7D%7D)  
+    
+  - 방식2. Uniform distribution으로 weight 초기화  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20W%20%5Csim%20U%28-%5Csqrt%7B%5Cfrac%7B6%7D%7Bn_%7Bin%7D&plus;n_%7Bout%7D%7D%7D%2C&plus;%5Csqrt%7B%5Cfrac%7B6%7D%7Bn_%7Bin%7D&plus;n_%7Bout%7D%7D%7D%29)  
+    
+    cf) n in: layer의 input 수, n out: layer의 output 수  
+    
+  - PyTorch 패키지에 있는 공식 코드  
+    
+    ```  
+    def xavier_uniform_(tensor, gain=1):  
+    
+      fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
+      std = gain * math.sqrt(2.0 / (fan_in + fan_out))
+      a = math.sqrt(3.0) * std
+      with torch.no_grad():
+        return tensor.uniform_(-a, a)
+    ```  
+  
+  ##### He Initialization  
+  - Xavier Initialization의 변형으로 보면 됨  
+    
+  - 방식1. Normal distribution으로 weight 초기화  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20W%20%5Csim%20N%280%2C%20Var%28W%29%29)  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20Var%28W%29%20%3D%20%5Csqrt%7B%5Cfrac%7B2%7D%7Bn_%7Bin%7D%7D%7D)  
+    
+  - 방식2. Uniform distribution으로 weight 초기화  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20W%20%5Csim%20U%28-%5Csqrt%7B%5Cfrac%7B6%7D%7Bn_%7Bin%7D%7D%7D%2C%20&plus;-%5Csqrt%7B%5Cfrac%7B6%7D%7Bn_%7Bin%7D%7D%7D%29)  
+    
+    - `torch.nn.init.xavier_uniform_()`  
+    
+- Xavier 코드 적용 예시  
+
+  ```  
+  ## nn Layers 
+  linear1 = torch.nn.Linear(784, 256, bias=True)
+  linear2 = torch.nn.Linear(256, 256, bias=True)
+  linear3 = torch.nn.Linear(256, 10, bias-True)
+  relu = torch.nn.ReLU()  
+  
+  # xavier initialization   
+  torch.nn.init.xavier_uniform_(linear1.weight)  
+  torch.nn.init.xavier_uniform_(linear2.weight)
+  torch.nn.init.xavier_uniform_(linear3.weight)  
+  
+  ...  
+  ```  
+ 
+---  
+ 
+## Lab9-3. Dropout  
+- `torch.nn.Dropout`  
+- Dropout은 Overfitting을 피하는 데에 도움이 된다.  
+  - Dropout을 사용하면 Network 앙상블의 효과를 얻을 수도 있다.  
+
+- 예제 코드  
+  
+  ```  
+  ## nn Layers  
+  linear1 = torch.nn.Linear(784, 512, bias=True)
+  linear2 = torch.nn.Linear(512, 512, bias=True)
+  linear3 = torch.nn.Linear(512, 512, bias=True)
+  linear4 = torch.nn.Linear(512, 512, bias=True)
+  linear5 = torch.nn.LInear(512, 10, bias=True) 
+  relu = torch.nn.ReLU()
+  dropout = torch.nn.Dropout(p=drop_prob) 
+  
+  model = torch.nn.Sequential(linear1, relu, dropout, 
+                              linear2, relu, dropout,
+                              linear3, relu, dropout, 
+                              linear4, relu, dropout, 
+                              linear5).to(device)
+  ```  
+
+- 단, Dropout을 사용할 때 주의해야할 점은,  
+  Train시에는 Dropout을 사용하지만, Test 시에는 모든 노드들을 사용해야 함.  
+
+  - `model.train()`: Dropout을 사용  -> 학습을 할 때에는 반드시 `model.train()` 선언을 해주어야.  
+  - `model.eval()`: Dropout을 사용x  -> Test를 할 때에는 반드시 `model.eval()` 선언을 해주어야.  
+    
+    [참고링크](https://pytorch.org/docs/stable/nn.html?highlight=eval#torch.nn.Module.eval)  
+    
+---     
+    
+## Lab9-4. Batch Normalization  
+
+
+
+
     
 ---  
 
