@@ -233,7 +233,74 @@ comments: true
     
   ![GNN03-26](https://user-images.githubusercontent.com/43376853/91716112-f46d9e80-ebc9-11ea-9a0f-66699c932a1a.png)  
 
+- `Structural Equivalence`  
+  : 노드 u와 v가 다른 모든 노드들에 대해서 동일한 Relationships를 갖고 있다면 `Structurally Equivalent`  
+    ![GNN03-27](https://user-images.githubusercontent.com/43376853/91733668-d3ff0d80-ebe4-11ea-8f0a-2180ef6f0e5a.png)  
     
+  - 다음과 같은 예에서는 노드1과 2가, 노드 3과 4가 서로 `Structurally Equivalent`  
+    ![GNN03-28](https://user-images.githubusercontent.com/43376853/91733789-014bbb80-ebe5-11ea-9c1b-3b3afa2c79de.png)  
+    (다만, 이처럼 완벽히 Equivalent한 게 아니라, 어느 정도의 Noise를 'Clustering'을 통해 허락할 것)  
+    
+ 
+---  
+
+
+## Discovering Structural Roles in Networks  
+- `RolX`: 네트워크에서 노드들의 Structural Roles를 발견하는 automatic한 방법  
+  - 비지도 학습 방법  
+  - Prior Knowledge 없음  
+  - 각 노드에 role들의 mixed-membership 할당  
+  - 
+  
+  ![GNN03-29](https://user-images.githubusercontent.com/43376853/91741426-a79cbe80-ebef-11ea-884e-4a03d3d0d41a.png)  
+  
+- RolX Overview  
+  ![GNN03-31](https://user-images.githubusercontent.com/43376853/91741765-2691f700-ebf0-11ea-910e-d494b7dd9116.png)  
+  - 결국, Node by Node의 인접행렬에서, 재귀적으로 Feature를 추출하여, Node by Feature 행렬을 만들어주고,  
+    이로부터 Role을 추출하여 두 가지 Matrix(Node by Role 행렬, Role by Feature 행렬)를 결과물로 도출  
+  
+  - 'Recursive Feature Extraction'  
+  - 'Role Extraction'  
+
+#### Recursive Feature Extraction  
+- 네트워크 연결성(Network Connectivity)를 Structural Feature로 바꾼다.  
+  ![GNN03-32](https://user-images.githubusercontent.com/43376853/91742366-23e3d180-ebf1-11ea-85c8-b6ae8175ac36.png)   
+  - Neighborhood Features: '노드들의 연결성 패턴은 무엇인가.'    
+  - Recursive Features: '한 노드가 어떤 종류의 노드들에 연결되어있는가.'  
+  
+  - Idea: '노드의 Feature들을 모아서, 이를 새로운 Recursive Features를 generate하는 데에 사용하자.'  
+  
+- Neighbor Features의 구성 요소   
+  - Local Features  
+    : 노드 차수(degree)에 대한 모든 측정  
+      - 방향 그래프라면, 전입, 전출 차수, 총 차수 등의 정보를 포함  
+      - 가중치 그래프라면, Weighted Feature versions를 포함  
+  - Egonet Features  
+    : Node의 Egonet 상에서 계산  
+      - Egonet: 노드, 그 이웃노드, 이 노드들의 Induced Subgraph 내 Edge들 로 구성  
+      - 두 가지 새로운 Feature에 대해 계산할 수 있음  
+        - # of within-egonet edges (Friends들 사이에서의 Edge의 개수)  
+        - # of edges entering/leaving egonet  
+  
+  - 이 두 Feature들로부터 추가적인 피쳐(Additional Feature)를 Generate  
+    - 두 가지 Aggregate Function을 사용 (Mean & Sum)  
+      (인접 행렬 차수의 평균은? 인접 행렬 차수의 합은?)  
+      
+  - 가능한 Recursive Features의 수는 recursive iteration을 돌 때마다 `Exponential`하게 증가하는데,  
+    `Pruning Technique`를 사용해서 Feature들의 수를 줄일 수 있다. (다양한 Pruning Technique들이 사용 됨)  
+    ex) Highly correlated된 Feature Pairs를 찾아서, user-defined threshold를 상회하는 correlation을 보이면, Feature Pair 중 하나는 제거  
+    ![GNN03-33](https://user-images.githubusercontent.com/43376853/91781485-662f0200-ec35-11ea-8769-eeeda4653a50.png)  
+
+#### Role Extraction  
+![GNN03-34](https://user-images.githubusercontent.com/43376853/91781743-084eea00-ec36-11ea-9f7b-0d2d7ecfa526.png)  
+
+- Setup  
+  - RolX를 사용해서 Recursive Feature Extraction & Clustering을 한 후, 각 노드에 발견된 structural roles에 대한 분포를 할당  
+  - 노드들의 Role 분포를 비교함으로써 유사성(Similarity)을 결정   
+  
+  - 예시  
+    ![GNN03-35](https://user-images.githubusercontent.com/43376853/91782217-7811a480-ec37-11ea-97ba-9b4e4ac0e629.png)  
+
   
 
 
