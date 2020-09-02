@@ -8,12 +8,12 @@ comments: true
 ---
 
 - Deep Neural Network에 대한 소개  
-  - [Perceptron](###-lab8-1.-perceptron)   
-  - [Multi Layer Perceptron](###-lab8-2.-multi-layer-perceptron)  
-  - [ReLU](###-lab9.-relu)  
-  - [Weight Initialization](###-lab9-2.-weight-initialization)  
-  - [Dropout](###-lab9-3.-dropout)  
-  - [Batch Normalization](###-lab9-4.-batch-normalization)  
+  - [Perceptron](#-lab8-1.-perceptron)   
+  - [Multi Layer Perceptron](#-lab8-2.-multi-layer-perceptron)  
+  - [ReLU](#-lab9.-relu)  
+  - [Weight Initialization](#-lab9-2.-weight-initialization)  
+  - [Dropout](#-lab9-3.-dropout)  
+  - [Batch Normalization](#-lab9-4.-batch-normalization)  
 
 ---  
 
