@@ -9,11 +9,11 @@ comments: true
 
 - Deep Neural Network에 대한 소개  
   - Perceptron   
-  - Multi Layer Perceptron]  
-  - ReLU]  
-  - Weight Initialization]  
-  - Dropout]  
-  - Batch Normalization]  
+  - Multi Layer Perceptron  
+  - ReLU  
+  - Weight Initialization  
+  - Dropout  
+  - Batch Normalization  
 
 ---  
 
