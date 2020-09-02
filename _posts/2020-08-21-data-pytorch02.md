@@ -260,9 +260,89 @@ comments: true
 ---     
     
 ## Lab9-4. Batch Normalization  
+- Gradient Vanishing / Exploding  
+  - Vanishing: Backpropagation시 Gradient가 너무 작아지면서 학습이 안 되는 현상  
+  - Exploding: Backpropagation시 너무 큰 값들이 나오면서 발산해버리는 현상  
+  
+  - 이 두 문제가 있으면 학습이 어려워짐.  
 
+- 해결방법  
 
+  ```  
+  1. Activation function을 바꾸어준다. 
+    -> Sigmoid 대신 ReLU  
+  2. Carful initialization  
+    -> 초기화를 잘 해보자.  
+  3. Small learning rate  
+    -> Gradient Explosion 문제에 대한 해결책  
+  ```  
+  
+- Batch Normalization  
+  - Gradient Vanishing / Exploding 해결 뿐만 아니라 다른 이점들도 있다. (ex. 학습의 안정성)  
+  
+- Internal Covariate Shift  
+  - Batch Normalization의 창시자들: "Vanishing 및 Exploding의 원인이다!"  
+  
+  - Cf. Covariate Shift  
+    - Train Set과 Test Set간에 분포에 차이가 있다는 것  
+  
+  - Internal Covariate Shift?  
+    - DL 상에서 Layer들을 통과하면서 분포가 변화하는 현상  
+    - Layer가 많을수록 Covariate Shift는 더 많이 발생할 것!  
+    - 이를 해결하기 위해 `Batch Normalization`  
+      ![torch02-02](https://user-images.githubusercontent.com/43376853/91976076-66c1b880-ed5b-11ea-9f7e-5301a057d4ee.png)  
+      (이름대로, Batch들마다 Normalization을 해주겠다는 것.)  
+      - γ와 β 또한 학습 파라미터 (μ나 σㅎ는 학습 파라미터는 아님)  
 
+  - 예시 코드: Batch Normalizatoin을 사용할 때와 하지 않을 때의 성능 차이 확인  
+  
+    ```  
+    # nn Layers   
+    linear1 = torch.nn.Linear(784, 32, bias=True)
+    linear2 = torch.nn.Linear(32, 32, bias=True)
+    linear3 = torch.nn.Linear(32, 10, bias=True)
+    relu = torch.nn.ReLU()  
+    bn1 = torch.nn.BatchNorm1d(32)
+    bn2 = torch.nn.BatchNorm2d(32)
+    
+    nn_linear1 = torch.nn.linear(784, 32, bias=True)
+    nn_linear2 = torch.nn_Linear(32, 32, bias=True)
+    nn_linear3 = torch.nn.Linear(32, 10, bias=True)
+    
+    # model 
+    # Bn은 ACtivation function 이전에 사용해주는 것이 일반적
+    bn_model = torch.nn.Sequential(linear1, bn1, relu,  
+                                  linear2, bn2, relu, 
+                                  linear3).to(device)
+    nn_model = torch.nn.Sequential(nn_linear, relu, 
+                                  nn_linear2, relu, 
+                                  nn_linear3).to(device)
+
+    for epoch in range(training_epochs):
+      bn_model.train() # Train mode 선언!  
+      
+      for X, Y in train_loader:
+        X = X.view(-1, 28*28).to(device)
+        Y = Y.to(device)
+        
+        bn_optimizer.zero_grad()
+        bn_prediction = bn_model(X)
+        bn_loss = criterion(bn_prediction, Y)
+        bn_loss.backward()
+        bn_optimizer.step()
+        
+        nn_optimzer.zero_grad()
+        nn_prediction = nn_model(X)
+        nn_loss = criterion(nn_prediction, Y)
+        nn_loss.backward()
+        nn_optimizer.step()
+        
+      ...  
+      ```  
+        
+      - BatchNorm을 쓰면 더 결과가 잘 나온다.  
+      
+      
 
     
 ---  
