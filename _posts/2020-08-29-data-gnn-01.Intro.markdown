@@ -16,7 +16,7 @@ comments: true
 
 ---  
 
-## Why Networks  
+## Why Networks?  
 - 네트워크 및 그래프에 대한 분류로 시작  
   - `Networks(=Natural Graphs)` vs `Information Graphs`  
   
@@ -72,7 +72,7 @@ comments: true
     - Ideation "d-dim 상의 임의의 점을 택했을 때, 이 점 주변의 점들이 무엇인가?"를 찾는 것이 바로 'Recommendation'  
     - 앞으로 학습할 것은 '그렇다면 이 mapping을 어떻게 할 것인가?'에 대한 것  
     
-## Starter Topic- Structure of Graphs  
+## Starter Topic: Structure of Graphs  
 ### 네트워크의 구성요소  
 
   |Components|표기|  
