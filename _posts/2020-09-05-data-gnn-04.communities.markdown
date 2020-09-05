@@ -11,6 +11,9 @@ comments: true
 
   [1. Community Structure in Networks](#community-structure-in-networks)   
   [2. Network Communities](#network-communities)  
+  [3. Louvain Algorithm](#louvain-algorithm)  
+  [4. Detecting Overlapping Communities: BigCLAM](#detecting-overlapping-communities:-bigclam)  
+  
 ---   
 
 ## Community Structure in Networks  
