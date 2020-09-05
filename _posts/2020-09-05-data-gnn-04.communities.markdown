@@ -9,6 +9,8 @@ comments: true
 
 - CS224W의 4주차 강의, Community Structure in Networks를 보고 정리한 글입니다.  
 
+  [1. Community Structure in Networks](#community-structure-in-networks)   
+  [2. Network Communities](#network-communities)  
 ---   
 
 ## Community Structure in Networks  
@@ -64,13 +66,37 @@ comments: true
     - + Edge Removal by Strength, Link Removal by Overlap 실험도 같은 결과를 말해줌  
       -> '정말로 Strong ties/edges를 가진 Communities라는 게 존재한다.'  
   
- ```  
-  결국, '사람들은 새로운 직업을 찾을 때 평소에 자주 보는 친한 친구들이 아닌, 간간히 보는 지인들을 통해서 찾는 경향이 강한' 이유는, 
+  ```  
+  결국, '사람들이 새로운 직업을 찾을 때 평소에 자주 보는 친한 친구들이 아닌, 간간히 보는 지인들을 통해서 찾는 경향이 강한' 이유는, 
   Mark Granovetter 박사의 이론에 따르면, 'Link' 혹은 'Edge'는 연결된 양상이 친분의 성격을 나타내어줄 수 있고 (Structural), 
   또 그 친분 간에는 경중을 따질 수 있는데(Interpersonal), 이들을 종합해 보았을 때, 가까운 친구들보다는 지인들이 사회적인 유대는 적을 수 
   있지만(socially weak), 오히려 더 유익한 정보를 많이 가져다 준다는 점에서 Acquaintance로 부터 새로운 직업을 찾는 경향이 많은 것.  
   그리고 이는 2007년에 실데이터를 사용하여 증명함.  
   ```  
            
-          
+---  
+
+## Network Communities  
+- Granovetter 박사의 이론에 따르면 '네트워크는 단단하게 연결된 (Tightly connected) 노드들의 집합들'로 구성되어 있다.  
+- Network Communities에 대한 정의  
+  : 내부적으로는 수많은 연결들로, 외부적으로는 적은 연결들로 구성된 노드들의 집합  
+  
+  
+  
+  - cf. Communities = clusers = grooups = modules  
+    ![gnn04-6](https://user-images.githubusercontent.com/43376853/92303276-4b9ab700-efae-11ea-9623-ea4c53ad4de4.png)  
+    
+### 그럼, 이 Communities를 어떻게 발견할 수 있을까?  
+- 답: `Modularity`라는 개념을 도입할 것이고, 우리는 Modularity를 Maximize하는 바로 그 Communities를 찾아내면 된다.  
+
+
+
+
+---  
+
+- Community및 그 특성에 대한 이해  
+  ↓ 'Community를 어떻게 발견할 수 있을까?'  
+- Modularity 이용   
+
+
         
