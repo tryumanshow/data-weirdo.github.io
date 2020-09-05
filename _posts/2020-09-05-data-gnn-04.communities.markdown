@@ -8,11 +8,10 @@ comments: true
 ---
 
 - CS224W의 4주차 강의, Community Structure in Networks를 보고 정리한 글입니다.  
-
   [1. Community Structure in Networks](#community-structure-in-networks)   
   [2. Network Communities](#network-communities)  
   [3. Louvain Algorithm](#louvain-algorithm)  
-  [4. Detecting Overlapping Communities: BigCLAM](#detecting-overlapping-communities:-bigclam)  
+  [4. Detecting Overlapping Communities: BigCLAM](#detecting-overlapping-communities-bigclam)  
   
 ---   
 
@@ -86,11 +85,88 @@ comments: true
   
   
   
-  - cf. Communities = clusers = grooups = modules  
+  - cf. Communities = clusers = groups = modules  
     ![gnn04-6](https://user-images.githubusercontent.com/43376853/92303276-4b9ab700-efae-11ea-9623-ea4c53ad4de4.png)  
     
 ### 그럼, 이 Communities를 어떻게 발견할 수 있을까?  
 - 답: `Modularity`라는 개념을 도입할 것이고, 우리는 Modularity를 Maximize하는 바로 그 Communities를 찾아내면 된다.  
+  `We can identify communities by mazimizing modularity.`  
+
+- Communities: 단단히 연결된 노드들의 집합 (sets of __tightly connected nodes__)   
+  ![gnn04-8](https://user-images.githubusercontent.com/43376853/92304348-1dba7000-efb8-11ea-8594-34405fd29228.png)  
+
+- Modularity `Q`  
+  - 네트워크가 communities로 얼마나 잘 나누어져(partitioned) 있는가에 대한 측정  
+  - Partitioned된 Disjoint communities에 대해 Modularity를 다음과 같이 계산  
+    ![gnn04-7](https://user-images.githubusercontent.com/43376853/92304359-2d39b900-efb8-11ea-99a4-260b445a3a68.png)  
+    - 다음 식의 값을 크게 만드는 Communities 그룹을 찾는 게 목적이고, 이를 얻어내기 위해서는 NUll Model이 필요한데, 앞서 3강에서 했던 'Configuration Model'의 사고 적용  
+    
+  - Configuration Model  
+    - Community가 얼마나 잘 Partitioned 되어있는지를 평가하기 위해 필요한 '비교 기준'이 되는 모델  
+    - Real graph G가 있으면, 이 그래프에서 Node의 개수(m)와 Edge의 개수(n)는 알 수 있음.  
+    - 이를 갖고 Rewired network G'를 만든다!  
+      - 특징  
+      ![gnn04-9](https://user-images.githubusercontent.com/43376853/92304574-27dd6e00-efba-11ea-8997-db35759bfb4d.png)  
+      
+  - Modularity 계산의 정확한 식을 나타내면 다음과 같은 식이 도출  
+    ![gnn04-10](https://user-images.githubusercontent.com/43376853/92304700-32e4ce00-efbb-11ea-944d-79bc4f8670ad.png)  
+    - 생각해보면, Configuration Model은, 실제 그래프의 Degree Distribution은 지키되, 아무렇게나 만들어낸 모델인데, Q(G,S) 값이 크다는 말은, 아무렇게나 만드는 모델보다, 이 현실 그래프 자체가 뭔가 유의미함을 담고 있다는 것이고, 따라서 Communities의 존재 또한 타당하다고 평가할 수 있겠네.  
+    
+    - Modularity 값은 -1과 1사이의 값.  
+    - 보통 0.3과 0.7 사이 정도면 `Significant Community Structure`가 있음을 의미  
+    
+    - Modularity를 아래와 같이 다른 form으로도 나타내어 볼 수 있음  
+      ![gnn04-11](https://user-images.githubusercontent.com/43376853/92304747-bd2d3200-efbb-11ea-98de-fe37aad21ce8.png)  
+      
+---  
+
+## Louvain Algorithm  
+- Community detection을 위한 `Greedy Algorithm`  
+- 시간복잡도 O(nlogn), 이 때 n은 노드의 개수  
+
+- 가중치 그래프도 지원하고, Hierarchical communities detection도 가능  
+  - cf. Dendrogram을 통해 네트워크의 Hierarchical한 구조를 나타낼 수 있다.  
+    ![gnn04-12](https://user-images.githubusercontent.com/43376853/92304814-5d835680-efbc-11ea-861d-b8df7b34bce6.png)  
+
+
+- 네트워크에 널리 사용된다.  
+  - 빠르고, 수렴도 빠르고, High `Modularity` output을 도출해주기 때문  
+ 
+- 요컨대, Louvain algorithm `greedily` __maximizes__ modularity   
+  
+### Louvain Algorithm의 Process에 대한 설명  
+- 매 pass 마다 두 phases를 지난다.   
+  - Phase1: `Partitioning` or `Optimization`   
+    - Node-Communities 멤버들간의 오직 local change를 통해 Modularity를 __optimize__  
+  - Phase2: `Aggregation`  
+    - 새 네트워크를 만들기 위해, Phase1을 통과한 결과들을 Super-nodes로 __Aggregate__   
+    
+  - Phase1, 2를 Modularity의 증가가 없을 때까지 Iteratively Repeat  
+  
+    ![gnn04-13](https://user-images.githubusercontent.com/43376853/92304918-69234d00-efbd-11ea-8648-62fd83db07cf.png)  
+    
+- 각 Phase에 대해 조금 더 구체적으로 들어가보자.  
+  
+  #### Phase1 (Partitioning)  
+  - 각 노드를 __Distinct__한 __Community__에 넣는다.  
+  - 각 노드 i에 대해 Louvain 알고리즘은 두 가지 연산을 진행  
+    - 연산1: 노드 i를 어떤 neighbor j의 community 속에 넣으면 발생하는 modularity 값의 변화량을 측정 (Modularity delta: ΔQ)  
+    - 연산2: 노드 i를, 가장 큰 ΔQ를 발생시키는 community로 이동  
+  - ΔQ의 변화가 없을 때까지 Phase1 계속 실행  
+    
+  - 물론, 노드를 택하는 순서가 결과에 영향을 주기는 하지만, 그렇다고 이 순서가 결과에 큰 영향을 주는 것은 아니기 때문에 보통 이에 대해 큰 주의를 기울이진 않음.  
+    
+    ##### 여기서 말하는 ΔQ는 어떻게 계산하나?  
+      ![gnn04-14](https://user-images.githubusercontent.com/43376853/92305063-8dcbf480-efbe-11ea-9478-d7e2dcd31dae.png)  
+      
+    - 뿐만 아니라, 현재 속한 Community가 D라면, ΔQ(D→i) 또한 쉽계 계산해낼 수 있음.  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B100%7D%20%5CDelta%20Q%20%3D%20%5CDelta%20Q%28i%5Crightarrow%20C%29%20&plus;%20%5CDelta%20Q%20%28D%20%5Crightarrow%20i%29)  
+
+    ##### ΔQ식 더 자세히 보기  
+
+      
+
+
 
 
 
@@ -101,5 +177,8 @@ comments: true
   ↓ 'Community를 어떻게 발견할 수 있을까?'  
 - Modularity 이용   
 
+---  
 
+#### References  
+[Community Structure in Networks](http://web.stanford.edu/class/cs224w/slides/04-communities.pdf)  
         
