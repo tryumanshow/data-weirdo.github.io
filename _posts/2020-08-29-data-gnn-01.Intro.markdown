@@ -8,9 +8,15 @@ comments: true
 ---
 
 - CS224W의 Intro를 정리한 글입니다.  
+  [1. Why Networks?](#why-networks?)  
+  [2. Networks and Applications](#networks-and-applications)  
+  [3. Starter Topic: Structure of Graphs](#starter-topic:-structure-of-graphs)  
+  [4. Choice of Network Representation](#choice-of-network-representation)   
+  
 
 ---  
 
+## Why Networks?  
 - 네트워크 및 그래프에 대한 분류로 시작  
   - `Networks(=Natural Graphs)` vs `Information Graphs`  
   
@@ -47,7 +53,7 @@ comments: true
   - 데이터 이용가능성 (Data Availability) & 연산 능력 증대  
   - Impact  (Google, Cisco, Facebook, Amazon, Pinterest와 같은 기업들)  
   
-### 네트워크 분석 방법  
+## Networks and Applications  
   1. Node classification  
     - 주어진 노드의 타입/색깔 예측  
   2. Link prediction  
@@ -66,7 +72,7 @@ comments: true
     - Ideation "d-dim 상의 임의의 점을 택했을 때, 이 점 주변의 점들이 무엇인가?"를 찾는 것이 바로 'Recommendation'  
     - 앞으로 학습할 것은 '그렇다면 이 mapping을 어떻게 할 것인가?'에 대한 것  
     
- 
+## Starter Topic: Structure of Graphs  
 ### 네트워크의 구성요소  
 
   |Components|표기|  
@@ -89,7 +95,7 @@ comments: true
   - 서로를 인용하고 있는 과학 논문들을 연결한다면 -> `Citation Network`를 연구하게 될 것 etc.  
 
 
-### Network Representation  
+## Choice of Network Representation    
 #### 1. Directed vs. Undirected Graphs (방향 그래프, 무방향 그래프)  
 ![GNN01-02](https://user-images.githubusercontent.com/43376853/91637232-1a683700-ea42-11ea-89f3-b2f0614f9517.png)  
     
