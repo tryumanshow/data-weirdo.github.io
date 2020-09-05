@@ -8,11 +8,11 @@ comments: true
 ---
 
 - CS224W의 2주차 강의, Properteis of Networks, Random Graphs Models를 정리한 내용입니다.    
-  [1.Network Properties: How to Measure a Network ](#network-properties-how-to-measure-a-network)  
-  [2.Let's measure these properties on real-world networks!](#lets-measure-these-properties-on-real-world-networks)   
-  [3.Erdős–Rényi Random Graph Model](#erdősrényi-random-graph-model)    
-  [4.The Small-World Model](#the-small-world-model)    
-  [5.Kronecker Graph Model](#kronecker-graph-model)     
+  [1. Network Properties: How to Measure a Network ](#network-properties-how-to-measure-a-network)  
+  [2. Let's measure these properties on real-world networks!](#lets-measure-these-properties-on-real-world-networks)   
+  [3. Erdős–Rényi Random Graph Model](#erdősrényi-random-graph-model)    
+  [4. The Small-World Model](#the-small-world-model)    
+  [5. Kronecker Graph Model](#kronecker-graph-model)     
   
 
 ---  
