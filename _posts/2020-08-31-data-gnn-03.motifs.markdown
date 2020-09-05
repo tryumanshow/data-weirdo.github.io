@@ -8,9 +8,17 @@ comments: true
 ---
 
 - CS224W의 3주차 강의, Motifs and Structural Roles in Networks를 보고 정리한 글입니다.  
+  [1. Motifs and Structural Roles in Networks](#motifs-and-structural-roles-in-networks)]
+  [2. Subgraphs, Motifs, and Graphlets](#subgraphs-motifs-and-graphlets)  
+  [3. Graphlets: Node feature vectors](#graphlets-node-feature-vectors)    
+  [4. Finding Motifs and Graphlets](#finding-motifs-and-graphlets)  
+  [5. Structural Roles in Networks](#structural-roles-in-networks)  
+  [6. Discovering Structural Roles in Networks](#discovering-structural-roles-in-networks)    
+  
 
 ---  
 
+##  Motifs and Structural Roles in Networks  
 ### 부분그래프 (Subgraph = Subnetworks)  
 - Network의 Building block  
   ![GNN03-1](https://user-images.githubusercontent.com/43376853/91663880-7c01d180-eb26-11ea-96af-c47cd8e65e33.png)  
