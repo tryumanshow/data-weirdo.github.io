@@ -8,10 +8,17 @@ comments: true
 ---
 
 - CS224W의 2주차 강의, Properteis of Networks, Random Graphs Models를 정리한 내용입니다.    
+  [1.Network Properties: How to Measure a Network ](#network-properties-how-to-measure-a-network)  
+  [2.Let's measure these properties on real-world networks!](#lets-measure-these-properties-on-real-world-networks)   
+  [3.Erdős–Rényi Random Graph Model](#erdősrényi-random-graph-model)    
+  [4.The Small-World Model](#the-small-world-model)    
+  [5.Kronecker Graph Model](#kronecker-graph-model)     
+  
 
 ---  
 
-### 네트워크의 특성  
+## Properties of Networks, Random Graph Models  
+### Network Properties: How to Measure a Network  
 - 네트워크는 네 가지의 특성(Property)를 지닌다.  
   
   |Property|표기|  
@@ -75,6 +82,8 @@ comments: true
 
 ---  
 
+### Let's measure these properties on real-world networks!  
+
 - 이제 이 4가지 특성을 실세계에 적용시켜보자.  
   (Degree Distribution, Path Length, Clustering Coefficient, Connected Components)  
   
@@ -131,7 +140,7 @@ comments: true
   
   - 이 모델들도 결국에는 관심이 되는 네트워크의 비교 기준이 되는 것이기 때문에 4가지 Property에 대해 조사하게 될 것.  
   
-### 모델1. Erdős–Rényi Random Graph Model  
+### Erdős–Rényi Random Graph Model  
 - 두 가지 variant가 있는데 그 중 ![](https://latex.codecogs.com/gif.latex?G_%7Bnp%7D)를 사용할 것. (이하 gnp로 명명)  
   ![GNN02-16](https://user-images.githubusercontent.com/43376853/91642164-09302200-ea64-11ea-83b2-27cf44896694.png)  
   - 그래프: not uniquely defined by n, p  (`Random Process`)  
@@ -172,7 +181,7 @@ comments: true
 
 ---  
 
-### 모델2. The Small-World Model  
+### The Small-World Model  
 - 문제의식: "현실세계의 네트워크는 아마도 'High clustering & Short Paths'일 것인데, 이를 반영할 수 있는 모델을 만들 수는 없을까?"  
   ![GNN02-23](https://user-images.githubusercontent.com/43376853/91651534-dd935300-eac8-11ea-871e-69f8c28fbdf5.png)  
   (뭔가 이 중간쯤 되는 그런 그래프 모델을 찾고 싶다.)  
@@ -200,7 +209,7 @@ comments: true
 
 ---  
 
-### 모델3. Kronecker Graph Model   
+### Kronecker Graph Model   
 - 소제목: 'Generating large realistic graphs'  
 - Ideation: '네트워크가 `Self-similarity`의 특성을 갖고 있음에 착안하여, `Recursive`하게 네트워크 구조를 형성해보면 어떨까?'  
   - 'Self-similarity': 한 Object는 Object의 특정 부분과 닮아있다.  
