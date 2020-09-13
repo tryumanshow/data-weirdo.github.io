@@ -228,15 +228,36 @@ comments: true
   (Non-Overlapping, Overlapping, Nested 모두 표현 가능)  
   ![gnn04-23](https://user-images.githubusercontent.com/43376853/93014161-a7d28c00-f5e9-11ea-8a2d-8a140f2a3185.png)  
 
+---  
 
+- 의문: Model로부터 Graph를 Generate하고 있는데, Graph가 있으면 Model을 얻을 수는 없을까?  
+  ![gnn04-24](https://user-images.githubusercontent.com/43376853/93018794-563bf880-f60d-11ea-87fd-068a3ce305b5.png)  
+ 
+  - __Maximum Likelihood Estimation__ 사용    
+  - Given 그래프를 G라고 하면 다음식을 만족하는 F (model/parameter)를 찾으면 된다.  
+    ![gnn04-25](https://user-images.githubusercontent.com/43376853/93020484-51307680-f618-11ea-81ec-7bec640ad0ec.png)  
+    - "모델을 받아서, 이를 Graph Generation에 사용하고, 이 graph가 real graph와 가장 비슷하도록!"  
+    - "Model Parameter가 주어졌을 때, 내 Graph Probability를 측정할 수 있다면, argmax를 찾아보자!"  
     
-  
+  - F,G가 주어졌으면, F가 G를 Generate할 Likelihood를 구해보자.  
+    ![gnn04-26](https://user-images.githubusercontent.com/43376853/93020697-6a85f280-f619-11ea-9e42-e9452641ee25.png)  
 
+- 'AGM' 모델의 Relaxing  [같은 교수님의 Relaxing AGM에 대한 설명](https://www.youtube.com/watch?v=cuDDBfvK71g)  
+  - 위의 모델은 0,1을 사용하여 노드들이 given community의 member인지아닌지를 따짐  
+  - 하지만 그보다, 모든 node community membership의 strength를 따져보자는 접근 -> "Relax" the AGM!  
+    ![gnn04-27](https://user-images.githubusercontent.com/43376853/93021041-868a9380-f61b-11ea-87de-a40c33851a30.png)  
+    -> 기존의 문제를, 모든 노드에 대해 Vector F를 찾는 문제로 바꾸어 놓음  
+    
+#### BigCLAM Model  
+- 노드 u와 v가 연결되어 있을 확률은, shared memberships의 strength에 비례함  
+  ![gnn04-28](https://user-images.githubusercontent.com/43376853/93021092-d0737980-f61b-11ea-8f1c-85f650a03560.png)  
+  
+- 결국 BigCLAM 모델은 네트워크 G(V,E)가 주어졌을 때, 다음 l(F)를 Maximize하는 식을 찾는 것  
+  ![gnn04-29](https://user-images.githubusercontent.com/43376853/93021123-00bb1800-f61c-11ea-8f88-a9b5d84a801d.png)  
 
 
 ---  
 
-
 #### References  
 [CS224W: Community Structure in Networks](http://web.stanford.edu/class/cs224w/slides/04-communities.pdf)  
-        
+    
