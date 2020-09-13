@@ -252,7 +252,7 @@ comments: true
 - 노드 u와 v가 연결되어 있을 확률은, shared memberships의 strength에 비례함  
   ![gnn04-28](https://user-images.githubusercontent.com/43376853/93021092-d0737980-f61b-11ea-8f1c-85f650a03560.png)  
   
-- 결국 BigCLAM 모델은 네트워크 G(V,E)가 주어졌을 때, 다음 l(F)를 Maximize하는 식을 찾는 것  
+- 결국 BigCLAM 모델은 네트워크 G(V,E)가 주어졌을 때, 다음 l(F)를 Maximize하는 F를 찾는 것  
   ![gnn04-29](https://user-images.githubusercontent.com/43376853/93021123-00bb1800-f61c-11ea-8f88-a9b5d84a801d.png)  
 
 
