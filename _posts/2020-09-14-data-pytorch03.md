@@ -97,6 +97,44 @@ comments: true
     - 딥러닝 공부하면서 Convolution과 Cross-correlation을 크게 고민할 일은 없을 것  
     
     
+## Lab10-2 Mnist CNN  
+
+- 학습 단계? (얼마든지 자의적으로 정의할 수 있는 부분)  
+  
+  ```  
+  1. 라이브러리 가져오기 (torch, torchivision, matplotlib 등)  
+  2. GPU 사용 설정 & Random seed 설정  
+    -> cuda 사용가능할 때는 GPU 사용하여 연산, 그렇지 않으면 CPU 사용 
+  3. 학습 parameter 설정 (learning_rate, training_epochs, batch_size 등) 
+  4. Dataset 가져오기 & Data loader 만들기 
+  5. 학습 모델 만들기 (class CNN(torch.nn.Module))
+  6. Loss function (Criterion) 선택 & 최적화 도구 선택 Optimizer 
+  7. 학습 및 Loss Check (Criterion의 Output)
+  8. 학습된 모델의 성능 확인
+  ```  
+  ![pytorch03-09](https://user-images.githubusercontent.com/43376853/93193902-6c1efa00-f782-11ea-858b-2620a369fb8b.png)  
+
+- 오늘 만들어 볼 CNN 구조?  
+  ![pytorch03-10](https://user-images.githubusercontent.com/43376853/93194015-91136d00-f782-11ea-870e-4544c6ac7779.png)  
+ 
+  - 그냥 Manual하게 손수 다 해보면?   
+  ![pytorch03-10](https://user-images.githubusercontent.com/43376853/93196485-768ec300-f785-11ea-94bc-289ffc78f72a.png)
+  ![pytorch03-11](https://user-images.githubusercontent.com/43376853/93196524-84dcdf00-f785-11ea-9126-3f0360b1c3de.png)  
+
+  [코드 링크](https://github.com/data-weirdo/data-weirdo-playground/blob/master/PyTorch%20Basic/4.%EA%B0%84%EB%8B%A8%ED%95%9C%20CNN%20%EB%AA%A8%EB%8D%B8.ipynb)  
+  
+- 한 가지 의문: "Layer를 더 깊게 쌓으면 더 좋은 결과가 나오지 않을까?" 라는 궁금증   
+  ![pytorch03-13](https://user-images.githubusercontent.com/43376853/93204007-51538200-f790-11ea-8851-5fff5dcffdd3.png)  
+  
+  - 결과: 이전의 모델보다 Accuracy가 떨어진다.  
+  
+    > 결론: 모델을 쌓을 때에는 모델을 깊게 쌓는 것도 중요하지만, 모델을 얼마나 효율적으로 쌓는가가 더 중요하다.  
+ 
+ 
+  
+
+    
+    
 ---  
 
 #### References  
