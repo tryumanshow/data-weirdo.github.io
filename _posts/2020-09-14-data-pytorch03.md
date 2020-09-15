@@ -118,7 +118,6 @@ comments: true
   ![pytorch03-10](https://user-images.githubusercontent.com/43376853/93194015-91136d00-f782-11ea-870e-4544c6ac7779.png)  
  
   - 그냥 Manual하게 손수 다 해보면?   
-  ![pytorch03-10](https://user-images.githubusercontent.com/43376853/93196485-768ec300-f785-11ea-94bc-289ffc78f72a.png)
   ![pytorch03-11](https://user-images.githubusercontent.com/43376853/93196524-84dcdf00-f785-11ea-9126-3f0360b1c3de.png)  
 
   [코드 링크](https://github.com/data-weirdo/data-weirdo-playground/blob/master/PyTorch%20Basic/4.%EA%B0%84%EB%8B%A8%ED%95%9C%20CNN%20%EB%AA%A8%EB%8D%B8.ipynb)  
@@ -131,7 +130,25 @@ comments: true
     > 결론: 모델을 쌓을 때에는 모델을 깊게 쌓는 것도 중요하지만, 모델을 얼마나 효율적으로 쌓는가가 더 중요하다.  
  
  
+---    
+
+## Lab10-3 Visdom  
+
+[코드 링크](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-10_3_1_visdom-example.ipynb)  
+
+- 설치: `pip install visdom`  
+- Visdom 서버 켜기: `pythom -m visdom.server`  
+  -> Local Host 서버가 켜지게 됨! (해당 주소를 주소창에 입력하면 됨!, ex: http://localhost:8097)  
   
+- Lab 10-3 목표: "Visdom 사용법 익히고 MNIST-CNN loss graph까지 적용해보기!"  
+  - 다음과 같이 여러 이미지들을 띄워볼 수 있음!  
+    ![pytorch03-14](https://user-images.githubusercontent.com/43376853/93209540-3cc7b780-f799-11ea-979b-25eabf244775.png)   
+  
+  - 선들도 다음과 같이 쉽게 그려볼 수 있음. (짱 신기하다..)  
+    ![pytorch03-15](https://user-images.githubusercontent.com/43376853/93227258-24629780-f7af-11ea-9edf-b56ab9a4b0af.png)  
+
+
+
 
     
     
