@@ -147,6 +147,22 @@ comments: true
   - 선들도 다음과 같이 쉽게 그려볼 수 있음. (짱 신기하다..)  
     ![pytorch03-15](https://user-images.githubusercontent.com/43376853/93227258-24629780-f7af-11ea-9edf-b56ab9a4b0af.png)  
 
+---  
+
+## Lab10-4 ImageFolder1   
+[코드 링크1](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-10_4_1_ImageFolder_1.ipynb)  
+[코드 링크2](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-10_4_2_ImageFolder_2.ipynb)    
+
+- 나만의 사진을 이용해서 딥러닝 태스크를 진행한다면?  
+  - 데이터셋 준비방법 예시  
+    ![pytorch03-16](https://user-images.githubusercontent.com/43376853/93292738-354bf100-f821-11ea-8184-963af2b5d67e.png)  
+    - 클래스 별로 폴더 만들어서 이미지를 넣어두면 됨.  
+    
+- cf) `%ls`(현재 위치에서 커맨드 입력하기) -> 하위폴더들이 나옴  (cf. `% pwd`: 현재 워킫 디렉터리 볼 수 있음)  
+      
+- ImageFolder를 쓰면, 내 디렉터리의 사진들을 이용해서 모델링을 해볼 수 있음.  
+  ![pytorch03-17](https://user-images.githubusercontent.com/43376853/93294599-f2404c80-f825-11ea-89e6-2e3250489eab.png)  
+
 
 
 
