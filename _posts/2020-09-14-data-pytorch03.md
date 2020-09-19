@@ -163,10 +163,28 @@ comments: true
 - ImageFolder를 쓰면, 내 디렉터리의 사진들을 이용해서 모델링을 해볼 수 있음.  
   ![pytorch03-17](https://user-images.githubusercontent.com/43376853/93294599-f2404c80-f825-11ea-89e6-2e3250489eab.png)  
 
+- 104-2는 내 사진이 없으므로.. 스킵.. ㅋ_ㅋ  
 
+---  
 
+## Lab10-5 Advance CNN(VGG)  
 
-    
+- Oxford VGG(Visual Geometry Group)에서 만든 Network  
+- 다양한 형태들 존재  
+  ![pytorch03-18](https://user-images.githubusercontent.com/43376853/93670217-c1397380-fad4-11ea-973e-d8fff722f533.png)  
+
+- VGG16  
+  ![pytorch03-19](https://user-images.githubusercontent.com/43376853/93670232-ea5a0400-fad4-11ea-8ab0-46647a558119.png)  
+  
+- `torchvision.models.vgg`    
+  - vgg11 ~ vgg19까지 만들 수 있도록 되어 있음  
+  - 3x224x224 입력을 기준으로 만들도록 되어 있음  
+  
+- [Vggnet Full code](https://github.com/pytorch/vision/blob/master/torchvision/models/vgg.py)  
+- [Vgg with Cifar-10](https://github.com/deeplearningzerotoall/PyTorch/blob/master/lab-10_5_2_Aadvance-CNN(VGG_cifar10).ipynb)  
+  - `optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.9)`  
+    : epoch을 돌리는 동안, learning rate을 조금씩 감소시키면서 학습  
+    : step_size: lr_scheduler step을 5번할 때마다, learning rate에 0.9를 곱해달라는 것.  
     
 ---  
 
