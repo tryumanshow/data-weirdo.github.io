@@ -18,12 +18,12 @@ comments: true
   - Specral Method: Graph Adjacency Matrix의 Eigenvalue, Eigenvector를 계산하는 법 (선형대수)  
   
 - 세 가지 Step  
-  ⅰ. Preprocessing  
+  - ⅰ. Preprocessing  
     - 그래프를 Matrix representation으로 나타낸다.  
-  ⅱ. Decomposition  
+  - ⅱ. Decomposition  
     - Matrix로부터 Eigenvalue, Eigenvector를 계산해낸다.  
     - 각 점들을 하나 이상의 Eigenvector들에 근거해 Low-dimension 공간으로 Mapping!  
-  ⅲ. Grouping  
+  - ⅲ. Grouping  
     - 새로운 Representation에 근거하여, 각 점들을 두개 이상의 클러스터에 Assign!  
     
 - 결국 Spectral Clustering도 Graph Partitioning인데, Spectral Clustering 전에 보다 근본적인 문제에 대한 궁금증이 생김  
@@ -65,4 +65,64 @@ comments: true
 
 - A·__x__ : 각 노드들의 neighbor들의 labels sum  
   ![gnn05-06](https://user-images.githubusercontent.com/43376853/93753300-e647f680-fc3a-11ea-9e78-3a6618760250.png)  
+  
+  - A·__x__의 jth component: j번째 노드의 neighbor들의 x 값들의 합!  
+  
+#### Spectral Graph Theory  
+- Adjacency matrix A를 다음과 같이 Decompose할 수 있다.  
+  ![gnn05-07](https://user-images.githubusercontent.com/43376853/93757941-89503e80-fc42-11ea-862e-c0ecd8216b5a.png)  
+  
+  - Eigenvalue들을 오름차순으로 정리했을 때, 그에 대해 상응하는 Eigenvector들을 `Spectrum`이라고 하고  
+    그래프 G를 나타내는 함수의 `Spectrum`을 분석하는 것이 __Spectral Graph Theory__  
+    
+  - Case1: d-Regular Graph  
+    - 그래프 G의 모든 노드들의 Degree가 d라면?  
+      - x = (1, 1, ..., 1), λ=d  
+        (d가 A의 eigenvalue들 중 가장 큰 값)  
+  
+  - Case2: Graph on 2-Components  
+    - 그래프 G가 연결되어있지 않고, d-regular인 두 개의 component로 나누어져 있다면?  
+      ![gnn05-08](https://user-images.githubusercontent.com/43376853/93758524-928ddb00-fc43-11ea-8c2c-5a554290b1ef.png)  
+      
+    - 직관적으로, connected d-regular graph의 eigenvector는 (1,1, ..., 1) 일 것.  
+    - Eigenvector들 간에는 orthogonal하기 때문에, eigenvector들의 component들은 양, 음수 모두를 갖게 될 것.  
+    - 두번째로 큰 Eigenvalue에 대응하는 Eigenvector에 대해, 양수인 node들은 같은 group으로, 음수인 node들을 또 다른 하나의 group으로 묶는다!  
+    
+### Matrix Representations  
+- Anxn: Adjacency Matrix    
+  ![gnn05-09](https://user-images.githubusercontent.com/43376853/93759904-0af59b80-fc46-11ea-83dc-3181296ed516.png)  
+  - 대칭행렬  
+  - n개의 real eigenvalues  
+  - eigenvector의 component들 역시 실수값을 가지며, eigenvector들 간에는 orthogonal   
+
+- Dnxn: Degree Matrix  
+  ![gnn05-10](https://user-images.githubusercontent.com/43376853/93760009-35475900-fc46-11ea-9834-00dfad1dd287.png)  
+  
+- Lnxn: __Laplacian Matrix__  
+  - L = D-A  
+    ![gnn05-11](https://user-images.githubusercontent.com/43376853/93760157-70498c80-fc46-11ea-8a67-e8ef8aa22fb9.png)  
+  - Laplacian Matrix의 Rowsum = 0  
+  - 생각해볼 수 있는 Trivial Eigenpair: Eigenvector (1,1,...,1) with eigenvalue 0  
+  
+  - Eigenvalue: 0이상의 실수  
+  - Eigenvector: 모두 실수값들을 가짐  
+  
+  - Laplacian Matrix가 지니는 성질  
+    ![gnn05-12](https://user-images.githubusercontent.com/43376853/93760399-e6e68a00-fc46-11ea-95c0-0f67ffe4da69.png)  
+    
+    - Laplacian Matrix로 무엇을 할 수 있나?  
+      -> Laplacian Matrix의 2nd Largest Eigenvalue는, 그래프 내 node들을 partition할 때, node들간의 거리 합의 최소값!  
+        (이 말인즉슨, 2nd Largest Eigenvalue에 대응하는 2nd Eigenvector들을 바탕으로 0보다 큰 값을 하나의 그룹으로, 0보다 작은 값을 다른 한 그룹으로 partition 할 때가 최상의 partition이 된다는 것)  
+         
+      - 이는, 다음의 사실을 이용한 것.  
+        ![gnn05-13](https://user-images.githubusercontent.com/43376853/93761349-9d973a00-fc48-11ea-9d91-d083c88a62a6.png)  
+        
+        M의 자리에 L(Laplacian Matrix)을 넣으면, 이 식은 다음과 같이 변형됨  
+        ![gnn05-14](https://user-images.githubusercontent.com/43376853/93761462-c91a2480-fc48-11ea-85ea-92b21b10e5a7.png)  
+        - eigenvector의 성질에 따르면 분모는 1이 되고, 이는 곧 분자를 최소화하겠다는 것과 동치.  
+        - 2nd eigenvector에서 0보다 작은값은 왼쪽으로, 큰 값은 오른쪽으로 모아서 cross edge들을 최대한 줄이는 optimize problem이며,  
+          이 optimize solution은 λ2  
+          ![gnn05-15](https://user-images.githubusercontent.com/43376853/93761632-10081a00-fc49-11ea-8b55-93f694de1767.png)  
+ 
+
 
