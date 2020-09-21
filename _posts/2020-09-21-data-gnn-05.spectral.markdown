@@ -125,4 +125,15 @@ comments: true
           ![gnn05-15](https://user-images.githubusercontent.com/43376853/93761632-10081a00-fc49-11ea-8b55-93f694de1767.png)  
  
 
+---  
+- 다시 Optimal cut을 찾는 문제로 돌아와서,  
+  - Fiedler는 1973년에 다음과 같은 방법을 제시  
+    ![gnn05-16](https://user-images.githubusercontent.com/43376853/93774720-82cec080-fc5c-11ea-9f61-008ee5b4ae4c.png)  
+    - 바로 앞의 사고와 굉장히 유사한 사고  
+  - Rayleigh Theorem (또다른 Classical Theory)  
+    ![gnn05-17](https://user-images.githubusercontent.com/43376853/93775304-35068800-fc5d-11ea-8b7f-fb8622f30786.png)  
+    
+    - 이런 사고들이 왜 중요한가?  
+      ∵ 이런 종류의 Graph Laplacian의 Spectral Clustering은 Near Optimal Solution을 주기 때문.  
 
+  
