@@ -1,0 +1,68 @@
+---
+layout: post
+title:  "CS224W - 05.Spectral Clustering"  
+subtitle:   "GNN-05.spectral clustering"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 5주차 강의, Spectral Clustering을 보고 정리한 글입니다.  
+  [1. Spectral Clustering](#spectral-clustering)  
+  [2. Motif-Based Spectral Clustering](#motif-based-spectral-clustering)  
+
+---  
+
+## Spectral Clustering  
+- '어떻게 Spectral Method를 이용해서 Community Detection을 할 것인가?'  
+  - Specral Method: Graph Adjacency Matrix의 Eigenvalue, Eigenvector를 계산하는 법 (선형대수)  
+  
+- 세 가지 Step  
+  ⅰ. Preprocessing  
+    - 그래프를 Matrix representation으로 나타낸다.  
+  ⅱ. Decomposition  
+    - Matrix로부터 Eigenvalue, Eigenvector를 계산해낸다.  
+    - 각 점들을 하나 이상의 Eigenvector들에 근거해 Low-dimension 공간으로 Mapping!  
+  ⅲ. Grouping  
+    - 새로운 Representation에 근거하여, 각 점들을 두개 이상의 클러스터에 Assign!  
+    
+- 결국 Spectral Clustering도 Graph Partitioning인데, Spectral Clustering 전에 보다 근본적인 문제에 대한 궁금증이 생김  
+  - 그래프의 '좋은' Partition이란 무엇이지?  
+  - 좋은 Partition을 '효율적으로' '확인(Identify)'할 수 있는 방법은 없을까?  
+  
+  - (첫번째 물음에 대해, 4강에서 'Modularity'를 떠올릴 수 있는데, 'Modularity'는  Null Model과 Physics의 view였다면,  
+     이번 Chapter는 CS적인 최적화의 관점 → Approximation Guarantee와 얼마나 Network가 잘 working하는지에 대한 이야기를 하게 될 것)  
+     
+  ### '좋은' Partition이란?  
+  - Group 내의 connection 수를 Maximize, Group 간의 connection 수는 Minimize하는 Partition  
+  - 그렇다면, Group을 잘 '잘라야' 할텐데, 이에 'Graph Cuts'라는 개념 출현  
+    ![gnn05-02](https://user-images.githubusercontent.com/43376853/93751340-e7c3ef80-fc37-11ea-80fb-77a90e508e26.png)  
+    - `cut(A,B)`: 두 Sets를 얻기 위해 몇 개의 edges를 끊어야 하는가.  
+    
+    ![gnn05-01](https://user-images.githubusercontent.com/43376853/93751239-ba774180-fc37-11ea-89db-60f0c1921fc6.png)  
+    
+  - Objective Function을 'Edge Cut'에 대한 함수로 만든다.  
+    - Criterion1. __Minimum-cut__  
+      ![gnn05-03](https://user-images.githubusercontent.com/43376853/93751523-2fe31200-fc38-11ea-8902-476d664b484c.png)  
+      - 하지만 이 Criterion은 Externel cluster connection에만 집중한 나머지, internal cluster connectivity를 고려하지는 못함 (ex. Degenerate Case)  
+        ![gnn05-04](https://user-images.githubusercontent.com/43376853/93751698-77699e00-fc38-11ea-9a03-243f6edcb6ef.png)  
+    - Criterion2. __Conductance__  
+      - Criterion1의 문제를 해결  
+      - 이 Criterion을 사용하면, 좀 더 Balanced한 Partition을 얻을 수 있다.  
+      - `Φ(A,B)`: 각 그룹의 __Density__ 대비 그룹간의 connectivity  
+        ![gnn05-05](https://user-images.githubusercontent.com/43376853/93752169-3756eb00-fc39-11ea-8cad-a2c9eb02592b.png)  
+
+          - vol(A), vol(B) 즉 각 그룹의 Size가 비슷할수록 분모의 값이 커질 것. (→ Φ값이 작아짐)  
+            (Conductance가 가능한 작기를 바라는 목적과 상통!)  
+            
+  ### '효율적으로' 좋은 Partition을 찾을 순 없을까?  
+  - Best Conductance 찾기는 NP-hard Problem!  
+  - (Guaranteed된) Approximation을 통해 해결하자.  
+  
+### Spectral Graph Partitioning  
+- A: 무방향 그래프 G의 인접행렬 
+- __x__ (= (x1, x2, ..., xn)): n개 노드들의 label 및 value를 담은 vector  
+
+- A·__x__ : 각 노드들의 neighbor들의 labels sum  
+  ![gnn05-06](https://user-images.githubusercontent.com/43376853/93753300-e647f680-fc3a-11ea-9e78-3a6618760250.png)  
+
