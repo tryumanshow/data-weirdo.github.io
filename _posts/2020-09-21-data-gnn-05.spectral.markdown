@@ -136,4 +136,83 @@ comments: true
     - 이런 사고들이 왜 중요한가?  
       ∵ 이런 종류의 Graph Laplacian의 Spectral Clustering은 Near Optimal Solution을 주기 때문.  
 
+### Spectral Partitioning Algorithm  
+- 결론적으로, Spectral Partitioning하는 과정은 다음과 같다.  
+
+- 1) Pre-processing  
+  - 그래프 G로부터 Laplacian matrix L을 만든다.  
+- 2) Decomposition  
+  - L로부터 eigenvalue λ와 eigenvector __x__ 를 얻는다.  
+- 3) Grouping  
+  - 이 때 2nd smallest eigenvalue λ2에 상응하는 eigenvector __x2__ 를 보고, 0보다 작은 값들을 하나의 partition으로, 0보다 큰 값들을 다른 partition으로 묶는다.  
+  ![gnn05-18](https://user-images.githubusercontent.com/43376853/93865086-ca0e8d00-fd00-11ea-84cf-e2a1327dcd66.png)  
+
+- 어떻게 k개의 cluster로 그래프를 partition 할까?  
+  - 접근1: Recursive bi-partitioning  
+    ![gnn05-19](https://user-images.githubusercontent.com/43376853/93865087-caa72380-fd00-11ea-8667-c3d331b6f709.png)  
+  - 접근2: Cluster multiple eigenvectros  
+    ![gnn05-20](https://user-images.githubusercontent.com/43376853/93865082-c8dd6000-fd00-11ea-8d8b-e64c96303c0a.png)  
+    - x2, x3에서 이미 cluster는 distinguished되었고, 이들을 종합적으로 생각할 수 있음.  
+    - 너무 많은 eigenvector들을 고려해야될 필요는 없다.  
+    
+    - k-way normalized cut (k-way conductance based cut)을 통해  optimal cut을 근사할 수 있다.  
+    
+    - Eigengap을 이용해서 k를 선택할 수도 있음.  
+      - Eigengap: 연속된 두 eigenvalue 값들 간의 차이  
+      - 가장 stable한 clustering은 일반적으로 eigengap Δk를 최대화하는 값 k에서 달성  
+        ![gnn05-21](https://user-images.githubusercontent.com/43376853/93865743-aef04d00-fd01-11ea-900f-890185999f03.png)  
+
+---  
+        
+## Motif-Based Spectral Clustering  
+- Pattern에 근거하여 clustering을 하고 싶다면? (앞은 Laplacian based라고 할 수 있을 듯)  
+  ![gnn05-22](https://user-images.githubusercontent.com/43376853/93865951-01ca0480-fd02-11ea-9933-638072d054fa.png)  
   
+  - Idea: 다른 Motif는 다른 Modular structure를 나타낸다!  
+    ![gnn05-23](https://user-images.githubusercontent.com/43376853/93866059-2920d180-fd02-11ea-8ed2-30e79de920b1.png)  
+    
+- Edge cut의 Criterion으로서 Conductance를 사용했던 것처럼  
+  Motif cut의 Criterion으로서도 Conductance를 한 번 사용해보겠다.  
+  
+  ![gnn05-24](https://user-images.githubusercontent.com/43376853/93866584-d1369a80-fd02-11ea-921b-ebe32eb1f68d.png)  
+  
+  - 예시  
+    ![gnn05-25](https://user-images.githubusercontent.com/43376853/93866843-2d99ba00-fd03-11ea-877e-c738aafea125.png)  
+    
+  - Minimal motif conductance를 찾는 문제는 (Edge cut conductance와 마찬가지로) NP-Hard문제이기 때문에, Approximation!  
+    -> Solution: Motif Spectral Clustering   
+      
+- 3 Steps   
+  - 1) Pre-Processing   
+    - 그래프 G로부터 관심있는 Motif M을 적용한 Weighted graph W^(M)을 만든다.  
+      ![gnn05-26](https://user-images.githubusercontent.com/43376853/93867480-14ddd400-fd04-11ea-98bc-cdf0dd344721.png)  
+  - 2) Decomposition  
+    - Weighted graph에 대한 Laplacian Matrix를 만든다!  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20L%5E%7B%28M%29%7D%20%3D%20D%5E%7B%28M%29%7D-W%5E%7B%28M%29%7D)  
+    - Laplacian Matrix에 대해 Do standard Spectral clustering!  
+  - 3) Grouping  
+    - Standard Spectral Clustering과 같은 방식으로 grouping 판단! (2nd eigenvector에 근거하여 cluster 결정!)  
+    - 다만 여기서는 0을 기준으로 나누는 것이 아니라, Sweep Procedure로!  
+      - 노드를 eigenvector components 들의 값에 따라 sorting하고, Motif conductance가 최소가 되는 조합을 찾는다.  
+        ![gnn05-27](https://user-images.githubusercontent.com/43376853/93868156-07751980-fd05-11ea-8907-b6d556a20639.png)  
+        - 해당 조합이 near optimal이라는 사실은 수학적으로 증명되어 있음.  (By Motif Cheeger Inequality)  
+        
+- Motif-Based Spectral Clustering 적용 예시 (먹이사슬 문제)  
+  : Nodes: 생태계 내 종들, Edges: 천적관계  
+  - '다른 motif는 다른 먹이사슬 관계를 나타낸다.'는 Ideation 하에, 먹이사슬을 가장 잘 설명하는 Motif를 찾으려 함  
+    ![gnn05-28](https://user-images.githubusercontent.com/43376853/93868678-c3cedf80-fd05-11ea-8733-3f4854a2bca0.png)  
+    
+  - 3 모티프를 거친 후, 각 모티프들에 대해 Motif Conductance를 Plotting 해보면 다음과 같은 결과를 얻게 됨   
+    ![gnn05-29](https://user-images.githubusercontent.com/43376853/93868830-fe387c80-fd05-11ea-8ceb-6b3f5818775b.png)  
+    - Motif M6이 Significance를 갖고 있다고 말할 수 있음.   
+      반면 M5, M8에 대해서는 Profile plot에서 어떠한 good cut을 찾을 수가 없음.  
+      -> Network는 Motif M6에 근거하여 Organize 되어 있다!  
+      
+  - 실제로 이 예시의 모티프를 따르는 Cluster는 정확도 84% 정도의 좋은 성능을 보여줌  
+  - M6의 천적관계 instance들은 다음과 같이 나타남.  
+    ![gnn05-30](https://user-images.githubusercontent.com/43376853/93869156-65eec780-fd06-11ea-8adc-a8d8f2e046c7.png)  
+
+---  
+
+#### References  
+[CS224W: Spectral Clustering](http://web.stanford.edu/class/cs224w/slides/05-spectral.pdf)  
