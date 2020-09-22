@@ -165,7 +165,7 @@ comments: true
 ---  
         
 ## Motif-Based Spectral Clustering  
-- Pattern에 근거하여 clustering을 하고 싶다면? (앞은 Laplacian based라고 할 수 있을 듯)  
+- Pattern에 근거하여 clustering을 하고 싶다면?
   ![gnn05-22](https://user-images.githubusercontent.com/43376853/93865951-01ca0480-fd02-11ea-9933-638072d054fa.png)  
   
   - Idea: 다른 Motif는 다른 Modular structure를 나타낸다!  
