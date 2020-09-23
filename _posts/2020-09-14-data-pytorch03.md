@@ -205,10 +205,16 @@ comments: true
   - ResNet 코드에서는, 더불어 채널 사이즈를 맞추어주는 용도로도 사용함.  
 
 
+- ResNet50 아키텍쳐 [Reference](https://cv-tricks.com/keras/understand-implement-resnets/)  
+  ![pytorch03-23](https://user-images.githubusercontent.com/43376853/94026237-5c438d80-fdf4-11ea-990c-9d9376e2e3d9.png)  
+  
+
+
 ---  
 
 #### References  
 [파이토치로 시작하는 딥러닝 기초 Part3](https://www.edwith.org/boostcourse-dl-pytorch/joinLectures/24017)    
+[Detailed Guide to Understand and Implement ResNets](https://cv-tricks.com/keras/understand-implement-resnets/)  
   
 
   
