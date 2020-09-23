@@ -8,6 +8,12 @@ comments: true
 ---
 
 - Recurrent Neural Network에 대한 소개  
+  - RNN 기초  
+  - RNN hihello & charseq  
+  - Long sequence  
+  - Timeseries  
+  - seq2seq  
+  - PackedSequence  
 
 ---  
 
@@ -71,7 +77,7 @@ comments: true
   '어떻게 hidden state의 dimension이 output size와 동일한 차원을 갖게 되는가?'  
   - RNN cell 내부구조를 보면 이해할 수 있음  
   
-    [pytorch04-2](https://user-images.githubusercontent.com/43376853/94042187-34f5bc00-fe06-11ea-8df8-98a84f205175.png)  
+    ![pytorch04-2](https://user-images.githubusercontent.com/43376853/94042187-34f5bc00-fe06-11ea-8df8-98a84f205175.png)  
   
     - 출력직전에 두 개의 가지로 갈라지는 설계!  
     
