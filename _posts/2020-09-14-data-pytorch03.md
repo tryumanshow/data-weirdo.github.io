@@ -188,7 +188,7 @@ comments: true
     
 ---  
 
-## Lab10-6-1 Advance CNN(RESNET-1) 
+## Lab10-6-1 Advance CNN(RESNET-1)  
 
 - 이 두 Block을 모두 만들어 볼 것!  
 ![pytorch03-20](https://user-images.githubusercontent.com/43376853/93710168-74f73d80-fb7f-11ea-8587-57b3ffb96c62.png)   
@@ -208,7 +208,34 @@ comments: true
 - ResNet50 아키텍쳐 [Reference](https://cv-tricks.com/keras/understand-implement-resnets/)  
   ![pytorch03-23](https://user-images.githubusercontent.com/43376853/94026237-5c438d80-fdf4-11ea-990c-9d9376e2e3d9.png)  
   
+---  
 
+## Lab10-7 Next step of CNN  
+- Classification: 사진이 무엇에 대한 사진인지를 출력  
+  - DenseNet, SENet, MobileNet, SqueezeNet, AutoML(NAS, NASNet)  
+  - NAS: Neural Architecture Search (논문: Neural ARchitecture Search with Reinforcement Learning)  
+- Detection: 사진 안의 객체가 어디 있고 그 객체는 무엇인지를 찾아냄  
+  - Latest Object Detection을 검색  
+- Object Tracking: 영상에서, 각 프레임마다 Detectiong을 통해 객체를 찾아냈다면, 지금 프레임에 있는 객체가 이전 프레임에서는 어떤 객체였는지, 각 프레임 간의 연관관계를 찾아냄.  
+  - MDNet, GOTURN, CFNet, ROLO, Tracking the Untractable  
+- Segmentation: 배경과 객체를 분할  
+  - FCN, U-Net, Mask RCNN  
+  
+- 앞으로 해볼 거리?  
+  
+  ```  
+  - Classification 
+  - Detection  
+  - Tracking -> SiamessCNN(Object-ReID)  
+  - Segmentation
+  - Image Captioning (with RNN)
+  - Super Resolution (저해상도 이미지 -> 고해상도 이미지)
+  - Generative Model (AutoEncoder, GAN)
+  - OpenPose (사람 사진에서 사람의 관절 구조를 따는 것)
+  etc
+  ```  
+  
+  
 
 ---  
 
