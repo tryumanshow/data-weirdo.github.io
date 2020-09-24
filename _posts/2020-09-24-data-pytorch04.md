@@ -132,6 +132,213 @@ comments: true
   
   outputs, _status = rnn(input_data)
   ```  
+  ---  
+  
+  ## Lab11-2. RNN hihello and charseq   
+  - Character들을 어떻게 표현하는 것이 좋을까?  
+    - 방법1. By index?  
+      
+      ---    
+      'h' -> 0  
+      'i' -> 1  
+      'e' -> 2  
+      'l' -> 3  
+      'o' -> 4  
+      ---  
+      
+      그닥 좋은 방법은 아님  
+      ∵ 숫자의 크기에 따라 의미를 주는 셈.  
+      
+    - 방법2. One-hot Encoding  
+      
+      ```  
+      char_set = ['h', 'i', 'e', 'l', 'o']
+      x_data = [[0,1,0,2,3,3]]
+      x_one_hot = [[[1,0,0,0,0],
+                    [0,1,0,0,0],
+                    [1,0,0,0,0],
+                    [0,0,1,0,0],
+                    [0,0,0,1,0],
+                    [0,0,0,1,0]]]
+      y_data = [[1,0,2,3,3,4]]
+      ```  
+      
+- Cross Entropy Loss  
+  - Categorical output을 예측하는 모델에서 주로 쓰임  
+  
+    ```  
+    criterion = torch.nn.CrossEntropyLoss()
+    ...
+    # 첫번째 param: 모델의 output, 두번째 param: 정답 Label  
+    loss = criterion(outputs.view(-1, input_size), Y.view(-1))  
+    ```  
+        
+- 'hihello' Code  
+
+  ```  
+  char_set = ['h', 'i', 'e', 'l', 'o']
+  # hyper parameters
+  input_size = len(char_set)
+  hidden_size = len(char_set)
+  learning_rate = 0.1
+  
+  # data setting  
+  x_data = [[0,1,0,2,3,3]]
+  x_one_hot = [[[1,0,0,0,0],
+                [0,1,0,0,0],
+                [1,0,0,0,0],
+                [0,0,1,0,0],
+                [0,0,0,1,0],
+                [0,0,0,1,0]]]
+  y_data = [[1,0,2,3,3,4]]
+    
+  X = torch.FloatTensor(x_one_hot)  
+  Y = torch.LongTensor(y_data)  
+  ```  
+      
+- charseq Code  
+
+  ```  
+  import numpy as np
+  
+  sample = ' if you want you'  
+  # 딕셔너리 만들기  
+  char_set = list(set(sample))
+  char_dic = {c: i for i, c in enumerate(char_set)}
+  
+  # hyper parameters
+  dic_size = len(char_dic)
+  hidden_size = len(char_dic)
+  learning_rate = 0.1
+  
+  # data setting
+  sample_idx = [char_dic[c] for c in sample]
+  x_data = [sample_idx[:-1]]
+  x_one_hot = [np.eye(dic_size)[x] for x in x_data] # np.eye: Identity Matrix를 만들어 줌  
+  y_data = [sample_idx[1:]]
+  
+  X = torch.FloatTensor(x_one_hot)
+  Y = torch.LongTensor(y_data)
+  
+  ```  
+  
+  - 이어서, RNN 모델 만들기  
+  
+  ```  
+  # RNN 선언하기 
+  # batch_first = True -> OUtput의 순서가 (B, S, F)임을 보장함  
+  rnn = torch.nn.RNN(input_size, hidden_size, batch_first = True) 
+  
+  # loss & optimizer setting
+  criterion = torch.nn.CrossEntropyLoss()
+  optimizer = optim.Adam(rnn.parameters(), learning_rate)
+  
+  # 학습 시작  
+  for i in range(100):
+    optimizer.zero_grad()
+    outputs, _status = rnn(X) # X: input, _status: 만약 다음 input이 있다면 다음 RNN 계산에 쓰이게 될 hidden state
+    loss = criterion(outputs.view(-1, input_size), Y.view(-1))
+    loss.backward()
+    optimizer.step()
+    result = outputs.data.numpy().argmax(axis=2) # Dim=2 -> 어떤 character인지를 나타냄 
+    result_str = ''.join([char_set[c] for c in np.squeeze(result)])
+    print(i, 'loss: ', loss.item(), 'prediction: ', result, 'true Y: ', y_data, 
+        'prediction str: ', result_str)
+  ```  
+  
+---  
+
+## Lab11-3. Long sequence  
+- 11-2 보다 조금 더 긴 Character Sequence 모델링  
+
+- 아주 긴 문장을 하나의 Input으로 사용할 수는 없기에, 특정 사이즈로 잘라서 써야 함.  
+
+- 예시  
+
+  ```  
+  sentence = ("if you want to build a ship, don't drum up people together to ",
+              "collect wood and don't assign them tasks and work, but rather ",
+              "teach them to long for the endless immensity of the sea.")
+  ```  
+  
+  - Size 10의 chunk를 생각해보자.  
+    ![pytorch04-3](https://user-images.githubusercontent.com/43376853/94103691-352aa180-fe70-11ea-8fb1-35b5b35e6126.png)  
+  
+- Sequence dataset 만들기  
+
+  ```  
+  # 데이터 셋팅
+  x_data = []
+  y_data = []
+  
+  for i in range(0, len(sentence) - sequence_length):
+    x_str = sentence[i: i+sequence_length]
+    y_str = sentence[i+1: i+sequence_length+1]
+    print(i, x_str, '->', y_str)
+    x_data.append([char_dic[c] for c in x_str]) # x str to index
+    y_data.append([char_dic[c] for c in y_str]) # y str to index
+    
+  x_one_hot = [np.eye(dic_size)[x] for x in x_data]
+  
+  # transform as torch tensor variable
+  X = torch.FloatTensor(x_one_hot)
+  Y = torch.LongTensor(y_data)
+  ```  
+  
+- Vanilla RNN의 형태  
+  ![pytorch04-4](https://user-images.githubusercontent.com/43376853/94104000-e5000f00-fe70-11ea-9efa-b1bf1bea4f6c.png)  
+  - 하지만 모델이 Underfitting 된다든지, 그런 경우에, 좀 더 Complex한 모델을 만들고 싶을 수 있음  
+  
+- 예) Fully Connected Layer 추가 + RNN Stacking  
+  ![pytorch04-5](https://user-images.githubusercontent.com/43376853/94104080-21cc0600-fe71-11ea-9516-704bf6889744.png)  
+  
+  ```  
+  class Net(nn.Module):
+    def __init__(self, input_dim, hidden_dim, layers):
+      super(Net, self).__init__()
+      self.rnn = torch.nn.RNN(input_dim, hidden_dim, num_layers = layers, batch_First = True)
+      self.fc = torch.nn.Linear(hidden_dim, hidden_dim, bias=True)
+      
+    def forward():
+    x, _status = self.rnn(x)
+    x = self.fc(x)
+    return x
+    
+  net = Net(dic_size, hidden_size, 2) # RNN Layer 2개로 쌓겠다. 
+  
+  # Loss & Optimizer 설정   
+  criterion = torch.nn.CrossEntropyLoss()
+  optimizer = optim.Adam((net.parameters(), learning_rate)
+  
+  # 훈련 시작
+  for i in range(100):
+    optimizer.zero_grad()
+    outputs = net(X)
+    loss = criterion(outputs.view(-1, dic_size), Y.view(-1))
+    loss.backward()
+    optimizer.step()
+    
+    # 모델이 예측한 결과물 해석 
+    results = outputs.argmax(dim=2)
+    predict_str = ""
+    for j, result in enumerate(results):
+      for j, result in enumerate(results):
+        print(i, j, ''.join([char_set for t in result]), loss.item())
+        if j == 0:
+          predict_str += ''.join([char_set[t] for t in result])
+        else:
+          predict_str += char_set[result[:-1]]
+  ```  
+  
+  
+
+---  
+
+#### References  
+[파이토치로 시작하는 딥러닝 기초 Part4](https://www.edwith.org/boostcourse-dl-pytorch/joinLectures/24018)      
+
+
+
   
   
   
