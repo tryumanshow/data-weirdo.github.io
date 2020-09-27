@@ -11,7 +11,7 @@ comments: true
   [1. Message Passing and Node Classification](#message-passing-and-node-classification)  
   [2. Application of iterative classification framework: fake reviewer/review detection](#application-of-iterative-classification-framework-fake-reviewerreview-detection)  
   [3. Collective Classification: Belief Propagation](#collective-classification-belief-propagation)  
-  [4. Application of Belief Propagation: Online Auction Fraud](#application-of-belief-propagation)  
+  [4. Application of Belief Propagation: Online Auction Fraud](#application-of-belief-propagation-online-auction-fraud)  
 
 ---  
 
@@ -366,7 +366,7 @@ comments: true
 ## Application of Belief Propagation: Online Auction Fraud  
 - 경매사이트: Fraud 장소로 상당히 매력적인 장소!  
 - 종종 배달 안됐다는 리뷰를 남기는 사기를 치곤 함  
-  - 이런 사건 발생 하나당 평균 손실이 285 달러 정도  
+  - 이런 사건 발생 하나당 평균 손실이 385 달러 정도  
   
 - 단순히 Individual Feature들을 봐서는 해결 불가능한 문제  
 - '하지만 Graph Structure을 속일 수는 없다!'  
