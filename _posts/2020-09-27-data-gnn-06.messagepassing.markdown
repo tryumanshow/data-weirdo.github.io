@@ -214,9 +214,194 @@ comments: true
 - 리뷰 사이트는 spam이 공공연하게 일어나는 곳임  
   - 평가 점수 +1 점 당 수입이 5~9% 정도 상승!  
   - 그래서 Paid spammer들은 '거짓으로' 해당 상품들의 평가를 낮게 평가함으로써, 경쟁사를 꺾으려고 함  
-
+  
+- '어떻게 SPAM을 Detect할 것인가!'  
+  - Behavior 분석?  
+    : individual features, geographic locations, login times, session history ...  
+  - Language 분석?  
+    : use of superlatives, lots of self-referencing, rate of misspellings, many agreement words ...  
+  
+  - 위 둘의 분석은 이미 분석자를 속이기 쉬운 영역 (Easy to fake)  
+    - individual behaviors, content of review -> Not reliable anymore!  
+    - 그렇다면 '속이기 어려운' 영역은 뭘까? -> `Graph Structure`  
     
+- Graph Structure  
+  : Reviewers, Reviews, Stores ... 그들간의 '관계'는 어렵다는 사고에 기인.  
   
+  - 문제 정의 방식  
+    - Input: 가중치 방향 그래프 형태의 이분 평점 그래프  
+      (Bipartite rating graph as a weighted signed network)  
+      - 노드: Users, Products  
+      - Edges: -1~1 사이의 rating scores  
+    - Output: 거짓으로 평점을 평가하는 유저 집단  
+    
+      ![gnn06-21](https://user-images.githubusercontent.com/43376853/94368169-ca9e8d80-011d-11eb-98c7-f7c82bcf756b.png)  
+
+### REV2 Solution Formation  
+- 기본 아이디어  
+  : 이용자(Users), 물품(Products), 평점(Ratings)는 모두 고유한 품질 점수(`Intrinsic Quality Score`)를 가지고 있다.  
+  - Users: fairness scores  
+  - Products: goodness scores  
+  - Ratings: Reliability scores  
   
+  - (이 모든 값들은 처음에는 알려져있지 않음.)  
+  
+  ![gnn06-22](https://user-images.githubusercontent.com/43376853/94368286-3680f600-011e-11eb-8990-eea815cf2f0e.png)  
+  
+  - 모든 노드와 간선들의 값들은 __Iterative Classification__ 을 통해 계싼한다.  
+
+  #### Fairness of Users  
+  - Goodness와 Reliability를 고정하고, Fairness를 업데이트  
+    ![gnn06-23](https://user-images.githubusercontent.com/43376853/94368330-81027280-011e-11eb-8019-714ab7509cb1.png)  
+
+  #### Goodness of Products  
+  - Fairness와 Reliability를 고정하고, Goodness를 업데이트  
+    ![gnn06-24](https://user-images.githubusercontent.com/43376853/94368388-b5762e80-011e-11eb-9604-85a5105307d1.png)  
+
+  #### Reliability of Ratings  
+  - Fairness와 Goodness를 고정하고, Reliability를 업데이트  
+    ![gnn06-25](https://user-images.githubusercontent.com/43376853/94368409-d76fb100-011e-11eb-9494-b44ddb66d74d.png)  
+
+
+#### 이 값들을 구해가는 과정?  
+1. Initialization to best scores  
+  - F, G, R 모든 값들을 1로 초기화  
+    ![gnn06-26](https://user-images.githubusercontent.com/43376853/94368462-2cabc280-011f-11eb-878e-952185da3897.png)  
+  
+2. Iteration1  
+  - 2-1. Goodness 업데이트!  
+    ![gnn06-27](https://user-images.githubusercontent.com/43376853/94368550-89a77880-011f-11eb-822a-ddbc8ed222b3.png)  
+  - 2-2. Reliability 업데이트!  
+    ![gnn06-28](https://user-images.githubusercontent.com/43376853/94368563-a643b080-011f-11eb-90ad-529563ad93e5.png)  
+  - 2-3. Fairness 업데이트!  
+    ![gnn06-29](https://user-images.githubusercontent.com/43376853/94368581-cbd0ba00-011f-11eb-8035-eda77f314ffc.png)  
+    
+3. 수렴한다면  
+  ![gnn06-30](https://user-images.githubusercontent.com/43376853/94368603-edca3c80-011f-11eb-81b2-875049e59bb6.png)  
+  
+- REV2는 수렴이 보장되어 있음!  
+- 수렴하기까지의 총 Iteration 횟수도 상한이 있고, (Upper-bounded)  
+- 시간복잡도도 그래프의 Edge의 수가 증가함에 따라 Linear하게 증가!  
+
+- Low fairness users = Frausters  
+
+---  
+
+## Collective Classification: Belief Propagation  
+### 3. Belief Propagation  
+#### 이하 Loopy Belief Propagation에 대한 내용  
+- Graphical 모델에서 조건부확률 queries에 답하는 Dynamic Programing approach!  
+- Neighbor Variable들이 서로 간에 'Talk'하는, 이를테면 `Passing Messages`와 같은, Iterative Process  
+- 합의에 도달하면, Final belief를 계산  
+
+- 매커니즘  
+  ![gnn06-31](https://user-images.githubusercontent.com/43376853/94368871-8ca36880-0121-11eb-9619-6a20183293a8.png)
+
+  - Task: 그래프 상에서의 노드의 개수 세기.  
+  - Condition: 각 노드들은 각자의 neighbor와만 interact (or Message passing) 할 수 있다.  
+  - Solution: 각 노드들은 각자의 neighbor들로부터 message를 전해듣고, 업데이트하고, 이 내용을 앞으로 전달한다!  
+    ![gnn06-32](https://user-images.githubusercontent.com/43376853/94368883-99c05780-0121-11eb-8e8d-b6defe4413e3.png)  
+    - 이와 같은 사고는 Primitive하지만 Powerful하다!  
+    - 이 그림에서, 동그라미로 표시해놓은 노드만이 실제 그래프의 길이를 알고 있음.  
+      ![gnn06-33](https://user-images.githubusercontent.com/43376853/94368915-c5dbd880-0121-11eb-98b0-e7bf0fa3be29.png)  
+      
+      
+- 이같은 사고는 Tree에서도 마찬가지로 적용될 수 있음.  
+  ![gnn06-34](https://user-images.githubusercontent.com/43376853/94368955-fd4a8500-0121-11eb-9f68-f1c7982e429d.png)  
+  - 빨간색으로 표기된 노드는 '이 트리에는 14개의 노드가 있을거야!'라고 판단할 것.  
+  - 이 역시 Message Passing 매커니즘을 통해 알 수 있음.  
+  - 이와 같이 정확한 갯수를 세는 것 뿐만 아니라,  
+    - neighbor 노드가 '내 생각에는 그래프에서 Sampling을 해보니까 대략(Roughly) 10개의 노드가 있는 것 같아!' 라거나  
+    - 그래프의 size 대신에 주변의 노드들이 '네 Label은 A같아! B같아!'와 같은 Labeling을 할 수도 있음!  
+    
+    - 이 모든 Case들 역시 `Belief Propagation`  
+    
+- 다만 그래프에서 Cycle이 생기는 경우는 Loopy Belief Propagation이 잘 working하지 않음.  
+  ![gnn06-35](https://user-images.githubusercontent.com/43376853/94369098-c2951c80-0122-11eb-9b11-83b460e1f8ea.png)  
+  - 하지만, 실제 graph들에서는 이런 Loop은 '드물게' 발생하며,  
+  - Graph가 충분히 커서 Cycle의 Contribution이 그리 크지 않은 경우가 많음.  
+  - 또한, 이 Cycle을 제거하기 위한 Heuristic한 방법들도 존재.  
+    -> 최악의 경우에는 Cycle을 먼저 제거하고, Loopy Belief Propagation을 적용하기도.  
+    
+    
+### Loopy BP algorithm  
+- 다음과 같은 그림을 한 번 생각해보자.  
+  ![gnn06-36](https://user-images.githubusercontent.com/43376853/94369165-11db4d00-0123-11eb-9115-49d8eddb9419.png)  
+  - i가 j에게 어떤 메시지를 보내는지는, i가 주변 k들로부터 듣는가에 기인  
+  - 각각의 k 노드들은 i에게 각자 state의 belief를 메시지의 형태로 전달한다.  
+  
+- Notation  
+  - __ψ__ (Label-label potential matrix)  
+    - 어떤 노드와 그 neighbor 사이의 Dependency  
+    - ψ(Yi, Yj): 노드 j의 neighbor i가 state Yi에 있을 때, 노드 j가 state Yj에 속할 확률  
+    - 직관적으로 -> '노드 i와 j의 correlation'  
+  - Φ (Prior belief)   
+    - 노드 i가 state Yi에 속할 확률 Φi(Yi)  
+  - ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20m_%7Bi%20%5Crightarrow%20j%7D%28Y_j%29)  
+    - j가 state Yj에 있을 상태에 대한 i의 추정치  
+  - L: 모든 state들의 집합  
+  
+- Process  
+  1. 모든 message들을 1로 초기화 (네트우크에 대해 아무것도 모르는 상태)  
+  2. 각 노드에 대해 반복  
+    ![gnn06-37](https://user-images.githubusercontent.com/43376853/94369434-a1cdc680-0124-11eb-8e86-6ab93dfaf68f.png)  
+  3. 수렴하면, 각 State에 대한 Belief를 계산  
+    ![gnn06-38](https://user-images.githubusercontent.com/43376853/94369472-ccb81a80-0124-11eb-87c4-c1307c634da1.png)
+
+- 다시 한 번, Loopy Belief Propagation은, Cyclic 그래프에서는 쓰지 않도록 하자!  
+  
+- Loopy BP의 장단점   
+  - 장점  
+    - 프로그래밍 및 병렬화 쉬움  
+    - 어떤 그래프 모델에도 보편적으로 적용 가능  
+  - 한계점  
+    - 수렴이 보장되지 않는다. (많은 Closed loop가 있을 경우)  
+      -> Trick 한가지: Clustering Coefficient를 확인해보고 계수값이 매우 크다면, Loopy BF는 여기에 쓰일 수 있는 테트닉이 아닐 가능성이 매우 높음  
+  - Potential functions  
+    - 파라미터 추정을 위해서 훈련이 필요  
+    - Graident-based 최적화 학습 -> 훈련 동안 수렴에 관한 이슈가 발생할 수 있음.  
+    
+---  
+
+## Application of Belief Propagation: Online Auction Fraud  
+- 경매사이트: Fraud 장소로 상당히 매력적인 장소!  
+- 종종 배달 안됐다는 리뷰를 남기는 사기를 치곤 함  
+  - 이런 사건 발생 하나당 평균 손실이 285 달러 정도  
+  
+- 단순히 Individual Feature들을 봐서는 해결 불가능한 문제  
+- '하지만 Graph Structure을 속일 수는 없다!'  
+  - 주된 궁금증: 사기꾼들은 다른 유저들과, 또 사기꾼들끼리 어떤 식으로 상호작용 하는가?  
+    (+ 단순히 사고 파는 관계를 떠나서 더 복잡한 관계라는 것이 존재하는가?)  
+    
+- 매커니즘  
+  - 각 유저는 평판스코어 'Reputation score'라는 것을 갖고 있다.  
+  - 유저들은 각 유저들을 feedback을 통해 평가  
+  - 궁금증: '사기꾼들은 이 Feedback 시스템을 어떤 식으로 사용하는가?'  
+    - '사기꾼들끼리의 평판을 올려주는가?'  
+      -> No! ∵ 한 놈이 잡히면 우루루 다 잡힌다.  
+    - 그들은 흡사 이분그래프를 형서한다. (near-bipartite cores (2 roles))  
+      - Accomplice (꽤나 정상적인 행동 양태를 보이며, 선량한 유저들과 거래)  
+      - Fraudster (Accomplice와 거래하며 Honest를 등처먹는다(?)  
+      ![gnn06-39](https://user-images.githubusercontent.com/43376853/94369750-92e81380-0126-11eb-97bd-15cd8606e2d3.png)  
+
+  - 이 near-bipartite cores를 어떻게 찾아낼 것이며, honest, accomplice, fraudster를 어떻게 구분해낼 것인가?  
+    -> __Belief Propagation__ 을 사용하라!  
+    
+  - 이 관계에 대한 Prior Belief를 다음과 같이 가지고 있다고 가정하자!  
+    ![gnn06-40](https://user-images.githubusercontent.com/43376853/94369799-d80c4580-0126-11eb-98c7-eb4553045f4d.png)  
+    
+    - 수렴할 때까지, Belief Propagation을 수행하면 다음과 같은 결과가 얻어진다.  
+      ![gnn06-41](https://user-images.githubusercontent.com/43376853/94369828-068a2080-0127-11eb-94f7-22c19a1536a8.png)  
+      
+    - (앞에서는 Binary-Classification이었지만, 이 경우는 Multi-class Classification!)  
+    - 다음과 같은 결과를 얻었고, Role에 대한 구분을 잘 해냈다고 볼 수 있겠다!  
+    
+      ![gnn06-42](https://user-images.githubusercontent.com/43376853/94369870-3e916380-0127-11eb-8ed4-6f43ac66c941.png)  
+
+
+---   
+
+#### References  
+![CS224W: Message Passing and Node Classification](http://web.stanford.edu/class/cs224w/slides/06-collective.pdf)   
   
   
