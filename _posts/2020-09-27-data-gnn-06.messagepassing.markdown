@@ -1,0 +1,222 @@
+---
+layout: post
+title:  "CS224W - 06.Message Passing and Node Classification"  
+subtitle:   "GNN-06.message passing"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 6주차 강의, Message Passing and Node Classification을 보고 정리한 글입니다.  
+  [1. Message Passing and Node Classification](#message-passing-and-node-classification)  
+  [2. Application of iterative classification framework: fake reviewer/review detection](#application-of-iterative-classification-framework-fake-reviewerreview-detection)  
+  [3. Collective Classification: Belief Propagation](#collective-classification-belief-propagation)  
+  [4. Application of Belief Propagation: Online Auction Fraud](#application-of-belief-propagation)  
+
+---  
+
+## Message Passing and Node Classification  
+- 오늘의 메인 궁금증  
+  : 어떤 네트워크가 주여졌을 때, 몇몇 노드들에는 label이 있다면, 그렇지 않은 node들에는 어떻게 label을 설정해줄 수 있을까?  
+  - 'Semi-supervised` node classification  
+    ![gnn06-1](https://user-images.githubusercontent.com/43376853/94362119-14727e00-00f4-11eb-941d-5be3b67d6259.png)  
+    
+### Collective classification  
+- 위와 같이 네트워크 상의 모든 노드들에 label을 assign하는 태스크!  
+- Intuition  
+  : 네트워크 상에서는 분명 Correlation이 존재하고, 우리는 이 정보를 __Leverage__ 하면 된다!  
+  
+- Collective Classification의 세 가지 테크닉  
+
+  ```  
+  1. Relational classification  
+  2. Iterative Classification  
+  3. Belief Propagation  
+  ```  
+  
+  #### Correlation?   
+  - Correlation을 낳는 3가지 __Dependency__  
+  
+    - 1. Homophily  
+      - 비슷한 성향을 지닌 사람들이 사회적인 connection을 형성한다.   
+      - 유유상종  
+      - ex. age, gender, organizational role, ...  
+    - 2. Influence  
+      - Social connection은 개인들에게 영향을 미친다.  
+      - 이 강의에서 메인으로 다룰 대상  
+    - 3. Confounding  
+      - 외부적인 요인이 개인 및 social connection 모두에 영향을 미친다.  
+    
+      ![gnn06-2](https://user-images.githubusercontent.com/43376853/94362249-fd805b80-00f4-11eb-9244-c86d4aeb8311.png)  
+
+    
+- (처음의 궁금증으로 돌아와서,) 예를 들어, 다음과 같은 네트워크에서 Beige 색의 노드들에는 어떻게 label을 predict?  
+  = 어떻게 네트워크 상에서 관찰되는 __Correlation을 Leverage__ 할 것인가?  
+  ![gnn06-3](https://user-images.githubusercontent.com/43376853/94362358-a929ab80-00f5-11eb-9fe8-0d19d4dbbe1b.png)  
+  (이 그림은 Binary Classification이지만, Multiple Classifier도 충분히 가능한 이야기)  
+  
+- Motivation  
+  - 유사한 노드들은 Directly connected 되어 있거나, Close together 이거나!  
+  - 네트워크 내에서 어떤 object O의 Classification Label은 다음 3가지에 의존할 것  
+  
+    ![gnn06-4](https://user-images.githubusercontent.com/43376853/94362438-353bd300-00f6-11eb-8421-d22d0090e4e2.png)  
+
+- 위의 Task는 결국 다음과 같은 문제로 귀결될 수 있음.  
+  - W: nxn (weighted) adjacency matrix  
+  - Y: Label들의 벡터 ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20Y%20%3D%20%5C%7B%20-1%2C%200%2C%201%20%5C%7D%5En)  
+    - 1: + node  
+    - -1: - node  
+    - 0: unlabeld node  
+  - 결국, 0인 노드들 중, 어떤 노드들이 1일지를 예측하라는 것.  
+  
+- 이 단순한 사고의 다양한 application 사례  
+  - Document classification  
+  - Part of speech tagging  
+  - Link prediction  
+  - Optical character recognition  
+  - Image/3D data segmentation  
+  - Entity resolution in sensor networks  
+  - Spam and fraud detection  
+  
+### Collective Classification Overview  
+- 마코프 가정  
+  - 어떤 한 노드의 Label은 그 Neighbor 노드의 Label에 의존한다.  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20P%28Y_i%7Ci%29%20%3D%20P%28Y_i%20%7C%20N_i%29)  
+    
+- 3 Steps?  
+  - Step1. Local Classifier  
+    : 초기 label 부여  
+  - Step2. Relational Classifier  
+    : 노드들 간의 correlation을 capture!  
+  - Step3. Collective Inference  
+    : 네트워크를 통해 correlation을 propagate  
+    
+    ![gnn06-5](https://user-images.githubusercontent.com/43376853/94362861-1ab72900-00f9-11eb-84fc-8f60da2999a3.png)  
+    
+- Collective Classification을 위해 3가지 테크닉을 사용할 것이며,  
+  이 3가지(Relational classifiers, Iterative Classification, Belief propagation) 모두 __Approximate__ inference다!  
+  - 또한, 모두 Iterative algorithm  
+  
+### 1. Relational Classifier  
+- Idea: 어떤 노드 Yi의 class probability는 neighbor 노드들의 class probability의 가중평균이다!  
+- Labeled Node는 ground-truth(실측자료) Y label로 initialize     
+- Unlabeld Node는 uniform하게 initialize  
+  - 물론 믿을만한 prior가 있다면, 당연히 이를 사용해도 괜찮다!  
+- 수렴할 때까지 혹은 최대 iteration 수에 도달하기까지 모든 노드들을 random order로 업데이트  
+  (물론 order가 결과에 영향을 미칠 수 있다는 점은 명심할 것. 작은 Dataset에 대해서는 물론 local effect가 exacerbated 될 것이지만, Dataset의 킉가 크다면 순서가 다름으로써 얻게되는 결과의 label distribution에는 그닥 큰 영향을 미치지는 않을 것  
+  
+- 각 node i와 label c에 대해 다음을 반복  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20P%28Y_i%20%3D%20c%29%20%3D%20%5Cfrac%7B1%7D%7B%7CN_i%7C%7D%5Csum_%7B%28i%2Cj%29%5Cin%20E%7DW%28i%2Cj%29P%28Y_j%3Dc%29)  
+  - W(i,j): i → j의 edge strength  
+  - |Ni|: Node i의 neighbor들의 수  
+  - P(Yj = c): i의 neighbor이 label c를 가질 확률  
+  
+- 이 방법의 단점  
+  - 수렴이 보장되지 않는다.  
+    - Solution: ML에서의 경험적인 해결책  
+      -> Weight의 Behavior 및 Label의 Distribution을 Plotting 해보고, 이 fluctuation이 시간의 흐름에 따라 증가하지 않는다면 일종의 convergence state에 도달했다고 볼 수 있다.  
+  - 모델이 Model Feature information을 사용할 수가 없다.  
+  
+- 예시  
+  - Initialize  
+    ![gnn06-6](https://user-images.githubusercontent.com/43376853/94363325-8b137980-00fc-11eb-8fd8-d0cda82b9db9.png)  
+  - 첫번째 Iteration  
+    - 3 -> 4 -> 5 -> 8 -> 9의 순서로 update하는 것을 가정  
+      ![gnn06-7](https://user-images.githubusercontent.com/43376853/94363390-d2016f00-00fc-11eb-9f4f-e27da3fa9ffe.png)  
+      ![gnn06-8](https://user-images.githubusercontent.com/43376853/94363426-fc532c80-00fc-11eb-9c7a-7b578c31cf23.png)  
+      ...  
+    - 결과  
+      ![gnn06-9](https://user-images.githubusercontent.com/43376853/94363442-142ab080-00fd-11eb-8f9a-751d72f4d2a6.png)  
+      ...  
+  - 이런 과정을 통해 Iteration을 4번 돌았을 때  
+    ![gnn06-10](https://user-images.githubusercontent.com/43376853/94363459-358b9c80-00fd-11eb-87ec-9fb17bfd3297.png)  
+    
+  - Iteration을 다섯번 돌면 Score가 안정되었다고 함  
+    -> 5번의 Iteration을 통해 Score가 안정되었다는 가정 하에, 0.5라는 값을 기준으로 노드를 Classify!  
+      ![gnn06-11](https://user-images.githubusercontent.com/43376853/94363532-c6fb0e80-00fd-11eb-8c74-99c83265afbc.png)  
+    - 4번 노드는 +,-가 거의 equally contributing → 적절한 label assign을 못함   
+    
+### 2. Iterative classification  
+- 'Relational classifier가 그렇게 powerful하지는 않더라.'  (Node feature를 사용하고 있지 않더라.)  
+- Neighbor들의 label 뿐만 아니라 __attributes__ 들도 사용하여 classify해보자!  
+
+  - 각 노드 i에 대해 flat vector a_i를 만든다  
+  - a_i를 이용하여 분류할 수 있도록 분류기 학습  
+  - 노드들마다 다양한 neighbor node의 수를 갖게 됨  
+    -> count, mode, proportion, mean, exists 등을 사용해서 `aggregate`할 수 있다.  
+
+#### Basic architecture of iterative classifiers  
+##### Bootstrap Phase  
+- 각 노드 i를 flat vector a_i로 전환!  
+- Y_i에의 최고의 값을 계산해내기 위해, SVM, KNN등 다양한 local classifier f(a_i)를 이용!  
+
+##### Iteration Phase  
+- 수렴할 때까지 계속 반복!  
+  - 각 노드 i에 대해,  
+    - node vector a_i를 업데이트  
+    - f(a_i)에 대해 lable Y_i를 업데이트  
+  - 역시 class label이 stabilize 되거나 최대 iteration 횟수가 만족될 때까지 iterate  
+  - 하지만, 역시나 convergence가 보장되지는 않기 때문에, max iteration 횟수를 사용  
+  
+- 정리하자면  
+  
+  ```  
+  1. Train
+  2. Bootstrap 
+  3. Iterate 
+    a. Update relational features 
+    b. Classify  
+  ```  
+  
+- 예시  
+  - Web page classification  
+    - w1, w2, w3, ... : Document 내에서 특정 단어의 존재 여부를 나타냄  
+    - `Baseline`: 처음 given 네트워크에 대해 Classifier(예: KNN)을 학습!  
+      ![gnn06-12](https://user-images.githubusercontent.com/43376853/94363792-b6e42e80-00ff-11eb-8dd0-9ac4d08c4213.png)  
+      
+  - 이제, network feature를 감안!!  
+    - 노드들 사이의 전입, 전출 관계에 따라, 각 노드에 neighborhood label의 벡터를 추가!  
+    - ex) I_A: A label의 Page로부터 incoming되고 있는 경우!  
+      ![gnn06-13](https://user-images.githubusercontent.com/43376853/94363925-a2546600-0100-11eb-8eba-0fccd12941ca.png)  
+
+
+#### 1. Train      
+- 각 training set마다, 두 가지 classifier를 train!!!  
+  1. Word vector만 (초록색)  
+  2. Word & Link vector (빨간색)  
+  
+  ![gnn06-14](https://user-images.githubusercontent.com/43376853/94364095-d8461a00-0101-11eb-8cb3-a676571c83f4.png)  
+
+
+#### 2. Bootstrap   
+- 1에서 훈련된 모델을 갖고, Test set을 bootstrapping!  
+  ![gnn06-15](https://user-images.githubusercontent.com/43376853/94364168-615d5100-0102-11eb-9b31-a20aa7bed520.png)  
+  ![gnn06-16](https://user-images.githubusercontent.com/43376853/94364187-85b92d80-0102-11eb-8d3c-1d1ad3773367.png)  
+  
+#### 3. Iterate  
+- 3-a. Update relational features  
+  - Relational features 업데이트!  
+    ![gnn06-17](https://user-images.githubusercontent.com/43376853/94364259-ea748800-0102-11eb-9e3e-3ccd50494e4b.png)  
+- 3-b. Classify   
+  - 모든 노드들 Reclassify!   
+    - 기존의 분류  
+      ![gnn06-18](https://user-images.githubusercontent.com/43376853/94364278-0bd57400-0103-11eb-9b54-a954d38302c0.png)  
+    - Reclassify!  
+      ![gnn06-19](https://user-images.githubusercontent.com/43376853/94364300-30315080-0103-11eb-80fa-c19d9b8f4b68.png)  
+
+- 3-a, 3-b를 수렴할 때까지 Iterate -> Right classification!  
+  - 수렴!  
+    ![gnn06-20](https://user-images.githubusercontent.com/43376853/94364382-c796a380-0103-11eb-9554-b990d2eef568.png)  
+
+---  
+
+## Application of iterative classification framework: fake reviewer/review detection     
+- 리뷰 사이트는 spam이 공공연하게 일어나는 곳임  
+  - 평가 점수 +1 점 당 수입이 5~9% 정도 상승!  
+  - 그래서 Paid spammer들은 '거짓으로' 해당 상품들의 평가를 낮게 평가함으로써, 경쟁사를 꺾으려고 함  
+
+    
+  
+  
+  
+  
