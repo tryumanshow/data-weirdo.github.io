@@ -402,6 +402,6 @@ comments: true
 ---   
 
 #### References  
-![CS224W: Message Passing and Node Classification](http://web.stanford.edu/class/cs224w/slides/06-collective.pdf)   
+[CS224W: Message Passing and Node Classification](http://web.stanford.edu/class/cs224w/slides/06-collective.pdf)   
   
   
