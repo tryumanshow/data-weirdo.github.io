@@ -1,0 +1,115 @@
+---
+layout: post
+title:  "CS224N - 01.Introduction and Word Vectors"  
+subtitle:   "NLP-01.introduction"
+categories: data
+tags: nlp
+comments: true
+---
+
+- CS224N의 1주차 강의, Introduction and Word Vectors를 보고 정리한 글입니다.  
+  [1. Human language and word meaning](#human-language-and-word-meaning)  
+  [2. Word2vec introduction](#word2vec-introduction)  
+  [3. Word2vec objective function gradients](#word2vec-objective-function-gradients)  
+  [4. Optimization basics](#optimization-basics)  
+  
+
+---  
+
+## Human language and word meaning  
+- 'Word'의 의미(Meaning)는 어떻게 나타내어 지는가?  
+  - Meaning이라는 것에 대한 일반론적인 정의  
+    : Signifier(Symbol)이 있고, 그 Signified(Symbol)은 Idea를 내포한다.  
+    = Denotational Semantics (표시적 의미론)  
+    
+- '전통적인' NLP에서는 단어를 Discrete symbol로 간주 (~2012년)  
+  - 단어를 one-hot vector로 만들어서 해당하는 단어의 component에만 1을 대응시키는 식으로 진행함.  
+  - 예  
+    motel = [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0]  
+    hotel = [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0]  
+  - Vector Dimension: Vocabulary 내의 단어들의 개수  
+  
+  - 단점1: 그럼 단어가 예를 들어 500000만개면, 벡터 차원을 500000으로 설정한다고?  
+  - 단점2: hotel과 motel 사이에는 의미론적인 유사성이 있는데, 위와 같이 표시해버리면 둘은 orthogonal 하기 때문에 similarity를 표시할 수 없게 됨  
+    -> 이에 대해 '벡터 그 자체에 similarity를 encode할 수 있도록 학습해보자!'라는 사고를 하게 됨  
+    
+    
+- Distributional semantics: "단어의 Meaning이라는 것은 그 단어 근처에서 자주 나타나는 단어에 의해 결정되는 것이다."  ( __context__ )  
+
+## Word2vec introduction  
+
+### Word Vectors (= Word Embeddings = Word Representations)  
+- Distributed representation!  
+- 이전처럼 이상한 localist representation 대신 distributed representation으로 나타내보면 어떨까?' 라는 사고  
+- Sparse Vector가 아닌 Dense Vector!  
+- 이 Dense Vector는 유사한 context에서 나타나는 단어들의 벡터와 유사할 것   
+  ![nlp01-1](https://user-images.githubusercontent.com/43376853/94459323-220e2d80-01f2-11eb-9350-56f5159c550b.png)  
+  
+### Word2vec  
+- Word Vector를 학습하기 위한 프레임워크  
+
+- Idea  
+  - Large corpus of text! (NLP하는 사람들은 corpus를 large pile of text를 corpus라 부르더라 - 말뭉치)   
+  - 고정된 vocabulary에서 모든 단어들은 벡터의 형태로 나타난다.  
+  - 각 text의 position t를 지나며, center word c와 context words o를 지님  
+  - c,o에 대해 word vector들 간의 유사성을 사용해서, c가 주어졌을 때 o의 (혹은 그 반대로) 확률을 계산  
+  - 이 확률을 최대화 하기 위해서 word vector들을 계속 adjust해줘.  
+  
+    ![nlp01-2](https://user-images.githubusercontent.com/43376853/94460312-7cf45480-01f3-11eb-83b4-85111299edde.png)  
+    ![nlp01-3](https://user-images.githubusercontent.com/43376853/94460390-a2815e00-01f3-11eb-9906-bd82f2a3b4ad.png)  
+
+## Word2vec objective function gradients  
+
+- Word2vec의 목적함수  
+  - t=1, ..., T까지의 각 position에서, 고정된 window size m 내에서 center word w_j가 주어졌을 때 context words를 예측  
+    ![nlp01-4](https://user-images.githubusercontent.com/43376853/94460581-e6746300-01f3-11eb-8ac0-954c955cb09f.png)
+  - 위 식을 아래와 같이 변형하면, 위 식을 maximize하는 문제는 아래의 식을 minimize하는 문제와 똑같은 문제가 됨  
+  - 더불어 이와 같은 변형은, Product를 Summation의 문제로 바꾸기 때문에 연산의 관점에서 훨씬 효과적  
+    ![nlp01-5](https://user-images.githubusercontent.com/43376853/94460727-250a1d80-01f4-11eb-8380-313a82aeb4e1.png)  
+    
+- 이제 Word2vec의 목적함수를 아래 식이라고 머리에 못 박고, 결국 목표는 아래 식을 최소화하는 것이라고 한다면  
+  ![nlp01-6](https://user-images.githubusercontent.com/43376853/94460906-5f73ba80-01f4-11eb-9782-1a5844fa7ec5.png)  
+  여기서 ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20P%28w_%7Bt&plus;j%7D%7Cw_t%3B%5Ctheta%29) 는 또 어떻게 찾지?  
+  
+  - 해결책  
+    - 단어(w) 하나 당 두 개의 벡터를 사용할 것  
+      - v_w (w가 center word인 경우)  
+      - u_w (w가 context word인 경우)  
+    - 이때, center word c와 context word o에 대해 P(o|c)를 다음과 같이 정의할 수 있음.  
+      ![nlp01-7](https://user-images.githubusercontent.com/43376853/94461345-f93b6780-01f4-11eb-8328-6758e146cdd1.png)  
+      
+  - P(o|c)에 대한 설명  
+    ![nlp01-8](https://user-images.githubusercontent.com/43376853/94461548-399ae580-01f5-11eb-93fb-9ecad18c7c8a.png)  
+    - 분자의 사각형은 단어들 사이의 similarity를 직접적으로 계산해준다.  
+    - 분모는 전체 vocabulary에 대한 값들의 합을 통해 normalize  
+    
+    - exponential dist'n: +값이든 -값이든, exp를 통과할 때 모든 값들을 +로 만들어준다는 멋진 성질을 갖고 있음.  
+    
+    - 이 식은 softmax 함수의 한 예시  
+
+## Optimization basics  
+
+- 이제 Loss function을 minimize하는 방향으로 parameter optimization!  
+  - '모든' vector gradient를계산해야.  
+  
+- Optimization 사고  
+  ![nlp01-9](https://user-images.githubusercontent.com/43376853/94463982-c1ceba00-01f8-11eb-9701-edd5289019fb.png)  
+  ![nlp01-10](https://user-images.githubusercontent.com/43376853/94464224-27bb4180-01f9-11eb-93d2-90bc7d0e7d60.png)  
+  
+  - 결국 expected context word와 actual context word 사이의 diffrence에 대한 문제!  
+
+
+
+
+- 왜 두 벡터를 쓰나?  
+  - Optimization이 더 쉽기 때문.  
+  
+- Word2Vec의 두 가지 variants  
+  - Skip-gram  
+  - CBOW  
+
+
+---  
+
+#### References  
+[CS224N: Introduction and Word Vectors](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/slides/cs224n-2019-lecture01-wordvecs1.pdf)  
