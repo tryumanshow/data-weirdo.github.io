@@ -136,7 +136,7 @@ comments: true
 ---  
 
 ## Random Walk Approaches to Node Embeddings   
-  ### 검색 결과 Deepwalk를 설명하고 있는 듯.  
+### 검색 결과 Deepwalk를 설명하고 있는 듯.  
 - 특정 그래프, 그 그래프의 시작점이 주어지면, 그 이후로는 neighbor들을 random하게 선택하고 나아가게 되는데, 이 point들의 sequence는 random walk를 따른다고 할 수 있음.  
   
 ### Random-walk Embeddings  
@@ -165,7 +165,7 @@ comments: true
       
 - Optimization in 'Random-walk'  
   1. 어떤 strategy R을 사용해서 그래프 상의 각각의 점들로부터 출발하는, 짧고 고정된 길이(short fixed-length random walks)를 지닌 random walk를 실행(run)  
-  2. 각 노두 u에 대해, N_R(u)를 수집한다.  
+  2. 각 노드 u에 대해, N_R(u)를 수집한다.  
     (N_R(u): The multiset of nodes visited on random walks starting from u)  
   3. 다음 식에 따라, embedding을 optimize  
     ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cunderset%7Bz%7D%7Bmax%7D%5Csum_%7Bu%20%5Cin%20V%7Dlog%20P%28N_R%28u%29%7Cz_u%29)  
@@ -193,8 +193,122 @@ comments: true
   - 기존 Loss function의 log() 파트를 다음과 같이 근사!  
     ![gnn07-16](https://user-images.githubusercontent.com/43376853/94422126-8e246d80-01c1-11eb-8af5-c083d0c0ef21.png)  
     - Idea: 모든 노드들을 고려하여 Normalize 하지말고, k개의 random __negative samples__ n_i에 대해 normalize 해라!  
+    - 차수에 비례하여 k negative nodes를 샘플링할 것  
+    - k에 대한 두 가지 조건  
+      1. k↑ → Robust estimates  
+      2. k↑ → Negative Events에 대한 higher bias  
+    - 실제로 k는 5와 20 사이의 수를 택해  
 
+- 방금까지 얘기한 건, Random Walk에서의 Optimization에 대한 이야기  
+- 이런 random walk를 사용하기 위해서는 어떤 Strategies를 사용해야 하는가? (뭔가.. 강의 순서가 뒤죽박죽..)   
+  - 고정된 길이의, 각 노드들로부터 출발하는 unbiased random walk를 실행  
+  - 하지만 이 방법의 한계: 두 노드가 유사한 structural role을 지니고 있을 때, 그들이 멀리 있다면, 이 similarity를 caputure하지 못할 것 (길이가 Fixed되어 있기 때문에)  
+  
+---  
+
+### Node2vec Embeddings  
+- 목표: 유사한 네트워크 이웃들을 가진 노드들을 Feature Space 상에서 가까이에 Embed하기  
+  - = Downstream prediction task와는 독립적으로, Maximum LIkelihood Optimization 문제  
+- Biased 2nd order random walk R 개발!  
+
+- Idea  
+  - 네트워크의 `local` 과 `global` 한 특성 사이의 균형을 맞출 수 있는 flexible, biased random walk!  
+    ![gnn07-17](https://user-images.githubusercontent.com/43376853/94440350-93db7c80-01dc-11eb-8a73-eb7454133162.png)  
+  - BFS와 DFS는 특정 노드 u의 Neighborhood N_R(u)를 정의할 수 있는 두 가지 고전 strategies  
+    - BFS: 그래프의 Local(Micro) view 강조  
+    - DFS: 그래프의 Gloval(Macro) view 강조  
+      ![gnn07-18](https://user-images.githubusercontent.com/43376853/94440824-04829900-01dd-11eb-9447-1b1970541998.png)  
+      
+- BFS와 DFS 간의 Trade-off를 어떻게 Encode할 것인가?  
+  (이 파트에 대한 설명이 너무 불친절하다... 추후에 논문 읽어보고 스스로의 해석으로 업데이트 해야지..)  
+  - 특정 노드 u가 주어지면 neighborhood N_R(u)를 generate하는 Biased fixed-length random walk  
+  - Biased  
+    - p와 q라는 두 가지 Parameter를 사용!  
+      - p: Return parameter  
+        : 이전의 노드로 돌아온다.  
+      - q: In-out parameter  
+        : Moving Outwards (DFS) vs. Inwards (BFS)  
+        : 즉, BFS vs. DFS의 비율이 바로 q  
+    - 예  
+    ![gnn07-19](https://user-images.githubusercontent.com/43376853/94442419-e6b63380-01de-11eb-896f-8c61d9f2dbf2.png)
+
+#### Node2vec 알고리즘  
+1. Random walk 확률 계산  
+2. 각 노드 u에서 출발하여 길이 l짜리 random walk를 r개 simulate!  
+3. SGD를 이용하여 node2vec objective를 최적화  
+
+- 이 세 단계는 모두 따로 병렬화가 가능하며, 시간복잡도도 Linear하다.  
+
+
+노드의 embedding z_i를 어떻게 사용할 것인가?  
+- 다양한 곳에 사용할 수 있다.  
+  - Clustering / community detection  
+  - Node classification  
+  - Link Prediction 등등  
+    - 두 노드 pair zi, zj에 aggregation function을 적용해서 f(zi, zj)에 근거하여 edge (i,j)를 예측  
     
- 
+    
+- 요약  
+  - node similarity의 다양한 개념들  
+    - Adjacency-based  
+    - Multi-hop similarity definitions  
+    - Random walk approoach  
+    등에 근거할 수 있다!  
+    
+  - 이런 방법들 중 silver-bullet은 없으며, 문제에 따라 더 잘 working하는 알고리즘들이 다 다르다.  
+    ex. node classification에서는 node2vec이, link prediction에서는 multi-hop method가 더 잘 working 한다든지...  
+    
+---  
+
+## Translating Embeddings for Modeling Multi-relational Data  
+- Knowledge graph  
+  - 서로 연관된 entity 들에 대한 facts / statements로 구성되어 있다.  
+  - Knowledge graph에서는 Node는 Entity로, Edge는 Relation으로 명명  
+  - Edge들은 여러 타입으로 구성될 수 있음  
+  
+    ![gnn07-20](https://user-images.githubusercontent.com/43376853/94443534-3e08d380-01e0-11eb-9304-82be3c23a049.png)  
+    
+  - 한편, KG가 불완전(incompleteness)할 경우, 이에 의존하는 시스템의 효율성에 상당한 악영향을 초래할 수 있음.   
+  - 따라서, KG에서의 local & global 연결 패턴으로부터 학습하는 link prediction model을 만들 수 있기를 원함  
+    - Downstream task: 관심의 대상이 되는 entity와 다른 모든 entity들 사이의 observed된 관계를 generalize하기위해 학습된 패턴을 사용하여 relation prediction을 수행  
+    
+### TransE  (Translating Embeddings)  
+- __TransE__ 에서 entity들 사이의 관계는 __Triplet__ 으로 나타남  
+  - h (head entity), l (relation), t (tail entity) → (h,l,t)  
+    ![gnn07-21](https://user-images.githubusercontent.com/43376853/94445048-f71bdd80-01e1-11eb-9f30-32efc191a36e.png)  
+    - l(relation) hold시 -> Relation Space에서 Tail entity들이 존재하길 기대  
+      hold x시 -> Tail entity들이 empty  
+      
+#### TransE algorithm    
+![gnn07-22](https://user-images.githubusercontent.com/43376853/94445236-2cc0c680-01e2-11eb-8c94-0dc98634e1db.png)  
+- Triplets의 Batch로 work!  
+- 궁극적인 론은, Random Walk가 Embedding generation의 유일한 방법은 아니라는 것  
+
+---  
+
+## Embedding Entire Graphs  
+- 앞 전에는 node 하나하나를 embedding 했다면, 여기서는 그래프 자체를 embedding 해보겠다는 의도  
+  ![gnn07-23](https://user-images.githubusercontent.com/43376853/94445504-76111600-01e2-11eb-8ff6-349980f318e6.png)  
+  - 이를 통해 해볼 수 있는 태스크  
+    - Toxic molecules, non-toxic molecules 분류하기  
+    - anomalous graph 골라내기  
+    
+- 이에 대한 3가지 접근  
+  - Approach1: Node Embedding & Sum(or Avg)  
+    - (sub)graph G에 standard graph embedding 테크닉을 적용  
+    - (sub)graph G 내에서 node embedding 들을 단순히 더하거나 평균낸다.  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20z_G%20%3D%20%5Csum_%7Bv%20%5Cin%20G%7Dz_v)  
+  - Approach2: (sub)graph를 span하는 super-node를 새로 만들고, 그 노드를 embed   
+    - (sub)graph를 나타내기 위한 __virtual node__ 를 소개하고, virtual node에 대해 stnadard graph embedding 테크닉 사용  
+      ![gnn07-24](https://user-images.githubusercontent.com/43376853/94445945-fdf72000-01e2-11eb-8425-5fd38970e10b.png)  
+  - Approach3: Anonymous Walk Embeddings  
+    - __Anonymous walk__ 내의 state들은 random walk 내에서 노드를 첫번째로 방문했을 때의 index에 상응한다  
+      ![gnn07-25](https://user-images.githubusercontent.com/43376853/94446247-575f4f00-01e3-11eb-9685-e452e84812b0.png)  
 
 
+(해당 과는.. 뭔가 좀 강의가 정제가 안된 느낌입니다.. 추후에 논문을 읽고 다시 정리해서 업데이트 하도록 하겠습니다.)  
+
+---  
+
+#### References  
+[CS224W: Graph Representation Learning](http://web.stanford.edu/class/cs224w/slides/07-noderepr.pdf)   
