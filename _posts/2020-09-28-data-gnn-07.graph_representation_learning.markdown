@@ -1,0 +1,78 @@
+---
+layout: post
+title:  "CS224W - 07.Graph Representation Learning"  
+subtitle:   "GNN-07.graph_repesentation_learning"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 7주차 강의, Graph Representation Learning을 보고 정리한 글입니다.  
+  [1. Graph Representation Learning](#graph-representation-learning)  
+  [2. Embedding Nodes](#embedding-nodes)  
+  [3. Random Walk Approaches to Node Embeddings](#random-walk-approaches-to-node-embeddings)  
+  [4. Translating Enbeddings for Modeling Multi-relational Data](#translating-embeddings-for-modeling-multirelational-data)  
+  [5. Embedding Entire Graphs](#embedding-entire-graphs)  
+
+---  
+
+## Graph Representation Learning  
+- Representation Learning: Graph 도메인에도 적용가능!  
+- 앞에서 Node Classification Task를 수행했다면  
+  Link Prediction Task 또한 가능!!  
+  
+- 일반적인 ML Lifecycle  
+  - Feature Engineering에 상당한 노력을 쏟아부음  
+    
+    ```  
+    Raw data  --->   Structured Data  ---> Learning Algorithm ---> Model  
+             Feature                       ------------------------------>           
+            Engineering                             Downstream 
+                                                       task 
+    ```  
+  
+  - Feature Engineering이라는 Painful한 과정을 생략하고,  
+    자동으로 feature를 학습할 수 있게 하려는 노력들이 있음. (Recent Techniques)    
+    (Automatically learn the features)  
+    
+    ![gnn07-1](https://user-images.githubusercontent.com/43376853/94401438-94a4ec00-01a5-11eb-8049-a3135d1f9218.png)  
+
+    
+### 그래프에서의 Feature Learning  
+- '그래프 도메인에서, __Efficient__하고, __Task-independent__한 Feature Learning을 한 번 해보자!!'  
+  - Efficient: Feature Engineering에 들이는 시간을 줄이고 싶다.  
+  - Task-Independent: Downstream Task가 무엇이든지 간에, automatic feature extraction을 위한 하나의 파이프라인을 만들고 싶다
+    
+  ![gnn07-2](https://user-images.githubusercontent.com/43376853/94401656-e188c280-01a5-11eb-8721-57b683fbb0f0.png)  
+  
+  - 네트워크에서 'Embedding'을 왜 하는가?  
+    - 노드들 사이의 Embedding의 유사성은 곧 그들 네트워크의 유사성을 의미.  
+    - 네트워크 정보를 Encode해서, node representation을 생성  
+      (각 Node representation들은 가능한 많은 Network 정보를 Encode하길 원할 것)  
+    
+    ![gnn07-3](https://user-images.githubusercontent.com/43376853/94402098-8a372200-01a6-11eb-84bd-c51f1d9060a0.png)  
+      - ㄱ) (앞에서 계속 다뤄오던 Adjacency Matrix형태) 너무 Sparse하고 Large -> Expensive!!!  
+      - ㄴ) Adjacency Matrix에 비해 매우 compact!  
+        - 각 Dim들은 노드들의 어떤 aspects들을 capture할 수 있다.  
+          (ex. 각 노드가 속한 motif, node degree, 등등)  
+        - 단, 이 'Dimension'들은 말그대로 Latent! (Not explicit one)  
+          (이 말은 곧, Embedding 후 좌표축에 점들을 던져 놓았을 때, 각 축들이 Label되지 않는다는 것을 의미)  
+      - ㄷ) Embedding을 사용함으로써 해낼 수 있는 Task들    
+        
+- 그래프 도메인에서 DL이 어려운 이유  
+  - 단순한 sequence나 grid 세계를 위해 고안된 모델이기 때문  
+  
+    - ex) CNN: 고정된 사이즈의 이미지나 grid를 대상으로  
+    - ex) RNN 및 word2vec: 텍스트나 시퀀스를 대상으로  
+    
+    - __하지만 네트워크는 훨씬 복잡하다!__  
+    - 위상학적으로 상당히 복잡하고, 예를 들어, grid world에서 적용하려고 할 때,  
+      실제로 그래프에 없는 노드들을 대상으로 Convolution을 쓰는 경우들이 생김. 없는 노드들에 convolution을?)  
+      ![gnn07-4](https://user-images.githubusercontent.com/43376853/94402740-67593d80-01a7-11eb-9754-1aa4141f794c.png)  
+    - 또 그래프에서는 노드들 간의 순서나, reference point같은 것이 없으며,  
+    - 종종, 그래프의 형태가 계속 바뀌거나 (dynamic), multimodal feature들을 지닌 경우들도 있음.  
+  
+---  
+
+## Embedding Nodes   
+- 
