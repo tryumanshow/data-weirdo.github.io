@@ -39,7 +39,7 @@ comments: true
 
     
 ### 그래프에서의 Feature Learning  
-- '그래프 도메인에서, __Efficient__하고, __Task-independent__한 Feature Learning을 한 번 해보자!!'  
+- '그래프 도메인에서, __Efficient__ 하고, __Task-independent__ 한 Feature Learning을 한 번 해보자!!'  
   - Efficient: Feature Engineering에 들이는 시간을 줄이고 싶다.  
   - Task-Independent: Downstream Task가 무엇이든지 간에, automatic feature extraction을 위한 하나의 파이프라인을 만들고 싶다
     
@@ -75,4 +75,126 @@ comments: true
 ---  
 
 ## Embedding Nodes   
-- 
+- 어떤 그래프 G가 있다고 해보자.  
+  - V: Vertex set  
+  - A: Adjacency matrix   
+  - Node feature나 extra information 사용x 가정  
+  
+- 목표: 네트워크 상의 노드들을 Embedding Space로 __Encode__ 하자.  
+  단, embedding space에서의 similarity가 original network에서의 similarity를 근사할 수 있는 방향으로.  
+
+  ![gnn07-5](https://user-images.githubusercontent.com/43376853/94417327-e6a43c80-01ba-11eb-944d-03d7a4d80b78.png)  
+  ![gnn07-6](https://user-images.githubusercontent.com/43376853/94417424-05a2ce80-01bb-11eb-968e-444994a79358.png)  
+  
+- Node Embedding을 학습하는 방법?  
+  - 1. Encoder 정의 (Node를 Embedding으로 어떻게 mapping할 것인가?)  
+  - 2. Node Similarity Function 정의 (Original network에서 노드 간의 Similarity라는 것을 어떤 식으로 측정할 것인가?)  
+  - 3. Encoder의 Parameter 최적화 (아래 Equation에서 최상의 근사를 얻을 수 있도록)  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20similarity%28u%2Cv%29%20%5Capprox%20%5Cmathbf%7Bz%7D_v%5ET%5Cmathbf%7Bz%7D_u)  
+      
+### 1. Encoder  
+- 각 노드를 Low-dimensional vector로 mapping한다!  
+  ![gnn07-7](https://user-images.githubusercontent.com/43376853/94417979-bd37e080-01bb-11eb-9b6f-cfde2274ca3e.png)  
+  - 여기서 d라는 dimension은 모델을 만드는 사람에게 달려있는 파라미터 중 하나!  
+  
+  - 예) "Shallow" Encoding  
+    - Encoder는 단지 'Embedding-lookup'이다! (CS적인 용어로는 Hash Table에 불과하다!)  
+      ![gnn07-9](https://user-images.githubusercontent.com/43376853/94418419-5961e780-01bc-11eb-954f-4b52343b5175.png)  
+      ![gnn07-10](https://user-images.githubusercontent.com/43376853/94418512-77c7e300-01bc-11eb-9ab8-f6da019b8312.png)  
+
+    - 결과적으로 각 노드는 Unique한 Embedding vector로 할당(assign)된다!  
+    
+  - 이 외에도 다양한 Encoding 방법들이 존재!  
+    - DeepWalk  
+    - node2vec  
+    - TransE  
+    - 등등  
+  
+### 2. Similarity Function  
+- Original network에서의 relationship을 vector space로 어떻게 mapping 할지에 대한 구체화  
+  ![gnn07-8](https://user-images.githubusercontent.com/43376853/94418159-fa9c6e00-01bb-11eb-95fd-926d2f0fce87.png)  
+
+- Similarity function의 선택은, node similarity라는 것을 어떻게 정의하느냐에 달린 것  
+  - 연결되어 있는가?  
+  - Neighbors를 공유하는가?  
+  - 유사한 'Structural roles'를 갖고 있는가?  
+  - 등등  
+  
+### 3. Parameter Optimization  
+- (이 부분은 뒷 부분의 내용인데 의도적으로 재배치함)  
+- (위의 Node Embedding 학습 step 1, 2에 이어서) 그래프 G=(V,E)가 주어지면 (계속 말하지만) 노드의 d-dimension으로의 mapping을 학습하는 것이 목표!  
+
+- 목적함수    
+  ![gnn07-13](https://user-images.githubusercontent.com/43376853/94420229-d42c0200-01be-11eb-98b6-6e450151b9be.png)  
+  - 노드 u의 vector representation이 주어졌을 때, strategy R을 이용해서 노드 u의 neighbor들을 찾을 조건부 확률을 최대화!  
+  - log로 표현하는 것은, 단순히 확률의 Product로 표현하면, 매우 빠르게 그 값이 줄어들기 때문에, optimization 문제에서 numerical instability를 줄이기 위해 사용되는 방식  
+  
+  - 요컨대  
+    > 노드 u가 주어졌을 때, 노드 u의 neighborhood N_R(u) 노드들을 잘 예측할 수 있는 feature representation을 배우고 싶다는 것!  
+  
+  
+---  
+
+## Random Walk Approaches to Node Embeddings   
+  ### 검색 결과 Deepwalk를 설명하고 있는 듯.  
+- 특정 그래프, 그 그래프의 시작점이 주어지면, 그 이후로는 neighbor들을 random하게 선택하고 나아가게 되는데, 이 point들의 sequence는 random walk를 따른다고 할 수 있음.  
+  
+### Random-walk Embeddings  
+- ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cmathbf%7Bz%7D_u%5ET%5Cmathbf%7Bz%7D_v)  
+  : '네트워크 전반에서 노드 u,v가 random walk 에서 동시에 발생할 확률'로 근사할 수 있음    
+    (probability that u and v co-occur on a random walk over the network)  
+  - 두 embedding이 서로 가깝다면, 해당 값의 결과값은 크기가 클 것.  
+  
+- 과정  
+  - 1. 어떤 random walk strategy R을 사용했을 때 node u에서 출발하여 node v에 방문할 확률을 추정한다.  
+    ![gnn07-11](https://user-images.githubusercontent.com/43376853/94419352-9aa6c700-01bd-11eb-9507-21091a9c7f5e.png)  
+  - 2 이 random walk statistics를 encode하기 위해 embedding을 최적화!  
+    ![gnn07-12](https://user-images.githubusercontent.com/43376853/94419556-ebb6bb00-01bd-11eb-9c8b-763f16542f14.png)  
+    
+- Random-walk를 사용하는 이유?  
+  - 1. Expressivity!  
+    - Local과 Higher-order neighborhood 정보를 함께 고려하는 node similarity의 정의에 대한 Flexible stochastic definition!  
+  - 2. Efficiency!  
+    - 훈련시 모든 노드 쌍들을 고려할 필요가 없다.  
+    - Random walk 상에서 함께 일어나는 쌍들만 고려하면 됨  
+      (해당 성징른 그래프의 크기가 커질수록 힘을 발휘)  
+      (이 특성은 실세계의 social network에서도 굉장히 확장성 높음!)  
+      
+- ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20N_R%28u%29)  
+  - Strategy R로부터 얻게 되는 node u의 'Neighbours'!  
+      
+- Optimization in 'Random-walk'  
+  1. 어떤 strategy R을 사용해서 그래프 상의 각각의 점들로부터 출발하는, 짧고 고정된 길이(short fixed-length random walks)를 지닌 random walk를 실행(run)  
+  2. 각 노두 u에 대해, N_R(u)를 수집한다.  
+    (N_R(u): The multiset of nodes visited on random walks starting from u)  
+  3. 다음 식에 따라, embedding을 optimize  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cunderset%7Bz%7D%7Bmax%7D%5Csum_%7Bu%20%5Cin%20V%7Dlog%20P%28N_R%28u%29%7Cz_u%29)  
+    
+
+  - Random Walk에서의 Loss function을 다음과 같이 정의해볼 수도 있음  
+    (Intuition: Random walk가 동시에 발생(co-occurrrence)할 likelihood를 maximize할 수 있도록 embedding을 최적화)  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cmathit%7BL%7D%20%3D%20%5Csum_%7Bu%20%5Cin%20V%7D%5Csum_%7Bv%20%5Cin%20N_R%28u%29%7D-log%28P%28v%20%7C%20%5Cmathbf%7Bz%7D_u%29%29)  
+    
+    - 여기서 p(v|z_u)는 vector representation이 softmax를 거친 후의 값  
+      ![gnn07-14](https://user-images.githubusercontent.com/43376853/94421598-c0819b00-01c0-11eb-8217-8f876aad0dc4.png)  
+      
+  - 명시적으로 식을 정리해보면  
+    ![gnn07-15](https://user-images.githubusercontent.com/43376853/94421712-eb6bef00-01c0-11eb-88ed-97b6dc29c0e8.png)  
+    
+  - 결국 Random-Walk Optimization의 문제는  
+    = Random Walk embedding을 최적화하라  
+    = L을 최소화하는 embedding z_u를 찾아라!  
+    
+  - 하지만 이 Loss를 전부다 계산해내는 건 상당히 비효율적인 일 (Too Expensive)  
+    - 그 원인이 바로 softmax의 분모 (Normalization term) 때문인데, 이 식을 다른 식으로 대체할 수 있다면, 보다 효율적인 방향으로 Loss function을 Approximate할 수 있다!  
+      -> 그 방법이 바로 `Negative Sampling`  
+      
+  #### Negative Sampling  
+  - 기존 Loss function의 log() 파트를 다음과 같이 근사!  
+    ![gnn07-16](https://user-images.githubusercontent.com/43376853/94422126-8e246d80-01c1-11eb-8af5-c083d0c0ef21.png)  
+    - Idea: 모든 노드들을 고려하여 Normalize 하지말고, k개의 random __negative samples__ n_i에 대해 normalize 해라!  
+
+    
+ 
+
+
