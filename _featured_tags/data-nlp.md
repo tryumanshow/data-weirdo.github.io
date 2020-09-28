@@ -1,6 +1,6 @@
 ---
 layout: tag-blog
-title: Natural Language Process
+title: NLP
 slug: nlp
 category: data
 menu: false
