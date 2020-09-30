@@ -178,6 +178,74 @@ comments: true
 
       - cf. 한 가지 발견 중의 하나는 LSTM도 Random Ordering으로 학습을 하면 order invariant하게 만들 수도 있다는 것  
 
+- GCN, GraphSAGE에 대한 Recap  
+  ![gnn08-22](https://user-images.githubusercontent.com/43376853/94657465-758c9280-033c-11eb-8d7e-cc1bdb7a9366.png)  
+  
+---  
+
+## Graph Attention Networks  
+- Simple neighborhood aggregation을 다시 한 번 언급하며 시작  
+  ![gnn08-23](https://user-images.githubusercontent.com/43376853/94657792-f3509e00-033c-11eb-9c23-441d5f93aa30.png)  
+  - 기존의 GCN은 각 Layer에서의 노드의 개수에 따라, Take avering. (모든 노드들의 가중치가 같았음)  
+  - 즉 Weighting factor는 그냥, 외부에서 아키텍쳐를 보면 알 수 있는 굉장히 명시적인(Explicit) 형태!   
+  - 모든 노드들이 동등하게 중요!  (과연 그럴까..?)  
+  
+- __(위의) Simple Neighborhood Aggregation 보다 더 잘할 순 없을까?__  
+- __Weight α_vu를 좀 더 implicit하게 정의할 수는 없을까?__  
+
+  -> Graph Attention Network 도입!   
+   
+### Graph Attention Network  
+- 목표: 그래프 상 각 노드의 neighbor들에 __Arbitrary Importances__ 구체화  
+- 아이디어: __Attention strategy__ 에 따라 각 노드의 embedding(![](https://latex.codecogs.com/gif.latex?%5Cmathbf%7Bh%7D_v%5Ek)) 계산    
+
+- 매커니즘  
+  - ![](https://latex.codecogs.com/gif.latex?%5Calpha_%7Bvu%7D) 는 __attention mechanism a__ 의 Byproduct로서 계산!  
+    
+    ---  
+    1. a로 하여금 Attention coefficients ![](https://latex.codecogs.com/gif.latex?e_%7Bvu%7D) 를 계산하게 함  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20e_%7Bvu%7D%20%3D%20a%28%5Cmathit%7BW%7D_k%5Cmathbb%7B%5Cmathit%7Bh%7D%7D_u%5E%7Bk-1%7D%2C%20%5Cmathit%7BW%7D_k%5Cmathbb%7B%5Cmathit%7Bh%7D%7D_v%5E%7Bk-1%7D%29)  
+      (![](https://latex.codecogs.com/gif.latex?e_%7Bvu%7D): node u가 node v에게 전송하는 메시지의 중요성)  
+
+    2. Neighborhoods들 간의 비교를 가능하기 위해 Softmax 적용  
+      ![gnn08-24](https://user-images.githubusercontent.com/43376853/94659030-a1107c80-033e-11eb-96fe-10369051ed0a.png)  
+    ---  
+    
+  - 아, 그럼 __a__ 는 어떤 형태? (어떻게 학습하지?)  
+    : __Multi-head attention__  
+      (특정 레이어의 Attention 연산은 R번 독립적으로 연산됨)  
+       
+- Attention 매커니즘 사용의 이점  
+  - Main: 다른 neighbor들에 다른 Importance value를 구체화  
+  - 연산의 효율성  
+  - 저장공간의 효율성  
+  - Localized!  
+  - Inductive!  
+  
+- 논문 Citation Network를 통해 효용성을 알 수 있음  
+  ![gnn08-25](https://user-images.githubusercontent.com/43376853/94659600-82f74c00-033f-11eb-83c9-d32f234ae7d1.png)  
+  
+---    
+   
+## Example Application  
+- Pinterest  
+  : Graph를 이용해서 더 나은 Recommendation을 도출한 모델!  
+  
+  - 예를 들어,  
+    ![gnn08-26](https://user-images.githubusercontent.com/43376853/94659754-bc2fbc00-033f-11eb-8759-da463ad9403f.png)  
+    을 두고, Computer Vision은 (인간의 눈에서 너무나 명백해 보이는데도) 이 둘을 잘 구분하지 못하는 Silly Mistakes를 저지름  
+    하지만 Bipartite graph를 사용해서, node로 부터 information을 빌려오고, 이를 잘 활용하면 성능 훨씬 좋아지더라!  
+    
+  - 결과 일례  
+    ![gnn08-27](https://user-images.githubusercontent.com/43376853/94660038-23e60700-0340-11eb-86ba-cb2873740acc.png)  
+    
+---  
+#### References  
+[CS224W: Graph Neural Networks](http://web.stanford.edu/class/cs224w/slides/08-GNN.pdf)    
+
+
+
+
 
   
       
