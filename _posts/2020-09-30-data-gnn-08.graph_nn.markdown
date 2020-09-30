@@ -117,7 +117,72 @@ comments: true
   ![gnn08-10](https://user-images.githubusercontent.com/43376853/94653235-378c7000-0336-11eb-81be-c4e15eb15af9.png)  
   
 - 수식적인 이해  
+  ![gnn08-11](https://user-images.githubusercontent.com/43376853/94653855-2ee86980-0337-11eb-982a-c4a95d63b969.png)  
   
+#### Training the Model  
+- 위 모델을 어떻게 훈련할 것인가?  
+  - 위의 수식에서, 결국 Train의 대상은 Weight Matrix W, B!! (Trainable weight matrices)     
+    ![gnn08-12](https://user-images.githubusercontent.com/43376853/94654219-b7ffa080-0337-11eb-9188-7775d8fe7c5c.png)  
+    
+    - W=0 : Neighbor의 정보를 이용하지 않고 학습하겠다는 것  
+    - W↑: 해당 노드가 가진 Features를 무시하는 정도를 높이겠다는 것  
+      => 결국, 이 둘을 어떻게 잘 조합할 것인지가 문제가 되겠다!  
+      
+  - 이 수식을 다음과 같이 Recursive하게 적어볼 수도 있겠다.  
+    ![gnn08-13](https://user-images.githubusercontent.com/43376853/94654525-27759000-0338-11eb-8728-090ef795b6c5.png)  
+    
+  - 지도, 비지도학습 둘 다 학습 가능  
+
+
+  -> 이를 훈련하기 위해서는 Embedding에 대한 Loss Function이 필요함  
+    - 이 Embedding들을 어떤 Loss Function에도 투입가능하며, 궁극적으로는 Weight parameter를 훈련하기 위해 SGD를 사용할 것  
+    - 여기서는 Binary Classification 상황을 가정하고, Cross Entropy Loss Function을 씀. (Toxic? Safe?)  
+      ![gnn08-14](https://user-images.githubusercontent.com/43376853/94654853-a5d23200-0338-11eb-91d3-c6cd94e3374b.png)  
+      
+### Model Design  
+- Process   
+  
+  ```  
+  1. Neighborhood Aggregation function 정의  
+  2. Embedding에 대한 Loss Funciton 정의  
+  3. Node set들을 학습 (A batch of compute graphs)
+  4. 필요한대로 노드에 대한 embedding들을 generate  
+  ```  
+  
+  - 본적이 없는 그래프에도 훈련된 모델을 적용하는 것이 가능하다.  
+    : 이는 해당 아키텍쳐가 Parameter를 Sharing하기 때문!  
+  
+  ![gnn08-16](https://user-images.githubusercontent.com/43376853/94655302-53dddc00-0339-11eb-98d3-4fce133dcb01.png)  
+  ![gnn08-17](https://user-images.githubusercontent.com/43376853/94655306-550f0900-0339-11eb-854b-0431ddcab633.png)  
+  ![gnn08-15](https://user-images.githubusercontent.com/43376853/94655310-55a79f80-0339-11eb-8892-4bf520c8e797.png)  
+  
+
+- Parameter Sharing  
+  ![gnn08-18](https://user-images.githubusercontent.com/43376853/94655658-ebdbc580-0339-11eb-9134-e9b6f734ea00.png)  
+
+---  
+
+## Graph Convolutional Networks and GraphSAGE  
+- 앞에서, Neighbor들의 message를 평균냄으로써 aggregated.  
+  -> 이보다 더 잘할 수 없을까? 에 대한 의문  
+  
+- 다음과 같은 Message Passing 수식을 고안  
+  ![gnn08-19](https://user-images.githubusercontent.com/43376853/94656203-bdaab580-033a-11eb-9005-375af7289013.png)  
+  
+  - (앞에서의) 단순한 Neighborhood Aggregation와 GraphSAGE의 Aggregation차이!  
+    ![gnn08-20](https://user-images.githubusercontent.com/43376853/94656324-e7fc7300-033a-11eb-9d43-df6c6b72aaec.png)  
+    
+    - 이 때, AGG function도 다양한 형태로 활용 가능  
+      ex) Mean, Pool, LSTM  
+      ![gnn08-21](https://user-images.githubusercontent.com/43376853/94657080-e8493e00-033b-11eb-84a7-2daadd401bc2.png)  
+
+      - cf. 한 가지 발견 중의 하나는 LSTM도 Random Ordering으로 학습을 하면 order invariant하게 만들 수도 있다는 것  
+
+
+  
+      
+  
+
 
 
 
