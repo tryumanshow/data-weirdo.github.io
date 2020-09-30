@@ -1,0 +1,78 @@
+---
+layout: post
+title:  "CS224W - 08.Graph Neural Networks"  
+subtitle:   "GNN-08.gnn"
+categories: data
+tags: gnn
+comments: true
+---
+
+- CS224W의 8주차 강의, Graph Neural Networks를 보고 정리한 글입니다.  
+  [1. Graph Neural Networks](#graph-neural-networks)  
+  [2. Basics of Deep Learning for Graphs](#basics-of-deep-learning-for-graphs)  
+  [3. Graph Convolutional Networks and GraphSAGE](#graph-convolutional-networks-and-graphsage)  
+  [4. Graph Attention Networks](#graph-attention-networks)  
+  [5. Example Application](#example-application)  
+
+---  
+
+## Graph Neural Networks  
+- Node Embedding  
+  - Intuition  
+    : 'Input graph를 d-dimension의 embedding space로 mapping 시켰을 때, Original Network 상에서의 Similar한 두 노드들이, embedding space에서 가까이에 위치했으면 좋겠다.'  
+    
+  - 목표  
+    : 'Embedding Space'에서의 similarity가 'Original Network'에서의 similarity를 잘 근사했으면 좋겠다!  
+    - 이 때 이 'similarity'라는 것에 대해 정의해야 할 필요성이 생김  
+      ![gnn08-01](https://user-images.githubusercontent.com/43376853/94647851-5259e700-032c-11eb-9f9e-b46561031ae3.png)  
+      
+  - Node Embedding의 두 가지 Components  
+    1. Encoder: Node를 Low-dimensinal vector로 Mapping  
+      ![](https://latex.codecogs.com/gif.latex?ENC%28v%29%20%3D%20%5Cmathbf%7Bz%7D_v)  
+      - Chap7에서는 Shallow Encoder에 집중했음. (Using Embedding Lookup)  
+        ![](https://user-images.githubusercontent.com/43376853/94418419-5961e780-01bc-11eb-954f-4b52343b5175.png)  
+      - 하지만 Shallow Encoder에는 몇 가지 문제점이 존재  
+      
+        ---  
+        1. 추정해야할 Parameter의 수  = 노드의 개수  
+        2. 학습한 적이 없는 네트워크에 대해서는 모든 것을 다시 re-embed 해야.   
+        3. Node features를 고려하지 않는다.  
+        ---  
+        
+      - Chap8: Deep Encoder에 대한 소개가 될 것.  
+        ![gnn08-02](https://user-images.githubusercontent.com/43376853/94648613-e0829d00-032d-11eb-8311-9598e4f7e382.png)  
+        
+        - 이 Deep Encoder는 어떤 node similarity function과도 결합될 수 있다.  
+        - 아래의 Deep Graph Encoders라는 제목 하에 계속 이어서 서술!  
+
+        
+    2. Similarity Function: Input Network에서의 relationship이 어떻게 embedding space에서의 relationship으로 mapping 되는지에 대해 정의    
+      ![](https://latex.codecogs.com/gif.latex?similarity%20%28u%2Cv%29%20%5Capprox%20%5Cmathbf%7Bz%7D_v%5ET%20%5Cmathbf%7Bz%7D_u)  
+      
+### Deep Graph Encoders  
+- 아래의 그림처럼 그래프를 받고, Deep NN으로 보내서, 결국에는 어떤 Prediction task에 대해 사용할 수 있는 node embedding을 얻어내면 참 좋을텐데, 사실 이 과정은 굉장히 어려움  
+  ![gnn08-03](https://user-images.githubusercontent.com/43376853/94649143-02305400-032f-11eb-89ca-2eb0bc36f3ac.png)  
+- 왜냐하면, 현재 존재하는 ML/DL Toolbox는 simple data types에 특화되어 있기 때문에. (ex. 이미지, 텍스트)   
+- 하지만 Graph는 Not simple  
+  - 사이즈도 뒤죽박죽, 위상학적인 구조도 매우 복잡 (grid와 같은 어떤 공간적인 locality도 존재하지 않음.)  
+  - 노드들 간의 순서라든지, reference point가 존재하지 않음.  
+  - 종종 dynamic & multomodal feature들을 가지기도.  
+  
+  - 그래프는, 여타 다른 데이터들과 성격자체가 다르다고 할 수 있겠다.  
+  
+  - Graph를 Represent하기 위한 한 가지 Naive한 방법은, Adjacency matrix와 features를 함께 Join해서 이를 NN의 input으로 넣는 것.    
+    ![gnn08-04](https://user-images.githubusercontent.com/43376853/94649546-d792cb00-032f-11eb-8a2b-030943aad03d.png)  
+    
+  - 그다지 좋은 idea는 아님  
+    - Parameter의 수가 많다. 
+      - 이 경우, 이미 첫번째 layer에서 Node의 개수인 5개보다 많은, 7개의 parameter를 사용 -> network를 깊게 만들수록 결과는 더 나빠질 것  
+    - 다른 size의 그래프에는 not applicable  
+      - 노드 6개짜리 graph에서는 working하지 x  
+    - Node의 순서에 invariant하지 않다.  
+      - 예를 들어, A B C D E 순서로 adjacency matrix를 정리했을 때와, D C A B E 로 adjacency matrix를 정리했을 때 이는 network 상에서의 input이 달라지는 것이고, 얻게될 결과도 달라진다.  
+      
+---  
+ 
+## Basics of Deep Learning for Graphs  
+- 
+
