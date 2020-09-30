@@ -74,5 +74,51 @@ comments: true
 ---  
  
 ## Basics of Deep Learning for Graphs  
-- 
+- 갖고 있는 정보에 대한 가정  
+  - V: Vertex set  
+  - A: Adjacency Matrix  
+  - X: Node features  
+    ![](https://latex.codecogs.com/gif.latex?%5Cmathit%7BX%7D%20%5Cin%20%5Cmathbb%7BR%7D%5E%7Bm%20%5Ctimes%20%7CV%7C%7D)  
+    
+### Graph Convolutional Networks  
+![gnn08-05](https://user-images.githubusercontent.com/43376853/94651006-b2538c00-0332-11eb-8848-da4662b64315.png)  
+- 어떤 node가 주어지면, 그 노드에 대한 prediction을 진행하고 싶을 때,  
+  1. 먼저, 무엇이 Computational graph가 되어야할지를 결정하고  
+  2. (prediction task를 위해) 이 computational graph를 사용해서 neighbors 혹은 neighbors의 neighbors들로부터 Propagate & Aggregate Info!  
+  
+  - 오, 여기서 'Neighors를 Aggregate한다는 것이 무엇이지?'  
+  
+#### Aggregate Neighbors  
+- Key Idea: Local Network Neighborhoods에 근거해서 node embedding을 generate하겠다.  
+  ![gnn08-06](https://user-images.githubusercontent.com/43376853/94651757-eed3b780-0333-11eb-86df-8b4801598feb.png)  
+  - 단 Graph 도메인에서는 4,5 Layer 이상으로 잘 가지 않는다  
+    ∵ MSN 예시에서 보았듯, 그래프 Domain에서는 Depth 6 정도면 그래프 내의 거의 모든 노드들을 방문할 수 있음.  
+      (이런 의미에서 그래프 도메인에서는, Computer Vision에서 Layer를 깊게 쌓는 것과, Depth에 대한 관점 차이가 확연)   
+      
+- Intuition1  
+  - 노드들은 주변 neighbor들로부터 NN을 사용하여 정보를 aggregate한다.  
+    (단, 이 aggregation은 order invariant할 것)  
+    ![gnn08-07](https://user-images.githubusercontent.com/43376853/94652158-8933fb00-0334-11eb-9ab0-efcdb1b1684e.png)  
+    
+- Intuition2  
+  - Network neighborhood들이 `computation graph`를 정의한다.  
+    (모든 노드들은 자기 자신의 NN 아키텍쳐를 갖고 있으며, 각자의 neighborhood에 근거하여 computation graph를 정의)  
+    ![gnn08-08](https://user-images.githubusercontent.com/43376853/94652350-d912c200-0334-11eb-84cb-6b867e89d52a.png)  
+    
+- 모델은 어떤 Depth를 가져도 상관 없음. (Layers 수 ↑ → Deep model)  
+  ![gnn08-09](https://user-images.githubusercontent.com/43376853/94653016-dc5a7d80-0335-11eb-8401-d7ec894fdb27.png)  
+  
+#### Neighboor Aggregation  
+- 도대체 네모박스에는 어떤 것이 들어있을까?  
+- Basic Approach:   
+  1. Neighbors로 부터의 message를 average  
+    (이론적으로는 Summation이 가장 Powerful하기는 하며, 합이든 평균이든 둘 다 Order Invariant)  
+  2. NN 적용  
+  ![gnn08-10](https://user-images.githubusercontent.com/43376853/94653235-378c7000-0336-11eb-81be-c4e15eb15af9.png)  
+  
+- 수식적인 이해  
+  
 
+
+
+  
