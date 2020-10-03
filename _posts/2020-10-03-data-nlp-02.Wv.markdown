@@ -10,6 +10,8 @@ comments: true
 - CS224N의 2주차 강의, Word Vectors and Word Senses를 보고 정리한 글입니다.  
   [1. Word2vec Review](#word2vec-review)  
   [2. Optimization Basic](#optimization-basic)  
+  [3. The GloVe model of word vectors](#the-globve-model-of-word-vectors)  
+  [4. Evaluating Word Vectors](#evaluating-word-vectors)  
 
 ---  
 
@@ -177,18 +179,63 @@ comments: true
     ![nlp02-12](https://user-images.githubusercontent.com/43376853/94988607-69593d00-05a9-11eb-8cb0-d56a4582d5e2.png)  
     > "If you can construct a vector space that has this linearity property, then you are definitely gonna do well in analogy."  
     
-
-
-      
-
-
-
+#### Count based vs. direct prediction  
+- 기존의 NLP 두 가지 큰 방법론  
+  ![nlp02-13](https://user-images.githubusercontent.com/43376853/94995135-32018500-05d7-11eb-98d4-b9ccef2ae3b0.png)  
   
+---  
 
+## The GloVe model of word vectors  
+- Count based와 Direct Prediction 둘을 섞으려는 시도  
+- 중요 Insight: "Co-occurrence 확률의 비 (Ratio)가 meaning component들을 encode할 수 있다"  
 
+- 예를 들어,  
+  P(x|ice), x=solid -> Large : Ice라는 단어가 주어졌을 때, solid라는 단어가 같이 발생할 (co-occur)할 확률은 大  
+  P(x|stream), x=solid -> Small : Stream이라는 단어가 주여졌을 때, solid라는 단어가 같이 발생할 (co-occur)할 확률은 小  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cfrac%7BP%28x%7Cice%29%7D%7BP%28x%7Cstream%29%7D): Ratio of co-occurrence prob.  
   
-
+  ![nlp02-14](https://user-images.githubusercontent.com/43376853/94995236-f9ae7680-05d7-11eb-8238-7cc4d47c1851.png)  
+  ↓ 실제로 측정을 해보았더니,  
+  ![nlp02-15](https://user-images.githubusercontent.com/43376853/94995251-12b72780-05d8-11eb-9159-c95cdc170072.png)  
   
+  - 8.8, 8.5X10^-2: Dimension of meaning between solid & gas  
+  - 1.36, 0.96: Not the dimension of meaning  
+  
+  - 바라는 것: Ratio of co-occurrence probability가 Word Vector Space에서 Linear한 관계를 가졌으면 좋겠다는 것.  
+  
+- Q: 어떻게 Word vector space 내에서 ratios of co-occurrence probabilities가 linaer한 meaning components가 되게 할 수 있을까?!  
+  A: Word vector들의 내적이 log(co-occurrence probability)와 같아지게 정의하면 두 벡터간의 차이를 Linear한 형태로 표기해볼 수 있다.  
+    ![nlp02-16](https://user-images.githubusercontent.com/43376853/94995483-83127880-05d9-11eb-9012-e0aa08a72617.png)  
+    
+#### GloVe 모델의 Objective Function  
+![nlp02-17](https://user-images.githubusercontent.com/43376853/94995531-edc3b400-05d9-11eb-9a99-4b8e206ad915.png)  
+
+
+---  
+
+## Evaluating Word Vectors  
+- Word Vectors를 어떻게 평가할까?  
+- NLP의 일반적인 두 가지 평가기준:  `Intrinsic`과 `Extrinsic`  
+  - Intrinsic  
+    : 특정 Subtask에 대한 평가  
+    : 연산이 빠름  
+    : 해당 시스템을 이해하는 데에 도움  
+    : 실제 Task와의 Correlation 관계가 확립되지 않았다면, 정말 실세계에서 정말 도움이 될지는 명확하지는 않음  
+    
+  - Extrinsic  
+    : 실제 Task (Real task) 상에서의 평가  
+    : Accuracy 계산에 긴 시간이 걸릴 수 있음  
+    : Subsystem 상에 어떤 문제가 있는지에 대해 명확하게 알 수 없음  
+    : 정확히 하나의 Subsystem을 다른 subsystem으로 교체했는데 accuracy가 향상된다면 -> 쩔어!  
+    
+- 오늘 강의에서는 __Intrinsic Evaluation__ 파트에 집중할 것.  
+  -  Intrinsic Evaluation은 Vector Space addition 이후의 cosine distance가 얼마나 intuitive semantic & syntactic analogy questions를 잘 잡아내는지를 근거로 word vector를 평가  
+  
+  - GloVe 모델을 썼더니, Linear한 Property를 정말 갖고 있더라.  
+  - 예  
+    ![nlp02-18](https://user-images.githubusercontent.com/43376853/94995868-09c85500-05dc-11eb-934f-88fa9490f44f.png)  
+
+    
 ---  
 #### References  
 [CS224N: Word Vectors and Word Senses](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/slides/cs224n-2019-lecture02-wordvecs2.pdf)  
