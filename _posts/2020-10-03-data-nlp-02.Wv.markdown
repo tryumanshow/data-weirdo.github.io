@@ -1,0 +1,194 @@
+---
+layout: post
+title:  "CS224N - 02.Word Vectors and Word Senses"  
+subtitle:   "NLP-02.WVWS"
+categories: data
+tags: nlp
+comments: true
+---
+
+- CS224N의 2주차 강의, Word Vectors and Word Senses를 보고 정리한 글입니다.  
+  [1. Word2vec Review](#word2vec-review)  
+  [2. Optimization Basic](#optimization-basic)  
+
+---  
+
+## Word2vec Review  
+- Idea  
+  - "Iterative updating algorithm" (전체 corpus의 각 단어들을 iterate하라.)  
+  - 전체 word vectors를 이용하여 주변 단어 예측하기  
+    ![nlp02-1](https://user-images.githubusercontent.com/43376853/94986902-707a4e00-059d-11eb-8f40-0389eecdad3e.png)  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20P%28o%7Cc%29%20%3D%20%5Cfrac%7Bexp%28u_0%5ETv_c%29%7D%7B%5Csum_%7Bw%20%5Cin%20V%7Dexp%28u_w%5ET%20v_c%29%7D)  
+    ▲ 중심단어 c가 나타났을 때, 주변단어 o가 나타날 확률  
+  
+### Word2vec parametes and computations  
+- PyTorch, Tensorflow등 모든 딥러닝 패키지들: Word vector들을 Row로 표현한다! (일반적으로 수학에서 Column으로 생각하는 사고랑 다름)  
+  ![nlp02-2](https://user-images.githubusercontent.com/43376853/94986990-2776c980-059e-11eb-8846-4c5952e7fc35.png)  
+  
+  > 'Word2vec maximizes objective function by putting similar words nearby in space'  
+  
+## Optimization Basic   
+### Gradient Descent  
+- J(Θ)을 Minimize하기!  
+  (물론, 고차원 Space에서는 아래와 같은 Convex function이 아니라 Horrible한 Non-convex cost일 때도 많음)   
+  ![nlp02-3](https://user-images.githubusercontent.com/43376853/94987133-dd421800-059e-11eb-875c-166fe4279725.png)  
+- Update Rule  
+  ![nlp02-4](https://user-images.githubusercontent.com/43376853/94987137-de734500-059e-11eb-8eb6-8d3edf6d55e9.png)  
+  
+- Code  
+
+  ```  
+  while True:
+    theta_grad = evaluate_gradient(J, corpus, theta)
+    theta = theta - alpha * theta_grad
+  ```  
+ 
+### Stochastic Gradient Descent   
+- 한편, 한 번에 다 Update하는 것은 상당히 Ineffective  
+- Solution: SGD 사용 (Windows를 반복적으로 sampling & update)  
+  
+  ```  
+  while True:
+    window = sample_window(corpus)
+    theta_grad = evaluate_gradienet(J, window, theta)
+    theta = theta - alpha * theta_grad
+  ```  
+  
+  (다만 mini-batch Gradient Descent가 Stochastic Gradient Descent보다 Effective 한 경우도 많음.)  
+  (이유1. SGD보다 less noisy, 이유2. GPU사용시 Parallelization에 good)  
+  
+- SGD에도 문제점 존재.  
+  : 각 window마다, 기껏해야 2m+1 단어를 갖기 때문에,  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cbigtriangledown%20_%5Ctheta%20J_t%28%5Ctheta%29) 는 상당히 Sparse!  
+    ![nlp02-5](https://user-images.githubusercontent.com/43376853/94987286-38283f00-05a0-11eb-9510-542026c4fa90.png)  
+  : 이 말인 즉슨, 실제로 나타나는 단어들에 대해서만 word vector를 업데이트하게 될 것이라는 것.  
+  
+  - Solution: Word vectors에 대한 hash 들고 다니기  
+  
+### Word2vec: More details  
+- 두 개의 벡터를 들고 다니는 이유?  
+  - 최적화가 더 쉽다! (1과에 식 이미 정리)   
+  
+- 두 가지 Variants  
+  - Skip-grams  
+    : Center world 1개로 주변 단어들 한 번에 예측하기  
+  - Continuous Bag of Words (CBOW)  
+    : 그 반대  
+    
+- Training의 효율을 더하는 방법  
+  : By __Negative Sampling__  (이제껏 집중해온 방식은 __naive softmax__)  
+  
+  
+### The skip-gram model with negative sampling  
+- 이제까지 써오던 Probability notation  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20P%28o%7Cc%29%20%3D%20%5Cfrac%7Bexp%28u_0%5ETv_c%29%7D%7B%5Csum_%7Bw%20%5Cin%20V%7Dexp%28u_w%5ET%20v_c%29%7D)  
+  는 속도면에서 상당히 좋지 않은 아이디어. (이 확률값 하나 계산하려고, 전체 vocab을 다 훑어야함)  
+- Standard word2vec 대신 skip-gram model with __negative sampling__ 을 생각해보자.  
+- 핵심 아이디어:  
+  True Pair(center word와 context window내의 단어)와 Noise Pair(center word와 임의의 단어)에 대한 이진로지스틱회귀(Binary Logistic Regressions) 훈련  
+  
+- 목적 함수: ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20J%28%5Ctheta%29%20%3D%20%5Cfrac%7B1%7D%7BT%7D%5Csum_%7Bt%3D1%7D%5ET%20J_t%28%5Ctheta%29) Maximize!  
+  ![nlp02-6](https://user-images.githubusercontent.com/43376853/94987874-6576ec00-05a4-11eb-8d51-755ea6291d7c.png)  
+  - 여기서 σ는 Sigmoid function  
+  
+  - 위 식을 조금 다르게 적어보면, 랜덤하게 뽑힌 K개의 단어에 대해, 다음과 같이 목적함수를 정리해볼 수 있음  
+    ![nlp02-7](https://user-images.githubusercontent.com/43376853/94987922-b686e000-05a4-11eb-8632-378389c02974.png)  
+    
+  - 목적: context window내의 단어들이 center word 부근에서 나타날 확률은 maximize하고, random word들이 center word 부근에 나타날 확률은 minimize하는 것  
+
+    
+### But why not capture co-occurrence counts directly?  
+- Co-occurrence matrix X를 구성할 수 있는 2가지 옵션  
+  - Window의 관점  
+  - Full document의 관점  
+  
+  - Window-Based  
+    - Word2Vec과 비슷함 (각 단어 주변에 window를 사용해서, syntatic, semantic information 둘다 caputure)  
+  - Document-Based  
+    - `Latent Semantic Analysis`를 가능케 하는, general topics를 내어놓을 것  
+   
+#### Window-based co-occurrence matrix 예시  
+- window size 1 가정 (일반적으로는 5~10)  
+- Symmetric (왼쪽 context이든 오른쪽 context이든 상관 x)  
+- Example  
+  - I like deep learning.  
+  - I like NLP.  
+  - I enjoy flying.  
+  
+  - Co-occurrence matrix  
+    ![nlp02-8](https://user-images.githubusercontent.com/43376853/94988221-9d7f2e80-05a6-11eb-9ada-bda7d575573e.png)  
+    
+  - 이렇게 작은 예만 봐도 별로 안 쓰고 싶음.  
+  
+    a. 단어의 크기가 증가하면?  
+    b. 상당히 High-dimension (많은 저장곤간을 필요로)  
+    c. 이후의 분류 모델들은 Sparsity 문제를 마주하게 될 것   
+    => Model은 그닥 Robust하지 않다!  
+    
+#### Low dimensional vectors  
+- High-dimension이 거슬린다면, 차원을 낮추어주면 되지 않냐는 사고.  
+  (중요 정보들을 Fixed-sized의 작은 Dimension으로, Dense vector로 만들고 싶다.)  
+  
+  - 방법1. SVD  
+    - Full SVD  
+    - Reduced SVD  
+      - Full SVD에서 필요없는 항들을 없애(1) 차원을 줄인 후, 가장 작은 Singular value를 버린다(2).  
+      - Reduced SVD를 통한 Estimation은 Least Square Error의 관점에서 original X에 대한 Best rank K estimator이다.  
+        ![nlp02-9](https://user-images.githubusercontent.com/43376853/94988339-6c532e00-05a7-11eb-8faa-f72a737aa414.png)  
+        
+- 예시 코드  
+
+  ```  
+  import numpy as np
+  la = np.linalg
+  words = ['I', 'like', 'enjoy', 'deep', 'learning', 'NLP', 'flying', '.']
+  
+  X = np.array([[0, 2, 1, 0, 0, 0, 0, 0],
+                [2, 0, 0, 1, 0, 1, 0, 0],
+                [1, 0, 0, 0, 0, 0, 1, 0],
+                [0, 1, 0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 1, 0, 0, 0, 1],
+                [0, 1, 0, 0, 0, 0, 0, 1], 
+                [0, 0, 1, 0, 0, 0, 0, 1],
+                [0, 0, 0, 0, 1, 1, 1, 0]])
+                
+  U, s, Vh = la.svd(X, full_matrices=False)
+  ```  
+       
+  ```  
+  for i in xrange(len(words)):
+    plt.text(U[i,0], U[i,1], words[i])
+  ```  
+  
+  ![nlp02-10](https://user-images.githubusercontent.com/43376853/94988454-40847800-05a8-11eb-968b-0242b5c0ee6a.png)  
+  
+#### Hacks to X  
+- Count들을 Scaling 해주는 것이 많은 도움이 될 수 있다.  
+  - 예를 들어, the, he, has와 같은 단어들은 상당히 자주 출현할텐데, 이러면 이 syntzx들이 너무 큰 영향을 갖게 됨  
+  - 이럴 때는, raw count를 그대로 사용하는 대신에, 이렇게 자주 출현하는 단어들에 대한 전처리를 해주는 것이 필요  
+    - ex1. log scale  
+    - ex2. ceiling function  
+    
+    - 교재에 표기 된 예  
+      ![nlp02-11](https://user-images.githubusercontent.com/43376853/94988554-20a18400-05a9-11eb-9f7d-a5030395c410.png)  
+     
+  - 이런 전처리를 해주었더니, 흥미로운 semantic pattern들이 나타나는 경우도 존재  
+    (Perfect하진 않더라도 일종의 direction이 생김)  
+    ![nlp02-12](https://user-images.githubusercontent.com/43376853/94988607-69593d00-05a9-11eb-8cb0-d56a4582d5e2.png)  
+    > "If you can construct a vector space that has this linearity property, then you are definitely gonna do well in analogy."  
+    
+
+
+      
+
+
+
+  
+
+
+  
+
+  
+---  
+#### References  
+[CS224N: Word Vectors and Word Senses](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/slides/cs224n-2019-lecture02-wordvecs2.pdf)  
