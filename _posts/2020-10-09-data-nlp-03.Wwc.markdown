@@ -1,0 +1,188 @@
+---
+layout: post
+title:  "CS224N - 03.Word Window Classification, Neural Networks, and Matrix Calculus"  
+subtitle:   "NLP-03.wwc"
+categories: data
+tags: nlp
+comments: true
+---
+
+- CS224N의 3주차 강의, Word Window Classification, Neural Networks, and Matrix Calculus을 보고 정리한 글입니다.  
+  [1. Classification setup and notation](#classification-setup-and-notation)  
+  [2. Neural Network Classifiers](#neural-network-classifiers)   
+  [3. Named Entity Recognition (NER)](#named-entity-recognition-ner)  
+  [4. Binary true vs. corrupted word window classification](#binary-true-vs-corrupted-word-window-classification)  
+
+---  
+
+## Classification setup and notation  
+- 일반적으로 샘플들로 구성된 Training dataset을 갖고 있음.  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5C%7B%5Cmathbf%7Bx%7D_i%2C%20%5Cmathbf%7By%7D_i%5C%7D_%7Bi%3D1%7D%5EN)  
+  - x_i  
+    - d차원의 Inputs!  
+    - ex. words, sentences, documents 등    
+  - y_i  
+    - 예측하려고 하는 Label (여러 클래스들 중 하나의 값)  
+    - classes: sentiment, named entities, buy/sell decision  
+    
+### 고전적인 기계학습 및 통계 알고리즘  
+- 결정경계(Decision Bounddary)를 결정하기 위해 softmax/logistic regression weights __W를 훈련__    
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20W%20%5Cin%20%5Cmathbb%7BR%7D%5E%7BC%20%5Ctimes%20d%7D)  
+    
+- 방법: x에 대해 각 클래스의 확률을 예측(Predict)  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20p%28y%7Cx%29%20%3D%20%5Cfrac%7Bexp%28W_y%20%5Ccdot%20x%29%7D%7B%5Csum_%7Bc%3D1%7D%5EC%20exp%28W_c%20%5Ccdot%20x%29%7D)  
+    
+  - Predict Procedure: 2 steps  
+    - step1: W의 y번째 row와 x를 곱한다.  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20W_y%20%5Ccdot%20x%20%3D%20%5Csum_%7Bi%3D1%7D%5Ed%20W_%7Byi%7Dx_i%20%3D%20f_y)  
+      - c=1,...,C 이고 모든 f_c를 계산  
+      - f_y: 일종의 score! (그 예시가 특정 클래스에 속할 확률이 얼마나 되며, 여기에 softmax를 취함)  
+    - step2: Softmax function을 적용한다.  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20p%28y%7Cx%29%20%3D%20%5Cfrac%7Bexp%28f_y%29%7D%7B%5Csum_%7Bc%3D1%7D%5EC%20exp%28f_c%29%7D%20%3D%20softmax%28f_y%29)  
+  
+- 학습방향  
+  - class y를 옳게 분류할 확률을 Maximize하기  
+    = 그 class의 negative log probability를 Minimize하기  
+      ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20-log%20p%28y%7Cx%29%20%3D%20-log%28%5Cfrac%7Bexp%28f_y%29%7D%7B%5Csum_%7Bc%3D1%7D%5EC%20exp%28f_c%29%7D%29)  
+
+---  
+- 여기서 잠깐, 'Cross entropy' loss/error란?  
+  - 'cross entropy'의 개념은 정보이론으로부터 나옴  
+  - p를 True probability distribution, q를 computed model probability라고 하면, cross entropy는 다음과 같이 정의돌 수 있음.  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20H%28p%2Cq%29%20%3D%20-%5Csum_%7Bc%3D1%7D%5EC%20p%28c%29%20log%20q%28c%29)  
+  - 이 때, 옳은 class에만 1을 부여한다면, p의 ground truth probability는 다음과 같이 표현해볼 수 있을 것  
+    p = [0, 0, ..., 0, 1, 0, 0, ..., 0]  
+    -> one-hot p 때문에, cross entropy에서 남는 항은 true class의 negative log probabilty 뿐이다!  
+    
+  - 위 사실을 'Full' dataset에 대해 적용해보면, Information Theory를 공부하는 사람들이 종종 Cross entropy rate라고도 부르기도 하는, Cross entropy loss function은 다음과 같이 정의할 수 있다.  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20J%28%5Ctheta%29%20%3D%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi%3D1%7D%5EN%20-log%28%5Cfrac%7Be%5E%7Bf_%7By_i%7D%7D%7D%7B%5Csum_%7Bc%3D1%7D%5EC%20e%5E%7Bf_c%7D%7D%29)  
+    
+    
+  - 아래의 식을  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20f_y%20%3D%20f_y%28x%29%3D%20W_y%20%5Ccdot%20x%20%3D%20%5Csum_%7Bj%3D1%7D%5Ed%20W_%7Byj%7Dx_j)  
+    아래와 같은 matrix form으로 더 간단하게 표기할 수 있음.  
+    ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20f%3DWx)  
+    
+---  
+
+- Optimization? (역시 Traditional method 선상에서의 사고)  
+  - W의 column들로 구성되어 있는, Θ 파라미터 학습  
+    (각 클래스 별로, d-dim의 input vector와 곱해져서(dot-product) class를 결정하게 만드는 d-dim의 weight vector들이 존재하고 이들을 학습)  
+    ![nlp03-1](https://user-images.githubusercontent.com/43376853/95586263-69f74500-0a7b-11eb-8561-140a5a8047e2.png)  
+    
+  - 결국, ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20%5Cbigtriangledown%20_%5Ctheta%20J%28%5Ctheta%29)을 통해 Decision boundary를 업데이트하게 될 것  
+    ![nlp03-2](https://user-images.githubusercontent.com/43376853/95586525-c2c6dd80-0a7b-11eb-9361-314fdc66b9ec.png)  
+    
+    
+## Neural Network Classifiers  
+- 그런데, 위의 softmax 혹은 logistic regression 만을 사용한 고전적인 접근 방법은 그닥 powerful 하지 않음.  
+  - 고전적인 접근 방법의 Decision boundary는 Linear하기 때문.  
+  - 필연적으로 데이터를 잘 classify 할 수 없는 경우들이 생긴다.  
+    ![nlp03-3](https://user-images.githubusercontent.com/43376853/95586840-336dfa00-0a7c-11eb-8dcb-aea84deeab5c.png)  
+    - 당연히 좀 더 Complex한 모델이 필요하게 되며, linear한 decision boundary로는 어떤 식으로든 개선이 불가능함.  
+    
+- NN이 해결책이 될 수 있다!  
+  - More complex functions + Nonlinear Decision boundary!  
+    ![nlp03-4](https://user-images.githubusercontent.com/43376853/95587074-8cd62900-0a7c-11eb-8d17-cb2847f13c86.png)  
+    
+- NLP에서의 NN?  
+  : 좀 더 advanced된 classification 결과를 얻기 위해서, 해볼 수 있는 일이 두 가지가 있음.   
+  - 1. Word Vector도 학습을 한다!  
+    - 생각해보면, 고전적 방법에서는 (물론 Non-linear한 학습을 하지 못하는 것도 있지만) Weigth Matrix W만을 학습  
+    - 반면, NLP에서는 Weight Matrix와 함께, wort vector x까지 한 번에 학습을 한다!  
+      (= conventional parameter 뿐만 아니라 word representation 또한 학습)  
+    - 기존에 학습해야 할 파라미터의 개수가 Cd개 였다면, NLP에서는 Cd+Vd개!  
+      ![nlp03-5](https://user-images.githubusercontent.com/43376853/95587975-c0658300-0a7d-11eb-805c-49b5554d6f65.png)  
+  - 2. Layer를 더 깊게 쌓아볼 수 있다. (Deeper MLP)   
+    ![nlp03-6](https://user-images.githubusercontent.com/43376853/95588520-7c26b280-0a7e-11eb-838e-86c4ffa33049.png)  
+    - NN에서는 깊게 Layer들을 쌓으면서 효율적인 학습이 가능한 반면, 기존의 linear function들은, linear function에 아무리 linear function을 더하고 더해도, Rotate & Stretch 일 뿐, non-linearity를 학습할 수 없음.  
+   
+## Named Entity Recognition (NER)  
+- '텍스트 내에서 이름들을 찾고, 이 이름들을 분류해보고 싶다' (find & classify)  
+- 다양한 목적들이 있을 수 있음.  
+  - Document들 내에서 특정 Entities의 언급을 추적한다거나  
+  - 질답 문제에서, 질문에 대한 답은 보통 named-entities  
+  - 얻고 싶은 정보들 중의 많은 부분은 named entites간의 관계에 대한 것인 경우도 많고  
+  - 똑같은 테크닉이 slot-filling classification 같은 것으로도 확장될 수 있음.  
+  
+  - 때때로는, Knowledge Base 문제의 Named Entity Linking/Canonicalization 문제로 확장되기도 함.  
+  
+- 다음과 같은 텍스트가 있다고 하자.  
+  ![nlp03-7](https://user-images.githubusercontent.com/43376853/95589263-77163300-0a7f-11eb-9d12-c81527d51969.png)  
+  - NER은 다음과 같이 분류를 한다고 함.  
+    ![nlp03-8](https://user-images.githubusercontent.com/43376853/95589333-90b77a80-0a7f-11eb-8f89-5e2f89fea2e9.png)  
+    
+- 근데 NER은 정말 어려운 문제임  
+  - 왜냐하면 Entity를 Boundary를 정한다는 것이 상당히 어렵기 때문.  
+  - 예를 들어  
+  
+    ```  
+    First National Bank Donates 2 Vans To Future School Of Fort Smith
+    ```  
+    
+    라는 글귀.  
+    -> 인간인 나도 첫번째 entity가 'First National Bank'인지 'Nation Bank'인지 알기 어려움.  
+
+
+## Binary true vs. corrupted word window classification  
+### Binary word window classification  
+- word classification은 보통 context 내에서 이루어지지, single word만 갖고 이루어지는 경우는 상당히 드물다.  
+- 하지만, context 상에도 여러 문제가 생길 수 있음.  
+  - auto-antonyms  
+    - ex. To sanction: To permit, To punish라는 뜻 둘다를 갖고 있다.  
+    - ex. To seed: To place seeds, To remove seeds라는 뜻 둘 다를 갖고 있다.  
+    
+### Window classification  
+- 아이디어: 단어를 그 근처의 단어들의 context window 내에서 classify하라.  
+  - ex) Person, Location, Organization, None  
+- 가장 단순한 방법 중의 하나는 -> 한 window 내의 단어 벡터들을 `average` & 그 average vector에 따라 classify  
+  -> 문제는 이렇게 average를 해버리면 `Position Information`을 잃는다.  
+  
+#### Window Classification: Softmax  
+- '한 window 내에서 word vector와 그 neighbor들을 concatenate한 후 softmax classifier를 훈련하여 분류를 해보자!'  
+- 예를 들어  
+  ![nlp03-9](https://user-images.githubusercontent.com/43376853/95590745-649cf900-0a81-11eb-9604-26588f5b71e7.png)  
+  여기에, 앞에서 했던대로 그대로 Softmax를 적용  
+  ![nlp03-10](https://user-images.githubusercontent.com/43376853/95591084-cd847100-0a81-11eb-8e66-30df5a09cd0e.png)  
+  
+  
+  
+- Interest  
+  : X_Paris가 'Location'으로 분류될 수 있는지를 알고 싶다.  
+  : Word2vec과 유사하게 corpus 내의 모든 position들을 훑을 것.  
+  : 실제 NER Location을 갖는 위치가 center 위치일 때만이 'True' Position으로서 높은 점수를 얻게 될 것  
+  
+  - 예: 'Not all museums in Paris are amazing/' 이라는 문장  
+    - 오직 'museums in Paris are amazing' 이라는 하나의 window만이 Paris가 center에 있기 때문에 'True' window가 될 것.  
+    - 그 외의, 예를 들어 'Not all museums in Pares'와 같은 window들은 모두 'Corrupt' window가 될 것.  
+    
+- 이제 score를 얻기 위해 3 layer의 NN을 적용  
+  ![nlp03-11](https://user-images.githubusercontent.com/43376853/95593832-2275b680-0a85-11eb-9f0a-341c9797e026.png)  
+  - 두번째 Layer가 Non-linear Interaction을 학습한다!  
+  
+- 이 Process들을 그림으로 표현하면 다음과 같음  
+  ![nlp03-12](https://user-images.githubusercontent.com/43376853/95594341-c5c6cb80-0a85-11eb-87d2-a86046f0df7c.png)  
+
+  
+### The max-margin loss  
+- True window의 score는 크게, corrupt window의 socre는 작게 학습하고 싶다!  
+  - s=score(museums in Paris are amazing)  
+  - s_c=score(Not all museums in Paris)  
+
+- 다음을 Minimize하라!  
+  ![](https://latex.codecogs.com/gif.latex?%5Cdpi%7B120%7D%20J%20%3D%20max%280%2C%201-s&plus;s_c%29)  
+  
+
+- Matrix Calculation에 대한 부분은 생략하였습니다. (선형대수)  
+
+---  
+#### References  
+[CS224N: Word Window Classification, Neural Networks, and Matrix Calculus](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/slides/cs224n-2019-lecture03-neuralnets.pdf)
+     
+
+
+
+
+  
+  
+  
