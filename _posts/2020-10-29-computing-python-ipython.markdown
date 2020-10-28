@@ -11,11 +11,7 @@ comments: true
 
 ---  
 
-처음 Python 사용을 시작했을 때는 대화형 인터프리터 환경의 Jupyter Notebook을 쓰다가, 어느 순간부턴가 PyCharm IDE을 이용하는 경우가 많아진 것 같습니다. 
-그런데, `%matplotlib inline`나 `from Ipython.display import HTML` 등과 같이 IPython에서 활용할 수 있는 모듈 및 명령어들을 PyCharm에서 사용할 수 없었고, 
-뿐만 아니라, 특정 부분만 취사선택해서 실행하며 결과를 그때그때 확인해볼 수 없다는 점이 초보자인 저로 하여금 PyCharm에 대한 두려움을 갖게 했던 것 같습니다.   
-대화형 인터프리터를 사용할 수 있을 방법이 없을까 고민을 하고 있던 와중에, [유튜브의 한 동영상](https://www.youtube.com/watch?v=6JpLmAWa6lA)에서 
-그 해결책을 제시해 주었습니다.
+처음 Python 사용을 시작했을 때는 대화형 인터프리터 환경의 Jupyter Notebook을 사용하다가, 어느 순간부턴가 PyCharm IDE을 이용하는 경우가 많아진 것 같습니다. 그런데, `%matplotlib inline`나 `from Ipython.display import HTML` 등과 같이 IPython에서 활용할 수 있는 모듈 및 명령어들을 PyCharm에서는 사용할 수 없는 경우들이 생기기 시작했고, 뿐만 아니라, 특정 부분만 취사선택해서 실행하며 결과를 그때그때 확인해볼 수 없다는 점이 초보자의 입장에서는 적잖게 불편했던 것 같습니다. 대화형 인터프리터를 사용할 수 있을 방법이 없을까 고민을 하고 있던 와중에, [유튜브의 한 동영상](https://www.youtube.com/watch?v=6JpLmAWa6lA)에서 그 해결책을 제시해 주었습니다.
 
 다음과 같은 단계를 따르면 됩니다.
 
@@ -43,7 +39,7 @@ comments: true
   ![ipython8](https://user-images.githubusercontent.com/43376853/97465716-ad134c80-1985-11eb-8417-cfe918f4c5fd.png)  
   ![ipython7](https://user-images.githubusercontent.com/43376853/97465714-ac7ab600-1985-11eb-8203-4f7f53304a0f.png)  
   
-- 실행하고 싶은 부분을 지정해준 뒤 `Alt+Shift+E`를 누르면, 선택된 행만을 취사선택하여 실행할 수 잇게 됩니다.  
+- 실행하고 싶은 부분을 지정해준 뒤 `Alt+Shift+E`를 누르면, 선택된 행만을 취사선택하여 실행할 수 있게 됩니다.  
 
 
 ---  
