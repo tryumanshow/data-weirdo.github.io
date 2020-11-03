@@ -16,15 +16,16 @@ comments: true
 ### repeat  
 - `np.repeat(a, repeats)`  a array를 repeats 번 만큼 반복  
 
-
 ### nan  
-
 - `np.nan`: 그 자체로 NA값을 의미! (R의 NA에 해당)  
+  - `np.float('inf')`: 그 자체로 ∞를 의미! (`-np.float('inf'): -∞)  
 - `np.nansum(x)`: nan값이 있더라도 nan값을 무시하고 합계를 계산  
 - `np.nan_to_num(x)`: nan값을 0으로 변환  
  
 ### random  
-
 - `np.random.choice(a, p)`: p의 확률에 따라 a를 선택  
   - `np.random.choice(direction, p=np.repeat(1/theta_0.shape[1], 4))` 와 같은 응용 가능!  
 - `np.random.randn(a,b)`: \[0,1)의 범위에서 a x b dimension의 numpy array를 만듦 (input으로 scalar값만 넣으면, 벡터를 출력)  
+
+### 비교   
+- `np.array_equal`: 두 array object가 같은지를 비교 (Elementwise한 비교가 아님) -> True 아니면 False 둘 중 하나의 단일 boolean 값만을 반환  
