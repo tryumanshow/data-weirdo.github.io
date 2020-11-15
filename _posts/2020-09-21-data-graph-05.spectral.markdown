@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 05.Spectral Clustering"  
 subtitle:   "GNN-05.spectral clustering"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
