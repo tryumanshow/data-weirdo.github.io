@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 08.Graph Neural Networks"  
 subtitle:   "GNN-08.gnn"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
