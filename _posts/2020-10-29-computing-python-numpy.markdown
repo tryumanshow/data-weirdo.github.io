@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Numpy!"  
+title:  "Numpy 유용 함수 정리 (ing)"  
 subtitle:   "numpy"
 categories: computing
 tags: python
 comments: true
 ---
 
-- numpy를 사용하면서 한 번쯤은 다시 찾아볼 것 같은 것들을 기록합니다.
+- numpy를 사용하면서 한 번쯤은 다시 찾아볼 것 같은 것들을 꾸준히 기록합니다.
 
 ---  
 
@@ -23,9 +23,10 @@ comments: true
 - `np.nan_to_num(x)`: nan값을 0으로 변환  
  
 ### random  
-- `np.random.choice(a, p)`: p의 확률에 따라 a를 선택  
-  - `np.random.choice(direction, p=np.repeat(1/theta_0.shape[1], 4))` 와 같은 응용 가능!  
-- `np.random.randn(a,b)`: \[0,1)의 범위에서 a x b dimension의 numpy array를 만듦 (input으로 scalar값만 넣으면, 벡터를 출력)  
+- `np.random.choice(a, p)`: Given 1-d array인 a로부터 p의 확률에 따라 랜덤 샘플링  
+- `np.random.rand()`: \[0,1)의 Uniform Distribution에서 랜덤샘플링 한 후 주어진 형태의 array 생성    
+- `np.random.randn()`: 일변수 표준정규분포로부터 랜덤샘플링 한 후 주어진 형태의 array 생성   
+- 
 
 ### 비교   
 - `np.array_equal`: 두 array object가 같은지를 비교 (Elementwise한 비교가 아님) -> True 아니면 False 둘 중 하나의 단일 boolean 값만을 반환  
