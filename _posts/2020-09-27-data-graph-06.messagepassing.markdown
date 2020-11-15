@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 06.Message Passing and Node Classification"  
 subtitle:   "GNN-06.message passing"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
