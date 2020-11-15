@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 07.Graph Representation Learning"  
 subtitle:   "GNN-07.graph_repesentation_learning"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
