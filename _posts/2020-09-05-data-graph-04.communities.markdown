@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 04.Community Structure in Networks"  
 subtitle:   "GNN-04.Community Structure in Networks"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
