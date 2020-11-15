@@ -3,7 +3,7 @@ layout: post
 title:  "CS224W - 02.Properties of Networks, Random Graph Models"
 subtitle:   "GNN-02.gnp-smallworld"
 categories: data
-tags: gnn
+tags: graph
 comments: true
 ---
 
